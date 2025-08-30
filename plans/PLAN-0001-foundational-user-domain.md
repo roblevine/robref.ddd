@@ -1,0 +1,1 @@
+# PLAN-0001: Foundational User Domain (Human Identity Only)

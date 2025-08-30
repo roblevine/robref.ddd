@@ -26,7 +26,7 @@
 	// }
 
 	"postCreateCommand": "sh .devcontainer/installation.sh",
-	"runArgs": ["--name", "dc_robref.ddd.gpt-5"],
+	"runArgs": ["--name", "dc_robref.ddd.cursor-gpt-5"],
 
 	"remoteUser": "vscode",
 	"customizations": {
@@ -34,7 +34,6 @@
 			"extensions": [
 				"ms-dotnettools.csdevkit",
 				"ms-ossdata.vscode-pgsql",
-				"ms-vscode-remote.remote-containers",
 				"ms-azuretools.vscode-containers"
 			]
 		}

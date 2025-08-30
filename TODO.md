@@ -7,8 +7,8 @@ Items to be implemented will be listed at the high level only here. More detaile
 
 ## High-Level Features
 
-### User Service Implementation
+### Foundational User Domain (Human Identity)
 **Status**: NOT STARTED
-**Plan Document**: [PLAN-0001-create-simple-online-shopping-domain](plans/PLAN-0001-create-simple-online-shopping-domain.md)  
-**Started**: August 30, 2025  
+**Plan Document**: [PLAN-0001-foundational-user-domain](plans/PLAN-0001-foundational-user-domain.md)  
+**Started**: 
 **Description**: 
