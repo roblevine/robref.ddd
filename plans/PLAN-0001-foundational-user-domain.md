@@ -43,7 +43,7 @@ Out of Scope (future plans):
 
 ## 5. Domain Model
 Value Objects (summary):
-* `UserId`: ULID (lexicographically sortable) wrapper enforcing non-empty, valid ULID string. Alternate: GUID; choose ULID.
+* `UserId`: GUID wrapper (temporary choice to minimize scope & deps). Future migration to ULID for ordering will be a separate plan.
 * `EmailAddress`: Lowercased, trimmed, RFC5322-light validation (pragmatic regex). Equality based on canonical form.
 * `Title`: Optional, free-text (1–30 chars), trimmed, disallow digits/control chars.
 * `FirstName` / `LastName`: 1–100 chars, Unicode letters plus hyphen & apostrophe; trimmed; presentation formatting external.
@@ -57,7 +57,7 @@ Aggregate `User`:
 	- First & last name required (title optional)
 	- createdAt set via time provider (or system UTC fallback) at creation
 * Behavior:
-	- Static factory: `User Register(EmailAddress email, HumanName name, IEmailUniquenessChecker uniqueness, ITimeProvider clock)`
+	- Static factory: `User Register(EmailAddress email, HumanName name, ITimeProvider clock)`
 	- Emits `UserRegistered`
 
 Domain Event `UserRegistered`:
@@ -65,7 +65,7 @@ Domain Event `UserRegistered`:
 
 ## 6. Architectural Decisions
 * No password or auth data in User aggregate (separation of bounded contexts: User vs Auth).
-* ULID chosen for sortable identifiers aiding chronological queries without DB sequence coupling.
+* GUID chosen initially (simplicity, zero additional code). Future plan will consider ULID migration for chronological sort benefits.
 * Time abstraction (`ITimeProvider.UtcNow`) to make timestamps deterministic in tests.
 * Keep validation logic inside value object constructors / factories for strong invariants.
 * Avoid external dependencies initially (lightweight regex only). Can revisit for email or ULID libs later with explicit approval.
