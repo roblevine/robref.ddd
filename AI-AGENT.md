@@ -13,6 +13,11 @@ This file provides comprehensive guidance for AI Agents (Claude, GitHub Copilot,
 
 ## Development Methodology
 
+### Core behaviours
+- At the beginning of every session, ensure you have read the documents referenced above
+- Begin replies with "Hi Rob!". 
+- Work in small, test-first increments; discuss before adding dependencies.
+
 ### Core Workflow: Analyse → Plan → Execute → Review
 1. **Analyse**: Break down requirements, understand existing codebase context
 2. **Plan**: Document approach (create PLAN-*.md for major features)  

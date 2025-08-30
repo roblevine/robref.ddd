@@ -7,8 +7,8 @@ Items to be implemented will be listed at the high level only here. More detaile
 
 ## High-Level Features
 
-### User Service Implementation
-**Status**: NOT STARTED
-**Plan Document**: [PLAN-0001-create-simple-online-shopping-domain](plans/PLAN-0001-create-simple-online-shopping-domain.md)  
+### Foundational User Domain (Human Identity)
+**Status**: IN PROGRESS
+**Plan Document**: [PLAN-0001-foundational-user-domain](plans/PLAN-0001-foundational-user-domain.md)  
 **Started**: August 30, 2025  
-**Description**: 
+**Description**: Establish a pure User aggregate (id, email, structured human name, createdAt, UserRegistered event) without auth credentials. Sets baseline for ownership & attribution; defers email uniqueness, auth, and locale to later plans.
