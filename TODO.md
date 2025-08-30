@@ -1,6 +1,6 @@
 # Introduction
 
-This document outlines the tasks and features to be implemented in the Finman application.
+This document outlines the tasks and features to be implemented in the Acme Store application.
 It serves as a roadmap for development, helping to track progress and prioritize work.
 
 Items to be implemented will be listed at the high level only here. More detailed plans and tasks will be documented in separate PLAN-*.md files, stored in the "plans" folder. Each plan file will represent a single Analyse -> Plan -> Execute -> Review cycle.

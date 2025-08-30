@@ -64,14 +64,14 @@ Introduce the foundational User domain (human identity only) using DDD and Onion
 - Use only approved assertion/style libs (avoid FluentAssertions)
 
 ## Deliverables
-- `Finman.Domain.Users`: VOs, `User` aggregate, domain events
-- `Finman.Application.Users`: application services and contracts
-- `Finman.Infrastructure.InMemory`: in-memory repository and event publisher for tests
+- `AcmeStore.Domain.Users`: VOs, `User` aggregate, domain events
+- `AcmeStore.Application.Users`: application services and contracts
+- `AcmeStore.Infrastructure.InMemory`: in-memory repository and event publisher for tests
 - Updated docs: this plan and `TODO.md`
 
 ## Incremental Checklist
-- [ ] Define tests for `UserId`, `Email`, `PersonName`
-- [ ] Implement `UserId` (VO backed by GUID), `Email`, `PersonName`
+- [x] Define tests for `UserId`, `Email`, `PersonName`
+- [x] Implement `UserId` (VO backed by GUID), `Email`, `PersonName`
 - [ ] Define tests for `User` aggregate invariants and events
 - [ ] Implement `User` aggregate and events
 - [ ] Define `IUserRepository` and `IDomainEventPublisher`

@@ -1,6 +1,6 @@
 # AI Agent Guidelines
 
-This file provides comprehensive guidance for AI Agents (Claude, GitHub Copilot, Cursor, Windsurf, etc.) working with the Finman financial management platform.
+This file provides comprehensive guidance for AI Agents (Claude, GitHub Copilot, Cursor, Windsurf, etc.) working with the Acme Store DDD example platform.
 
 ## Documentation Navigation
 

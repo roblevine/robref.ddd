@@ -1,4 +1,4 @@
-# RobRef.DDD - Simple example DDD .Net implementation
+# Acme Store - Simple example DDD .Net implementation
 
 A simple example of Domain-Driven Design (DDD) principles applied in a .Net application, showcasing the key concepts and patterns.
 This is based on a simple online shopping domain, involving users, products, and a shopping cart.
