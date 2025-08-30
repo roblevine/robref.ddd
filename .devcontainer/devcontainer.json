@@ -26,7 +26,7 @@
 	// }
 
 	"postCreateCommand": "sh .devcontainer/installation.sh",
-
+	"runArgs": ["--name", "dc_robref.ddd.claude"],
 	"remoteUser": "vscode",
 	"customizations": {
 		"vscode": {
