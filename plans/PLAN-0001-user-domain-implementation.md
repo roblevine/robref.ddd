@@ -72,75 +72,75 @@ src/
 
 ### Phase 1: Project Structure & Domain Foundation
 1. **Setup .NET Solution**
-   - Create solution file
-   - Add class library projects (Domain, Application, Infrastructure)
-   - Add Web API project
-   - Configure project dependencies
+   - [ ] Create solution file
+   - [ ] Add class library projects (Domain, Application, Infrastructure)
+   - [ ] Add Web API project
+   - [ ] Configure project dependencies
 
 2. **Domain Foundation**
-   - Implement base Entity and ValueObject classes
-   - Create DomainException for domain-specific errors
-   - Setup project references following onion architecture
+   - [ ] Implement base Entity and ValueObject classes
+   - [ ] Create DomainException for domain-specific errors
+   - [ ] Setup project references following onion architecture
 
 ### Phase 2: User Domain Model
 3. **Core Value Objects (Test-First)**
-   - Email: Validation, immutability, equality
-   - Username: Length rules, character restrictions, uniqueness
-   - PersonalInfo: Title (optional), FirstName, LastName with validation
+   - [ ] Email: Validation, immutability, equality
+   - [ ] Username: Length rules, character restrictions, uniqueness
+   - [ ] PersonalInfo: Title (optional), FirstName, LastName with validation
 
 4. **User Aggregate Root (Test-First)**
-   - UserId strongly-typed identifier
-   - User entity with value object composition
-   - Domain validation rules
-   - Factory method for user creation
-   - Encapsulation of business logic
+   - [ ] UserId strongly-typed identifier
+   - [ ] User entity with value object composition
+   - [ ] Domain validation rules
+   - [ ] Factory method for user creation
+   - [ ] Encapsulation of business logic
 
 5. **Repository Interface**
-   - IUserRepository with async methods
-   - Domain-focused methods (FindByEmail, Save, etc.)
-   - No infrastructure concerns
+   - [ ] IUserRepository with async methods
+   - [ ] Domain-focused methods (FindByEmail, Save, etc.)
+   - [ ] No infrastructure concerns
 
 ### Phase 3: Application Layer
 6. **CQRS Infrastructure**
-   - Command/Query interfaces
-   - Base command handler pattern
+   - [ ] Command/Query interfaces
+   - [ ] Base command handler pattern
 
 7. **User Registration Use Case (Test-First)**
-   - RegisterUser command
-   - RegisterUserHandler with validation
-   - Application service coordination
-   - Integration with repository
+   - [ ] RegisterUser command
+   - [ ] RegisterUserHandler with validation
+   - [ ] Application service coordination
+   - [ ] Integration with repository
 
 ### Phase 4: Infrastructure Layer
 8. **In-Memory Repository (Test-First)**
-   - Thread-safe implementation
-   - Unique constraint enforcement
-   - Proper async/await patterns
+   - [ ] Thread-safe implementation
+   - [ ] Unique constraint enforcement
+   - [ ] Proper async/await patterns
 
 9. **Dependency Injection Setup**
-   - Service registration
-   - Lifetime management
-   - Configuration patterns
+   - [ ] Service registration
+   - [ ] Lifetime management
+   - [ ] Configuration patterns
 
 ### Phase 5: Web API Layer
 10. **REST API (Test-First)**
-    - UsersController with registration endpoint
-    - DTO mapping
-    - Error handling middleware
-    - HTTP status code mapping
+    - [ ] UsersController with registration endpoint
+    - [ ] DTO mapping
+    - [ ] Error handling middleware
+    - [ ] HTTP status code mapping
 
 11. **Integration Testing**
-    - End-to-end registration flow
-    - Error scenarios
-    - API contract validation
+    - [ ] End-to-end registration flow
+    - [ ] Error scenarios
+    - [ ] API contract validation
 
 ### Phase 6: Acceptance Criteria Validation
 12. **Comprehensive Testing**
-    - Domain unit tests (>90% coverage)
-    - Application service tests
-    - Infrastructure tests
-    - API integration tests
-    - Performance validation
+    - [ ] Domain unit tests (>90% coverage)
+    - [ ] Application service tests
+    - [ ] Infrastructure tests
+    - [ ] API integration tests
+    - [ ] Performance validation
 
 ## Technical Decisions
 
