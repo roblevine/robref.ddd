@@ -1,6 +1,6 @@
 # Architecture
 
-This document outlines the architecture of the Finman application, including its components, interactions, and deployment strategies.
+This document outlines the architecture of the Acme Store application, including its components, interactions, and deployment strategies.
 
 ## High-Level Architecture
 

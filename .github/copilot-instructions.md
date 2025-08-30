@@ -1,4 +1,4 @@
-# Finman – AI coding assistant instructions
+# Acme Store – AI coding assistant instructions
 
 Read [AI-AGENT.md](../AI-AGENT.md) FIRST!
 

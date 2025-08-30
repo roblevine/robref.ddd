@@ -1,6 +1,6 @@
 # Development Guide
 
-This document provides comprehensive development guidance for the Finman monorepo, including setup, workflow, and service development patterns.
+This document provides comprehensive development guidance for the Acme Store, including setup, workflow, and service development patterns.
 
 ## Development Workflow
 
