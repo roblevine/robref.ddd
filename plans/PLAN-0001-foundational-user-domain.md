@@ -70,39 +70,39 @@ Domain Event `UserRegistered`:
 * Keep validation logic inside value object constructors / factories for strong invariants.
 * Avoid external dependencies initially (lightweight regex only). Can revisit for email or ULID libs later with explicit approval.
 
-## 7. Incremental Delivery Slices
-1. Project scaffolding (domain library + test project) & failing smoke test.
-2. Implement `UserId` + tests.
-3. Implement `EmailAddress` + tests.
-4. Implement name components (`Title`, `FirstName`, `LastName`) + composite `HumanName` + tests.
-5. Introduce `ITimeProvider` + simple implementation + tests.
-6. Implement `User` factory with invariants + tests (no event yet).
-7. Add `UserRegistered` event + emission test.
-8. Refactor & documentation polish; mark plan COMPLETE.
+## 7. Incremental Delivery Slices (Trackable)
+- [ ] 1. Project scaffolding (domain library + test project) & failing smoke test
+- [ ] 2. Implement `UserId` + tests
+- [ ] 3. Implement `EmailAddress` + tests
+- [ ] 4. Implement name components (`Title`, `FirstName`, `LastName`) + composite `HumanName` + tests
+- [ ] 5. Introduce `ITimeProvider` + simple implementation + tests
+- [ ] 6. Implement `User` factory with invariants + tests (no event yet)
+- [ ] 7. Add `UserRegistered` event + emission test
+- [ ] 8. Refactor & documentation polish; mark plan COMPLETE
 
 ## 8. Test Plan (Initial List)
 Value Objects:
-* EmailAddress_AcceptsValidSamples
-* EmailAddress_NormalizesToLowerCase
-* EmailAddress_RejectsInvalidFormats
-* UserId_CreatesValidUlid
-* UserId_RejectsInvalidUlid
-* FirstName_RejectsEmptyOrTooLong
-* LastName_RejectsEmptyOrTooLong
-* Title_AcceptsAllowedValuesOrNull
-* Title_RejectsDisallowedValue
-* HumanName_DisplayFormatsCorrectly (with & without title)
+- [ ] EmailAddress_AcceptsValidSamples
+- [ ] EmailAddress_NormalizesToLowerCase
+- [ ] EmailAddress_RejectsInvalidFormats
+- [ ] UserId_GeneratesNewGuid
+- [ ] UserId_RejectsInvalidGuidString
+- [ ] FirstName_RejectsEmptyOrTooLong
+- [ ] LastName_RejectsEmptyOrTooLong
+- [ ] Title_AcceptsAllowedValuesOrNull
+- [ ] Title_RejectsDisallowedValue
+- [ ] HumanName_DisplayFormatsCorrectly (with & without title)
 
 Aggregate:
-* RegisterUser_Succeeds_WithValidData
-* RegisterUser_Emits_UserRegistered_Event
-* RegisterUser_Sets_CreatedAt_From_TimeProvider
+- [ ] RegisterUser_Succeeds_WithValidData
+- [ ] RegisterUser_Emits_UserRegistered_Event
+- [ ] RegisterUser_Sets_CreatedAt_From_TimeProvider
 
 Event:
-* UserRegistered_ContainsExpectedData
+- [ ] UserRegistered_ContainsExpectedData
 
 Support:
-* (None in this slice; uniqueness deferred)
+- (None in this slice; uniqueness deferred)
 
 ## 9. Open Questions & Decisions
 1. Title enumeration? DECISION: Free-text (trimmed) with validation: 1–30 chars, disallow digits/control chars; optional. No fixed list.
@@ -125,3 +125,48 @@ Support:
 Revision History:
 * 2025-08-30: Rewritten to remove password/auth concerns and add structured human name fields.
 * 2025-08-30: Adjusted scope (removed email uniqueness for this slice) & synchronized tests.
+* 2025-08-30: Added checkbox task tracking for slices & tests.
+
+## 12. Task Checklist (Track Progress)
+
+Legend: [ ] Pending  [x] Done
+
+Planning & Documentation
+- [x] Create foundational user domain plan file
+- [x] Align TODO entry & feature status (IN PROGRESS)
+- [x] Document GUID temporary decision & future ULID migration
+- [ ] Update plan to COMPLETE (after implementation & test pass)
+
+Infrastructure / Scaffolding
+- [ ] Create domain project `src/UserDomain`
+- [ ] Create test project `tests/UserDomain.Tests`
+- [ ] Add base test infrastructure (test runner config)
+- [ ] Commit initial failing smoke test
+
+Value Objects
+- [ ] Implement `UserId` (GUID wrapper)
+- [ ] Tests: UserId_GeneratesNewGuid & UserId_RejectsInvalidGuidString
+- [ ] Implement `EmailAddress`
+- [ ] Tests: Accepts / Normalizes / Rejects invalid
+- [ ] Implement `Title`
+- [ ] Tests: Accepts allowed / Rejects disallowed
+- [ ] Implement `FirstName`
+- [ ] Implement `LastName`
+- [ ] Tests: Name length & validation
+- [ ] Implement `HumanName` composite + Display()
+- [ ] Tests: HumanName display formatting
+- [ ] Implement `ITimeProvider` abstraction + simple system implementation
+- [ ] Tests: Time provider used in creation
+
+Aggregate & Events
+- [ ] Implement `User` aggregate factory
+- [ ] Emit `UserRegistered` event
+- [ ] Tests: RegisterUser_Succeeds_WithValidData
+- [ ] Tests: RegisterUser_Emits_UserRegistered_Event
+- [ ] Tests: RegisterUser_Sets_CreatedAt_From_TimeProvider
+- [ ] Tests: UserRegistered_ContainsExpectedData
+
+Refinement
+- [ ] Code cleanup / refactor pass
+- [ ] Update plan revision history & mark COMPLETE
+- [ ] Update TODO status to COMPLETE
