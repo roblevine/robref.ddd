@@ -26,6 +26,7 @@
 	// }
 
 	"postCreateCommand": "sh .devcontainer/installation.sh",
+	"runArgs": ["--name", "dc_robref.ddd.gpt-5"],
 
 	"remoteUser": "vscode",
 	"customizations": {
