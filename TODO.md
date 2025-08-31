@@ -12,3 +12,7 @@ Items to be implemented will be listed at the high level only here. More detaile
 **Plan Document**: [PLAN-0001-foundational-user-domain](plans/PLAN-0001-foundational-user-domain.md)  
 **Started**: yes
 **Description**: Define VOs (`UserId` backed by GUID, `Email`, `PersonName` with title/first/last), `User` aggregate, events, and app services; test-first with in-memory infra.
+
+Progress update:
+- Value objects implemented with tests
+- `User` aggregate implemented with domain events and tests

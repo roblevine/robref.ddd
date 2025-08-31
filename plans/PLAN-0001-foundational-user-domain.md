@@ -72,8 +72,8 @@ Introduce the foundational User domain (human identity only) using DDD and Onion
 ## Incremental Checklist
 - [x] Define tests for `UserId`, `Email`, `PersonName`
 - [x] Implement `UserId` (VO backed by GUID), `Email`, `PersonName`
-- [ ] Define tests for `User` aggregate invariants and events
-- [ ] Implement `User` aggregate and events
+- [x] Define tests for `User` aggregate invariants and events
+- [x] Implement `User` aggregate and events
 - [ ] Define `IUserRepository` and `IDomainEventPublisher`
 - [ ] Implement in-memory `UserRepository` and `DomainEventPublisher`
 - [ ] Tests for `RegisterUser`; implement application service

@@ -17,6 +17,11 @@ This file provides comprehensive guidance for AI Agents (Claude, GitHub Copilot,
 - At the beginning of every session, ensure you have read the documents referenced above
 - Begin replies with "Hi Rob!". 
 - Work in small, test-first increments; discuss before adding dependencies.
+- Default mode is Propose-Only: do not make code edits, create files, or run commands without explicit approval.
+- Allowed without approval: read-only actions (read/search code/docs, summarize findings, propose todos/plan).
+- Implementation occurs only after explicit approval (“Proceed”, “Implement”, “Approved”) from Rob.
+- If approval is unclear or not given, do not proceed.
+- After approval: restate the plan (edits, tests, commands), execute, and report results.
 
 ### Core Workflow: Analyse → Plan → Execute → Review
 1. **Analyse**: Break down requirements, understand existing codebase context
