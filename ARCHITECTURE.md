@@ -30,6 +30,11 @@ Value Objects Introduced:
 
 Consistency Decision (2025-08-31): Favor record struct only for identifier (`UserId`) to ensure non-null semantics & value semantics with no heap allocation; use sealed record classes for textual semantic VOs for clarity and reduced default(struct) invalid state risk.
 
+Canonicalization & Creation Pattern (2025-08-31):
+- Each textual VO uses a static `Create(string raw)` that validates + normalizes; optional `TryParse` where external parsing is useful (EmailAddress).
+- Email normalization: trim + lowercase; pragmatic validation (single '@', domain contains dot, no whitespace). Full RFC deferred until needed.
+- Other name components: trim; validation to restrict length & disallow invalid characters (to be implemented in subsequent slices).
+
 Deferred Concerns:
 - Email uniqueness enforcement
 - Authentication credentials & verification

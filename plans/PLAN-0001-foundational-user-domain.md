@@ -1,6 +1,6 @@
 # PLAN-0001: Foundational User Domain (Human Identity Only)
 
-Status: DRAFT  
+Status: IN PROGRESS  
 Started: August 30, 2025  
 Approach: Analyse → Plan → Execute → Review (Test-First, DDD, Onion/Hexagonal principles)
 
@@ -73,16 +73,16 @@ Domain Event `UserRegistered`:
 ## 7. Incremental Delivery Slices (Trackable)
 - [x] 1. Project scaffolding (domain library + test project) & failing smoke test
 - [x] 2. Implement `UserId` + tests
-Value Objects:
-- [ ] EmailAddress_AcceptsValidSamples
-- [ ] EmailAddress_NormalizesToLowerCase
-- [ ] EmailAddress_RejectsInvalidFormats
+Value Objects (Completed / Pending):
 - [x] UserId_GeneratesNewGuid
 - [x] UserId_RejectsInvalidGuidString
-- [ ] FirstName_RejectsEmptyOrTooLong
-- [ ] LastName_RejectsEmptyOrTooLong
+- [x] EmailAddress_AcceptsValidSamples
+- [x] EmailAddress_NormalizesToLowerCase
+- [x] EmailAddress_RejectsInvalidFormats
 - [ ] Title_AcceptsAllowedValuesOrNull
 - [ ] Title_RejectsDisallowedValue
+- [ ] FirstName_RejectsEmptyOrTooLong
+- [ ] LastName_RejectsEmptyOrTooLong
 - [ ] HumanName_DisplayFormatsCorrectly (with & without title)
 
 Aggregate:
@@ -96,11 +96,17 @@ Event:
 Support:
 - (None in this slice; uniqueness deferred)
 
+Resume Snapshot (2025-08-31):
+Completed: Scaffolding, UserId, EmailAddress (all related tests green)
+Next Planned Slice On Resume: Add failing tests for Title → implement Title VO → tests green; proceed similarly with FirstName, LastName, then HumanName composite; introduce ITimeProvider before User aggregate.
+
 ## 9. Open Questions & Decisions
 1. Title enumeration? DECISION: Free-text (trimmed) with validation: 1–30 chars, disallow digits/control chars; optional. No fixed list.
 2. Middle name support now? DECISION: No; defer (not modeled in this slice).
 3. Email uniqueness enforcement? DECISION: Deferred; accept potential duplicates short-term (documented risk) to keep slice minimal.
 4. Locale / language preferences capture? DECISION: No; defer.
+5. Email normalization & validation scope? DECISION (2025-08-31): Trim + lowercase canonicalization; pragmatic validation (single '@', domain contains dot, no whitespace). Full RFC compliance deferred until a concrete need (avoid premature complexity).
+6. Event timestamp source? DECISION (planned): `UserRegistered.OccurredAt` will equal aggregate `CreatedAt` captured from `ITimeProvider` during registration.
 
 ## 10. Acceptance Criteria
 * All tests in section 8 implemented & passing.
@@ -119,47 +125,17 @@ Revision History:
 * 2025-08-30: Adjusted scope (removed email uniqueness for this slice) & synchronized tests.
 * 2025-08-30: Added checkbox task tracking for slices & tests.
 * 2025-08-31: Decided VO forms: UserId as record struct, other VOs as sealed record classes.
+* 2025-08-31: Implemented EmailAddress VO & tests (slice 7.3) – normalized lower + trim, pragmatic validation.
 
-## 12. Task Checklist (Track Progress)
+## 12. Task Checklist (Meta Only)
 
 Legend: [ ] Pending  [x] Done
 
-Planning & Documentation
+Planning & Documentation Meta
 - [x] Create foundational user domain plan file
 - [x] Align TODO entry & feature status (IN PROGRESS)
 - [x] Document GUID temporary decision & future ULID migration
-- [ ] Update plan to COMPLETE (after implementation & test pass)
+- [x] Record EmailAddress implementation & decision details
+- [ ] Update plan to COMPLETE (after all domain components & tests pass)
 
-Infrastructure / Scaffolding
-- [ ] Create domain project `src/UserDomain`
-- [ ] Create test project `tests/UserDomain.Tests`
-- [ ] Add base test infrastructure (test runner config)
-- [ ] Commit initial failing smoke test
-
-Value Objects
-- [x] Implement `UserId` (GUID wrapper)
-- [x] Tests: UserId_GeneratesNewGuid & UserId_RejectsInvalidGuidString
-- [ ] Implement `EmailAddress`
-- [ ] Tests: Accepts / Normalizes / Rejects invalid
-- [ ] Implement `Title`
-- [ ] Tests: Accepts allowed / Rejects disallowed
-- [ ] Implement `FirstName`
-- [ ] Implement `LastName`
-- [ ] Tests: Name length & validation
-- [ ] Implement `HumanName` composite + Display()
-- [ ] Tests: HumanName display formatting
-- [ ] Implement `ITimeProvider` abstraction + simple system implementation
-- [ ] Tests: Time provider used in creation
-
-Aggregate & Events
-- [ ] Implement `User` aggregate factory
-- [ ] Emit `UserRegistered` event
-- [ ] Tests: RegisterUser_Succeeds_WithValidData
-- [ ] Tests: RegisterUser_Emits_UserRegistered_Event
-- [ ] Tests: RegisterUser_Sets_CreatedAt_From_TimeProvider
-- [ ] Tests: UserRegistered_ContainsExpectedData
-
-Refinement
-- [ ] Code cleanup / refactor pass
-- [ ] Update plan revision history & mark COMPLETE
-- [ ] Update TODO status to COMPLETE
+Execution Progress Source of Truth: See Section 7 (Incremental Delivery Slices).
