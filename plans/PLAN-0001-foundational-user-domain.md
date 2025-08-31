@@ -71,7 +71,7 @@ Domain Event `UserRegistered`:
 * Avoid external dependencies initially (lightweight regex only). Can revisit for email or ULID libs later with explicit approval.
 
 ## 7. Incremental Delivery Slices (Trackable)
-- [ ] 1. Project scaffolding (domain library + test project) & failing smoke test
+- [x] 1. Project scaffolding (domain library + test project) & failing smoke test
 - [ ] 2. Implement `UserId` + tests
 - [ ] 3. Implement `EmailAddress` + tests
 - [ ] 4. Implement name components (`Title`, `FirstName`, `LastName`) + composite `HumanName` + tests

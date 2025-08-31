@@ -1,0 +1,52 @@
+# .NET build artifacts
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Visual Studio / VS Code
+.vs/
+*.user
+*.suo
+*.userprefs
+*.vscode/
+
+# Build outputs & logs
+*.log
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+**/packages/*
+!**/packages/build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Rider / JetBrains
+.idea/
+
+# Generated
+*.generated.cs
+
+# Tooling caches
+.sonarqube/
+.scannerwork/
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# Dotnet tools
+/.config/dotnet-tools.json
+
+# Others
+*.tmp
+*.swp
+*.bak
