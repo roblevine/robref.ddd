@@ -10,8 +10,18 @@ This file provides comprehensive guidance for AI Agents (Claude, GitHub Copilot,
 3. **Development Process**: Use [DEVELOPMENT.md](DEVELOPMENT.md) for workflow and operational guidance
 4. **Current Work**: Check [TODO.md](TODO.md) for ongoing tasks and project status
 5. **[plans/](plans/)**: Detailed document of implementation plans and architectural decision records for major features - as referenced in TODO.md
+6. **[SESSION-NOTES.md](SESSION-NOTES.md)**: Log of session notes capturing decisions, rationale, and heuristics to maintain context across stateless interactions
 
 ## Development Methodology
+
+### Maintaining Session Notes
+To preserve conversational nuance across stateless sessions, maintain `SESSION-NOTES.md`:
+* Append a dated block per session (categories: Decisions, Rationale, Rejected Alternatives, Pending Intents, Heuristics, Bootstrap Snippet).
+* Keep bullets concise (<=120 chars) and avoid duplicating full content already stored in PLAN / ARCHITECTURE.
+* After adding a Decision here, reflect stable ones in the appropriate plan or architecture file during the same or next commit.
+* Use the latest Bootstrap Snippet when starting a fresh chat to rehydrate context quickly.
+* Periodically compress older entries (e.g. older than 21 sessions) into plan revision history and prune them from the notes file.
+* Do NOT store sensitive data or credentials; this file is purely for modeling narrative and intent continuity.
 
 ### Core behaviours
 - At the beginning of every session, ensure you have read the documents referenced above.
