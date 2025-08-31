@@ -73,14 +73,6 @@ Domain Event `UserRegistered`:
 ## 7. Incremental Delivery Slices (Trackable)
 - [x] 1. Project scaffolding (domain library + test project) & failing smoke test
 - [x] 2. Implement `UserId` + tests
-- [ ] 3. Implement `EmailAddress` + tests
-- [ ] 4. Implement name components (`Title`, `FirstName`, `LastName`) + composite `HumanName` + tests
-- [ ] 5. Introduce `ITimeProvider` + simple implementation + tests
-- [ ] 6. Implement `User` factory with invariants + tests (no event yet)
-- [ ] 7. Add `UserRegistered` event + emission test
-- [ ] 8. Refactor & documentation polish; mark plan COMPLETE
-
-## 8. Test Plan (Initial List)
 Value Objects:
 - [ ] EmailAddress_AcceptsValidSamples
 - [ ] EmailAddress_NormalizesToLowerCase
