@@ -43,11 +43,11 @@ Out of Scope (future plans):
 
 ## 5. Domain Model
 Value Objects (summary):
-* `UserId`: GUID wrapper (temporary choice to minimize scope & deps). Future migration to ULID for ordering will be a separate plan.
-* `EmailAddress`: Lowercased, trimmed, RFC5322-light validation (pragmatic regex). Equality based on canonical form.
-* `Title`: Optional, free-text (1–30 chars), trimmed, disallow digits/control chars.
-* `FirstName` / `LastName`: 1–100 chars, Unicode letters plus hyphen & apostrophe; trimmed; presentation formatting external.
-* `HumanName`: Composes the above, provides `Display()` method (e.g. "Dr Alice Smith" skipping blank parts elegantly).
+* `UserId`: readonly record struct wrapping a Guid (temporary; future ULID migration planable).
+* `EmailAddress`: sealed record class; lowercased & trimmed canonical form; RFC5322-light validation.
+* `Title`: sealed record class; optional, free-text (1–30 chars), trimmed, disallow digits/control chars.
+* `FirstName` / `LastName`: sealed record classes; 1–100 chars, Unicode letters plus hyphen & apostrophe; trimmed.
+* `HumanName`: sealed record class composing Title (nullable), FirstName, LastName; provides `Display()`.
 * `CreatedAt`: UTC instant (may use `DateTimeOffset` or wrapper `UtcTimestamp`).
 
 Aggregate `User`:
@@ -72,7 +72,7 @@ Domain Event `UserRegistered`:
 
 ## 7. Incremental Delivery Slices (Trackable)
 - [x] 1. Project scaffolding (domain library + test project) & failing smoke test
-- [ ] 2. Implement `UserId` + tests
+- [x] 2. Implement `UserId` + tests
 - [ ] 3. Implement `EmailAddress` + tests
 - [ ] 4. Implement name components (`Title`, `FirstName`, `LastName`) + composite `HumanName` + tests
 - [ ] 5. Introduce `ITimeProvider` + simple implementation + tests
@@ -85,8 +85,8 @@ Value Objects:
 - [ ] EmailAddress_AcceptsValidSamples
 - [ ] EmailAddress_NormalizesToLowerCase
 - [ ] EmailAddress_RejectsInvalidFormats
-- [ ] UserId_GeneratesNewGuid
-- [ ] UserId_RejectsInvalidGuidString
+- [x] UserId_GeneratesNewGuid
+- [x] UserId_RejectsInvalidGuidString
 - [ ] FirstName_RejectsEmptyOrTooLong
 - [ ] LastName_RejectsEmptyOrTooLong
 - [ ] Title_AcceptsAllowedValuesOrNull
@@ -126,6 +126,7 @@ Revision History:
 * 2025-08-30: Rewritten to remove password/auth concerns and add structured human name fields.
 * 2025-08-30: Adjusted scope (removed email uniqueness for this slice) & synchronized tests.
 * 2025-08-30: Added checkbox task tracking for slices & tests.
+* 2025-08-31: Decided VO forms: UserId as record struct, other VOs as sealed record classes.
 
 ## 12. Task Checklist (Track Progress)
 
@@ -144,8 +145,8 @@ Infrastructure / Scaffolding
 - [ ] Commit initial failing smoke test
 
 Value Objects
-- [ ] Implement `UserId` (GUID wrapper)
-- [ ] Tests: UserId_GeneratesNewGuid & UserId_RejectsInvalidGuidString
+- [x] Implement `UserId` (GUID wrapper)
+- [x] Tests: UserId_GeneratesNewGuid & UserId_RejectsInvalidGuidString
 - [ ] Implement `EmailAddress`
 - [ ] Tests: Accepts / Normalizes / Rejects invalid
 - [ ] Implement `Title`

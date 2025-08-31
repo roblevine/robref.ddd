@@ -22,10 +22,13 @@ Identifiers:
 - A later plan will evaluate migrating to ULID for improved chronological ordering properties without database sequences.
 
 Value Objects Introduced:
-- `UserId` (Guid wrapper)
-- `EmailAddress`
-- `Title`, `FirstName`, `LastName`, `HumanName`
-- Timestamp handled via an `ITimeProvider` abstraction (UTC).
+- `UserId` (readonly record struct) wrapping Guid
+- `EmailAddress` (sealed record class)
+- `Title`, `FirstName`, `LastName` (sealed record classes)
+- `HumanName` (sealed record class aggregating the above)
+- Timestamp handled via an `ITimeProvider` abstraction (UTC)
+
+Consistency Decision (2025-08-31): Favor record struct only for identifier (`UserId`) to ensure non-null semantics & value semantics with no heap allocation; use sealed record classes for textual semantic VOs for clarity and reduced default(struct) invalid state risk.
 
 Deferred Concerns:
 - Email uniqueness enforcement
