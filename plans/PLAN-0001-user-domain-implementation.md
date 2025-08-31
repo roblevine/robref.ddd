@@ -70,77 +70,86 @@ src/
 
 ## Implementation Steps
 
-### Phase 1: Project Structure & Domain Foundation
-1. **Setup .NET Solution**
+### Phase 1: Domain Foundation (Core First)
+1. **Setup Domain Project**
    - [ ] Create solution file
-   - [ ] Add class library projects (Domain, Application, Infrastructure)
-   - [ ] Add Web API project
-   - [ ] Configure project dependencies
+   - [ ] Add Domain class library project only
+   - [ ] Setup test project for domain testing
 
-2. **Domain Foundation**
-   - [ ] Implement base Entity and ValueObject classes
+2. **Domain Base Classes**
+   - [ ] Implement base Entity class
+   - [ ] Implement base ValueObject class  
    - [ ] Create DomainException for domain-specific errors
-   - [ ] Setup project references following onion architecture
 
-### Phase 2: User Domain Model
-3. **Core Value Objects (Test-First)**
+### Phase 2: User Domain Model (Test-First)
+3. **Core Value Objects**
    - [ ] Email: Validation, immutability, equality
    - [ ] Username: Length rules, character restrictions, uniqueness
-   - [ ] PersonalInfo: Title (optional), FirstName, LastName with validation
+   - [ ] Title, FirstName, LastName: Individual value objects
+   - [ ] PersonalInfo: Composite value object
 
-4. **User Aggregate Root (Test-First)**
+4. **User Aggregate Root**
    - [ ] UserId strongly-typed identifier
    - [ ] User entity with value object composition
    - [ ] Domain validation rules
    - [ ] Factory method for user creation
-   - [ ] Encapsulation of business logic
+   - [ ] Domain unit tests (>90% coverage)
 
-5. **Repository Interface**
-   - [ ] IUserRepository with async methods
+5. **Domain Services & Interfaces**
+   - [ ] IUserRepository interface (domain layer only)
    - [ ] Domain-focused methods (FindByEmail, Save, etc.)
-   - [ ] No infrastructure concerns
+   - [ ] No infrastructure concerns in domain
 
-### Phase 3: Application Layer
-6. **CQRS Infrastructure**
+### Phase 3: Application Layer (Use Cases)
+6. **Application Project Setup**
+   - [ ] Add Application class library project
+   - [ ] Reference Domain project only
+   - [ ] Setup application test project
+
+7. **CQRS Foundation**
    - [ ] Command/Query interfaces
    - [ ] Base command handler pattern
+   - [ ] Application service base classes
 
-7. **User Registration Use Case (Test-First)**
+8. **User Registration Use Case**
    - [ ] RegisterUser command
    - [ ] RegisterUserHandler with validation
    - [ ] Application service coordination
-   - [ ] Integration with repository
+   - [ ] Application layer tests
 
-### Phase 4: Infrastructure Layer
-8. **In-Memory Repository (Test-First)**
-   - [ ] Thread-safe implementation
-   - [ ] Unique constraint enforcement
-   - [ ] Proper async/await patterns
+### Phase 4: Infrastructure Layer (External Concerns)
+9. **Infrastructure Project Setup**
+   - [ ] Add Infrastructure class library project
+   - [ ] Reference Application and Domain projects
+   - [ ] Setup infrastructure test project
 
-9. **Dependency Injection Setup**
-   - [ ] Service registration
-   - [ ] Lifetime management
-   - [ ] Configuration patterns
+10. **Repository Implementation**
+    - [ ] In-memory repository implementation
+    - [ ] Thread-safe implementation
+    - [ ] Unique constraint enforcement
+    - [ ] Repository integration tests
 
-### Phase 5: Web API Layer
-10. **REST API (Test-First)**
-    - [ ] UsersController with registration endpoint
-    - [ ] DTO mapping
-    - [ ] Error handling middleware
-    - [ ] HTTP status code mapping
+11. **Dependency Injection Setup**
+    - [ ] Service registration patterns
+    - [ ] Lifetime management
+    - [ ] Configuration abstractions
 
-11. **Integration Testing**
-    - [ ] End-to-end registration flow
-    - [ ] Error scenarios
-    - [ ] API contract validation
+### Phase 5: Presentation Layer (Separate Deliverable)
+*Note: This phase can be implemented separately as a different project/solution*
 
-### Phase 6: Acceptance Criteria Validation
-12. **Comprehensive Testing**
-    - [ ] Domain unit tests (>90% coverage)
-    - [ ] Application service tests
-    - [ ] Infrastructure tests
-    - [ ] API integration tests
-    - [ ] Performance validation
+12. **Console Application (Simple First)**
+    - [ ] Console app for testing the domain/application layers
+    - [ ] Manual registration workflow
+    - [ ] Dependency injection container setup
+    - [ ] End-to-end testing via console
+
+### Future Phase: Web API (Separate Plan)
+*To be documented in PLAN-0002: Web API Implementation*
+- REST API endpoints
+- DTO mapping and validation
+- HTTP error handling
+- API integration testing
+- OpenAPI documentation
 
 ## Technical Decisions
 
