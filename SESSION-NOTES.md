@@ -16,20 +16,27 @@ Decisions:
 * EmailAddress canonicalization: trim + lowercase; pragmatic validation (single '@', domain has dot, no whitespace).
 * Defer email uniqueness, ULID migration, locale, middle name.
 * Event timestamp source will be ITimeProvider -> CreatedAt -> UserRegistered.OccurredAt.
+* HumanName components decided: optional Title (free-text), required FirstName + LastName.
+* HumanName equality case-insensitive across all parts; preserves original casing in display.
+* HumanName updated to sealed record class (was class) to align with VO representation guideline.
+* Adopted Option B: separate Title, FirstName, LastName VOs; HumanName composed from them.
 
 Rationale:
 * Record struct for id avoids null + reduces allocations; textual VOs rarely hot enough to optimize further.
 * Full RFC email validation premature; simpler invariant set suffices short-term.
 * Deferring uniqueness keeps slice focused on pure domain modeling.
+* Case-insensitive human name equality reduces accidental duplicates differing only by casing.
 
 Rejected Alternatives:
 * Full RFC 5322 regex for email — complexity & false negatives vs current needs.
 * Using only strings for identifiers — weak invariants & parsing overhead pushed downstream.
+* Normalizing apostrophes to single form — kept raw to avoid altering user-provided characters.
 
 Pending Intents:
 * Add failing tests for Title next session before implementation.
 * Introduce ITimeProvider before User aggregate & event emission slice.
 * Document display formatting rules in HumanName when implemented.
+* Revisit mononym user support before first external user ingest.
 
 Heuristics:
 * Normalize early inside VOs; consumers assume canonical forms.

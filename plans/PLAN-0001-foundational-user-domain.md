@@ -45,9 +45,9 @@ Out of Scope (future plans):
 Value Objects (summary):
 * `UserId`: readonly record struct wrapping a Guid (temporary; future ULID migration planable).
 * `EmailAddress`: sealed record class; lowercased & trimmed canonical form; RFC5322-light validation.
-* `Title`: sealed record class; optional, free-text (1–30 chars), trimmed, disallow digits/control chars.
-* `FirstName` / `LastName`: sealed record classes; 1–100 chars, Unicode letters plus hyphen & apostrophe; trimmed.
-* `HumanName`: sealed record class composing Title (nullable), FirstName, LastName; provides `Display()`.
+* `Title`: sealed record class; optional, free-text (1–30 chars), trimmed & internal space collapse; allowed chars: letters, space, hyphen, apostrophes, period; disallow digits/symbols/control.
+* `FirstName` / `LastName`: sealed record classes; 1–100 chars, Unicode letters + combining marks, internal spaces (collapsed), hyphen, apostrophes.
+* `HumanName`: sealed record class composing `Title?`, `FirstName`, `LastName`; case-insensitive equality across parts; display formatting.
 * `CreatedAt`: UTC instant (may use `DateTimeOffset` or wrapper `UtcTimestamp`).
 
 Aggregate `User`:
@@ -71,34 +71,79 @@ Domain Event `UserRegistered`:
 * Avoid external dependencies initially (lightweight regex only). Can revisit for email or ULID libs later with explicit approval.
 
 ## 7. Incremental Delivery Slices (Trackable)
-- [x] 1. Project scaffolding (domain library + test project) & failing smoke test
-- [x] 2. Implement `UserId` + tests
-Value Objects (Completed / Pending):
-- [x] UserId_GeneratesNewGuid
-- [x] UserId_RejectsInvalidGuidString
-- [x] EmailAddress_AcceptsValidSamples
-- [x] EmailAddress_NormalizesToLowerCase
-- [x] EmailAddress_RejectsInvalidFormats
-- [ ] Title_AcceptsAllowedValuesOrNull
-- [ ] Title_RejectsDisallowedValue
-- [ ] FirstName_RejectsEmptyOrTooLong
-- [ ] LastName_RejectsEmptyOrTooLong
-- [ ] HumanName_DisplayFormatsCorrectly (with & without title)
+High‑level slice order (may adjust as insights emerge):
+1. Project scaffolding (domain library + test project) & failing smoke test  ✅
+2. Implement `UserId` + tests  ✅
+3. Implement `EmailAddress` + tests  ✅
+4. Implement `Title`, `FirstName`, `LastName` VOs + tests  ✅
+5. Implement `HumanName` composite (wrapping the three) + tests  ✅
+6. Introduce `ITimeProvider` abstraction + tests  🚧 (next)
+7. Implement `User` aggregate registration factory + domain event emission + tests
+8. Polish / documentation pass & plan completion
 
-Aggregate:
-- [ ] RegisterUser_Succeeds_WithValidData
-- [ ] RegisterUser_Emits_UserRegistered_Event
-- [ ] RegisterUser_Sets_CreatedAt_From_TimeProvider
+Value Object Test Checklist:
+✔ UserId_GeneratesNewGuid
+✔ UserId_RejectsInvalidGuidString
+✔ EmailAddress_AcceptsValidSamples
+✔ EmailAddress_NormalizesToLowerCase
+✔ EmailAddress_RejectsInvalidFormats
+✔ Title_AcceptsValidSamples
+✔ Title_RejectsInvalidValues
+✔ FirstName_AcceptsValidSamples
+✔ FirstName_RejectsInvalidValues
+✔ LastName_AcceptsValidSamples
+✔ LastName_RejectsInvalidValues
+✔ HumanName_AcceptsValidBasicName
+✔ HumanName_AcceptsTitleOptional
+✔ HumanName_AcceptsHyphenApostropheAccents
+✔ HumanName_RejectsInvalidCharacters
+✔ HumanName_TrimsAndCollapsesWhitespace
+✔ HumanName_Equality_IgnoresCase
+
+Aggregate Registration:
+⬜ RegisterUser_Succeeds_WithValidData
+⬜ RegisterUser_Emits_UserRegistered_Event
+⬜ RegisterUser_Sets_CreatedAt_From_TimeProvider
 
 Event:
-- [ ] UserRegistered_ContainsExpectedData
+⬜ UserRegistered_ContainsExpectedData
 
-Support:
-- (None in this slice; uniqueness deferred)
+Support / Infrastructure (deferred where noted):
+* Email uniqueness enforcement – deferred
+* Persistence abstraction – deferred
 
-Resume Snapshot (2025-08-31):
-Completed: Scaffolding, UserId, EmailAddress (all related tests green)
-Next Planned Slice On Resume: Add failing tests for Title → implement Title VO → tests green; proceed similarly with FirstName, LastName, then HumanName composite; introduce ITimeProvider before User aggregate.
+HumanName & Component Specification (2025‑08‑31):
+Title:
+* Optional free‑text; trim + collapse spaces; empty => null (absence)
+* Length: 1–30
+* Allowed: letters, space (internal), hyphen, apostrophe (' or ’), period
+* Disallowed: digits, other punctuation, control chars
+* Equality: case-insensitive
+
+FirstName / LastName:
+* Required
+* Length: 1–100
+* Normalization: trim + collapse internal spaces
+* Allowed: Unicode letters + combining marks, internal spaces, hyphen, apostrophes (' or ’)
+* Disallowed: digits, other punctuation, control chars
+* Equality: case-insensitive
+
+HumanName:
+* Composition: `Title?`, `FirstName`, `LastName`
+* Equality: case-insensitive across parts
+* Display: `"Title FirstName LastName"` or `"FirstName LastName"`
+* Apostrophes preserved, no canonicalization
+* Deferred: middle names, suffixes, locale particles, mononyms, apostrophe normalization, configurable constraints
+
+Rationale Summary:
+* Case‑insensitive equality reduces duplicate logical identities differing only in casing while preserving original display casing.
+* Avoid premature locale/title enumeration complexity; free‑text Title lowers friction while still bounded by validation.
+
+Risks / Mitigations:
+* Diverse global name formats – mitigated by deferring advanced parsing & focusing on minimally lossy representation.
+* Potential need for mononym users – will revisit before first real user ingestion source integration.
+
+Current Slice Status: Name component & HumanName VOs complete (tests green); next slice: introduce time provider.
 
 ## 9. Open Questions & Decisions
 1. Title enumeration? DECISION: Free-text (trimmed) with validation: 1–30 chars, disallow digits/control chars; optional. No fixed list.
@@ -109,7 +154,7 @@ Next Planned Slice On Resume: Add failing tests for Title → implement Title VO
 6. Event timestamp source? DECISION (planned): `UserRegistered.OccurredAt` will equal aggregate `CreatedAt` captured from `ITimeProvider` during registration.
 
 ## 10. Acceptance Criteria
-* All tests in section 8 implemented & passing.
+* All tests in Section 7 checklist implemented & passing.
 * No password or auth logic present in domain layer.
 * Plan updated with resolutions to open questions (or explicitly deferred) before marking COMPLETE.
 * `TODO.md` updated: status IN PROGRESS on start, COMPLETE on finish.
