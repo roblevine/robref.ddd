@@ -36,11 +36,9 @@ src/
 │   │   ├── User.cs                 # Aggregate root
 │   │   ├── UserId.cs              # Strongly-typed ID
 │   │   ├── Email.cs               # Value object
-│   │   ├── Username.cs            # Value object  
 │   │   ├── Title.cs               # Value object (optional)
 │   │   ├── FirstName.cs           # Value object
 │   │   ├── LastName.cs            # Value object
-│   │   ├── PersonalInfo.cs        # Value object composite
 │   │   └── IUserRepository.cs     # Repository interface
 │   └── Common/
 │       ├── Entity.cs              # Base entity
@@ -84,9 +82,7 @@ src/
 ### Phase 2: User Domain Model (Test-First)
 3. **Core Value Objects**
    - [x] Email: Validation, immutability, equality
-   - [ ] Username: Length rules, character restrictions, uniqueness
-   - [ ] Title, FirstName, LastName: Individual value objects
-   - [ ] PersonalInfo: Composite value object
+   - [x] Title, FirstName, LastName: Individual value objects
 
 4. **User Aggregate Root**
    - [x] UserId strongly-typed identifier
@@ -174,10 +170,9 @@ src/
 ## Success Criteria
 
 ### Functional Requirements
-- ✅ User can register with email, username, title, first name, last name
+- ✅ User can register with email, title, first name, last name
 - ✅ Email format validation enforced
-- ✅ Username uniqueness enforced  
-- ✅ PersonalInfo validation (required first/last name, optional title)
+- ✅ Name validation (required first/last name, optional title)
 - ✅ Appropriate error messages for validation failures
 - ✅ Registration returns success confirmation
 

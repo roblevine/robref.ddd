@@ -14,8 +14,8 @@ This document outlines the architecture of the RobRef.DDD application, implement
 - **Domain Services**: Stateless services for complex domain operations
 
 ### Value Object Implementation Strategy
-- **record class**: For nullable/optional domain concepts (Email, FirstName, LastName, Title, PersonalInfo)
-- **readonly record struct**: For required/never-null domain concepts (Username, UserId)
+- **record class**: For nullable/optional domain concepts (Email, FirstName, LastName, Title)
+- **readonly record struct**: For required/never-null domain concepts (UserId)
 - **Immutability**: All value objects immutable - changes create new instances
 - **Validation**: Constructor validation with domain-specific rules
 - **Equality**: Structural equality based on all properties (automatic with records)

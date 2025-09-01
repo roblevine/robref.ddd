@@ -9,10 +9,11 @@ Log of session notes capturing decisions, rationale, and heuristics to maintain 
 - Used .NET 8 as target framework (default from dotnet new)
 - Placed Domain project in src/ and tests in tests/ following standard conventions
 - Added project references from test to domain project
-- Value object type strategy: record class for nullable/optional (Email, names), readonly record struct for required/never-null (Username, UserId)
+- Value object type strategy: record class for nullable/optional (Email, names), readonly record struct for required/never-null (UserId)
 - All value objects immutable - changes create new instances, never mutate existing
 - Email implemented as record class with regex validation, implicit conversions, 17 tests passing
 - UserId implemented as readonly record struct with ULID (Cysharp library), factory methods, Parse/TryParse, 15 tests passing
+- FirstName, LastName, Title implemented as record classes with length validation, cultural sensitivity (single chars), 54 tests total
 
 ### Rationale
 - Following PLAN-0001 Phase 1.1 exactly as specified
@@ -24,8 +25,9 @@ Log of session notes capturing decisions, rationale, and heuristics to maintain 
 - Different test framework - xUnit is .NET standard
 
 ### Pending Intents
-- Skip base classes, build concrete value objects first (Email ✅, UserId ✅, Username next)
-- Continue with FirstName, LastName, Title, PersonalInfo value objects
+- Skip base classes, build concrete value objects first (Email ✅, UserId ✅, FirstName/LastName/Title ✅)
+- Skip Username - not needed for shopfront app (Email + individual name fields sufficient)
+- Skip PersonalInfo composite - individual fields simpler for shopfront domain
 - Phase 1.2: Extract common patterns into base classes if needed later
 
 ### Heuristics
