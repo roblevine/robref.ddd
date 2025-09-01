@@ -39,7 +39,7 @@ src/
 │   │   ├── Title.cs               # Value object (optional)
 │   │   ├── FirstName.cs           # Value object
 │   │   ├── LastName.cs            # Value object
-│   │   └── IUserRepository.cs     # Repository interface (pending)
+│   │   └── IUserRepository.cs     # Repository interface
 │   └── Common/                     # (Skipped - concrete-first approach)
 │       ├── Entity.cs              # Base entity (not implemented)
 │       ├── ValueObject.cs         # Base value object (not implemented)
@@ -92,9 +92,9 @@ src/
    - [x] Domain unit tests (>90% coverage)
 
 5. **Domain Services & Interfaces**
-   - [ ] IUserRepository interface (domain layer only)
-   - [ ] Domain-focused methods (FindByEmail, Save, etc.)
-   - [ ] No infrastructure concerns in domain
+   - [x] IUserRepository interface (domain layer only)
+   - [x] Domain-focused methods (FindByEmail, Save, etc.)
+   - [x] No infrastructure concerns in domain
 
 ### Phase 3: Application Layer (Use Cases)
 6. **Application Project Setup**
