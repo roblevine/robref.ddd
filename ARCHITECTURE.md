@@ -4,6 +4,10 @@ This document outlines the architecture of the RobRef.DDD application, implement
 
 ## High-Level Architecture
 
+### Service Development Principles
+- **Domain-Driven Design**: Focus on core domain logic. Implement strictly  by modelling entities, value types, and aggregate routes, etc. Prefer strongly-typed value objects with internal validation over native types.
+- **Onion Architecture**: Emphasise separation of concerns, with core domain logic at the center
+
 ### Domain Layer Design Principles
 - **Value Objects**: Immutable types representing domain concepts
 - **Aggregate Roots**: Entities that maintain consistency boundaries

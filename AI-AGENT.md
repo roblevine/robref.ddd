@@ -39,16 +39,6 @@ To preserve conversational nuance across stateless sessions, maintain `SESSION-N
 3. **Execute**: Implement in small, testable increments with comprehensive tests
 4. **Review**: Verify functionality, update documentation, ensure no regressions
 
-### Service Development Principles
-- **Domain-Driven Design**: Focus on core domain logic. Implement strictly  by modelling entities, value types, and aggregate routes, etc. Prefer strongly-typed value objects with internal validation over native types.
-- **Onion Architecture**: Emphasise separation of concerns, with core domain logic at the center
-
-### Code Quality Standards
-- **Test-First Development**: Write tests before implementing functionality (non-negotiable)
-- **SOLID Principles**: Clear responsibilities, dependency inversion, clean interfaces
-- **Meaningful Names**: Self-documenting code with clear variable and function names
-- **Documentation Currency**: Update docs with any architectural or API changes
-
 ### Working Agreements
 - **Dependency Approval**: Always discuss before adding new packages or frameworks
 - **Clarification First**: Ask questions when multiple approaches are possible
