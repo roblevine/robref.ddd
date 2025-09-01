@@ -12,6 +12,7 @@ Log of session notes capturing decisions, rationale, and heuristics to maintain 
 - Value object type strategy: record class for nullable/optional (Email, names), readonly record struct for required/never-null (Username, UserId)
 - All value objects immutable - changes create new instances, never mutate existing
 - Email implemented as record class with regex validation, implicit conversions, 17 tests passing
+- UserId implemented as readonly record struct with ULID (Cysharp library), factory methods, Parse/TryParse, 15 tests passing
 
 ### Rationale
 - Following PLAN-0001 Phase 1.1 exactly as specified
@@ -23,7 +24,7 @@ Log of session notes capturing decisions, rationale, and heuristics to maintain 
 - Different test framework - xUnit is .NET standard
 
 ### Pending Intents
-- Skip base classes, build concrete value objects first (Email ✅, Username next)
+- Skip base classes, build concrete value objects first (Email ✅, UserId ✅, Username next)
 - Continue with FirstName, LastName, Title, PersonalInfo value objects
 - Phase 1.2: Extract common patterns into base classes if needed later
 

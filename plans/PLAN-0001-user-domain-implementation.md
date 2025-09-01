@@ -89,7 +89,7 @@ src/
    - [ ] PersonalInfo: Composite value object
 
 4. **User Aggregate Root**
-   - [ ] UserId strongly-typed identifier
+   - [x] UserId strongly-typed identifier
    - [ ] User entity with value object composition
    - [ ] Domain validation rules
    - [ ] Factory method for user creation

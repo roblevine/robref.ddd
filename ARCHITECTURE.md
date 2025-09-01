@@ -15,6 +15,7 @@ This document outlines the architecture of the RobRef.DDD application, implement
 - **Immutability**: All value objects immutable - changes create new instances
 - **Validation**: Constructor validation with domain-specific rules
 - **Equality**: Structural equality based on all properties (automatic with records)
+- **Identity**: UserId uses ULID for sortable, time-based unique identifiers (Cysharp library)
 
 ## Libraries and frameworks
 
