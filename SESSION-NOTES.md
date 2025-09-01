@@ -9,6 +9,9 @@ Log of session notes capturing decisions, rationale, and heuristics to maintain 
 - Used .NET 8 as target framework (default from dotnet new)
 - Placed Domain project in src/ and tests in tests/ following standard conventions
 - Added project references from test to domain project
+- Value object type strategy: record class for nullable/optional (Email, names), readonly record struct for required/never-null (Username, UserId)
+- All value objects immutable - changes create new instances, never mutate existing
+- Email implemented as record class with regex validation, implicit conversions, 17 tests passing
 
 ### Rationale
 - Following PLAN-0001 Phase 1.1 exactly as specified
@@ -20,8 +23,9 @@ Log of session notes capturing decisions, rationale, and heuristics to maintain 
 - Different test framework - xUnit is .NET standard
 
 ### Pending Intents
-- Phase 1.2: Implement base Entity, ValueObject, and DomainException classes
-- Continue following PLAN-0001 implementation steps sequentially
+- Skip base classes, build concrete value objects first (Email ✅, Username next)
+- Continue with FirstName, LastName, Title, PersonalInfo value objects
+- Phase 1.2: Extract common patterns into base classes if needed later
 
 ### Heuristics
 - Always update PLAN checkboxes when completing tasks

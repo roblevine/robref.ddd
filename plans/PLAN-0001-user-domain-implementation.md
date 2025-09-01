@@ -83,7 +83,7 @@ src/
 
 ### Phase 2: User Domain Model (Test-First)
 3. **Core Value Objects**
-   - [ ] Email: Validation, immutability, equality
+   - [x] Email: Validation, immutability, equality
    - [ ] Username: Length rules, character restrictions, uniqueness
    - [ ] Title, FirstName, LastName: Individual value objects
    - [ ] PersonalInfo: Composite value object
@@ -155,9 +155,10 @@ src/
 
 ### Domain Modeling
 - **Aggregate Design**: User as aggregate root with value object composition
-- **Identity**: Strongly-typed UserId (Guid-based)
+- **Identity**: Strongly-typed UserId (readonly record struct, Guid-based)
+- **Value Objects**: record class for optional types (Email, names), readonly record struct for required types (Username, UserId)
 - **Validation**: Domain-level validation in value objects and entities
-- **Immutability**: Value objects immutable by design
+- **Immutability**: Value objects immutable by design - changes create new instances
 
 ### Application Architecture  
 - **CQRS**: Command/Query separation for scalability
