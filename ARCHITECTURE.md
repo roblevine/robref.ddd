@@ -10,8 +10,9 @@ This document outlines the architecture of the RobRef.DDD application, implement
 
 ### Domain Layer Design Principles
 - **Value Objects**: Immutable types representing domain concepts
-- **Aggregate Roots**: Entities that maintain consistency boundaries
+- **Aggregate Roots**: Entities that maintain consistency boundaries (e.g., User with factory methods)
 - **Domain Services**: Stateless services for complex domain operations
+- **Factory Pattern**: Static factory methods for aggregate creation (Register/Create separation)
 
 ### Value Object Implementation Strategy
 - **record class**: For nullable/optional domain concepts (Email, FirstName, LastName, Title)

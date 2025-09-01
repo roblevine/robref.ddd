@@ -86,10 +86,10 @@ src/
 
 4. **User Aggregate Root**
    - [x] UserId strongly-typed identifier
-   - [ ] User entity with value object composition
-   - [ ] Domain validation rules
-   - [ ] Factory method for user creation
-   - [ ] Domain unit tests (>90% coverage)
+   - [x] User entity with value object composition
+   - [x] Domain validation rules
+   - [x] Factory method for user creation
+   - [x] Domain unit tests (>90% coverage)
 
 5. **Domain Services & Interfaces**
    - [ ] IUserRepository interface (domain layer only)

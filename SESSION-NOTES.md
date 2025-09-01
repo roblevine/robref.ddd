@@ -14,6 +14,7 @@ Log of session notes capturing decisions, rationale, and heuristics to maintain 
 - Email implemented as record class with regex validation, implicit conversions, 17 tests passing
 - UserId implemented as readonly record struct with ULID (Cysharp library), factory methods, Parse/TryParse, 15 tests passing
 - FirstName, LastName, Title implemented as record classes with length validation, cultural sensitivity (single chars), 54 tests total
+- User aggregate root implemented as mutable entity class with factory pattern (Register/Create), domain behavior methods, ID-based equality, 13 tests
 
 ### Rationale
 - Following PLAN-0001 Phase 1.1 exactly as specified
@@ -25,9 +26,10 @@ Log of session notes capturing decisions, rationale, and heuristics to maintain 
 - Different test framework - xUnit is .NET standard
 
 ### Pending Intents
-- Skip base classes, build concrete value objects first (Email ✅, UserId ✅, FirstName/LastName/Title ✅)
+- Skip base classes, build concrete value objects first (Email ✅, UserId ✅, FirstName/LastName/Title ✅, User ✅)
 - Skip Username - not needed for shopfront app (Email + individual name fields sufficient)
 - Skip PersonalInfo composite - individual fields simpler for shopfront domain
+- Next: IUserRepository interface for domain layer
 - Phase 1.2: Extract common patterns into base classes if needed later
 
 ### Heuristics
