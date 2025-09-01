@@ -39,11 +39,11 @@ src/
 │   │   ├── Title.cs               # Value object (optional)
 │   │   ├── FirstName.cs           # Value object
 │   │   ├── LastName.cs            # Value object
-│   │   └── IUserRepository.cs     # Repository interface
-│   └── Common/
-│       ├── Entity.cs              # Base entity
-│       ├── ValueObject.cs         # Base value object
-│       └── DomainException.cs     # Domain exceptions
+│   │   └── IUserRepository.cs     # Repository interface (pending)
+│   └── Common/                     # (Skipped - concrete-first approach)
+│       ├── Entity.cs              # Base entity (not implemented)
+│       ├── ValueObject.cs         # Base value object (not implemented)
+│       └── DomainException.cs     # Domain exceptions (not implemented)
 ├── RobRef.DDD.Application/         # Application layer
 │   ├── Users/
 │   │   ├── Commands/
@@ -74,10 +74,10 @@ src/
    - [x] Add Domain class library project only
    - [x] Setup test project for domain testing
 
-2. **Domain Base Classes**
-   - [ ] Implement base Entity class
-   - [ ] Implement base ValueObject class  
-   - [ ] Create DomainException for domain-specific errors
+2. **Domain Base Classes** *(Skipped - concrete-first approach)*
+   - [~] Implement base Entity class *(deferred - extract patterns later if needed)*
+   - [~] Implement base ValueObject class *(deferred - extract patterns later if needed)*
+   - [~] Create DomainException for domain-specific errors *(deferred - extract patterns later if needed)*
 
 ### Phase 2: User Domain Model (Test-First)
 3. **Core Value Objects**

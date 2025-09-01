@@ -24,6 +24,9 @@ Log of session notes capturing decisions, rationale, and heuristics to maintain 
 ### Rejected Alternatives
 - Single project approach - doesn't support DDD layering
 - Different test framework - xUnit is .NET standard
+- Username value object - not needed for shopfront domain
+- PersonalInfo composite - individual fields simpler
+- Base classes first - concrete-first approach more practical
 
 ### Pending Intents
 - Skip base classes, build concrete value objects first (Email ✅, UserId ✅, FirstName/LastName/Title ✅, User ✅)
@@ -38,4 +41,4 @@ Log of session notes capturing decisions, rationale, and heuristics to maintain 
 - Maintain session notes after each significant milestone
 
 ### Bootstrap Snippet
-Working on PLAN-0001 User Domain Implementation. Completed Phase 1.1 (solution setup). Next: Phase 1.2 (base classes). Following DDD/Onion Architecture with test-first approach.
+Working on PLAN-0001 User Domain Implementation. Completed through Phase 2 (value objects + User aggregate). Skipped base classes for concrete-first approach. Domain model complete: Email, UserId, FirstName, LastName, Title, User with factory pattern. 99 tests passing. Next: IUserRepository interface.
