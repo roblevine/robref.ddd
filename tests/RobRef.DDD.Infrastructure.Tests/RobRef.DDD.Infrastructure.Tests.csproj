@@ -28,4 +28,10 @@
     <ProjectReference Include="..\..\src\RobRef.DDD.Domain\RobRef.DDD.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="testsettings.local.json" Condition="Exists('testsettings.local.json')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

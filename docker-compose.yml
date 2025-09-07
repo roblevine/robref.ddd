@@ -18,13 +18,13 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
-    networks:
-      - robref-network
+    # networks:
+    #   - robref-network
 
 volumes:
   sqlserver_data:
     driver: local
 
-networks:
-  robref-network:
-    driver: bridge
+# networks:
+#   robref-network:
+#     driver: bridge

@@ -1,0 +1,6 @@
+{
+  "SqlServer": {
+    "ConnectionString": "Server=host.docker.internal,1433;User Id=<your sql server userid>;Password=<your password>;TrustServerCertificate=true;Connection Timeout=5;",
+    "TestDatabasePrefix": "RobRefDDD_Test_"
+  }
+}

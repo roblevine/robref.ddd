@@ -1,6 +1,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using RobRef.DDD.Infrastructure.Persistence;
+using System.Text.Json;
 
 namespace RobRef.DDD.Infrastructure.Tests.Persistence;
 
@@ -21,9 +22,9 @@ public class EfUserRepositorySqlServerTests : UserRepositoryIntegrationTestsBase
 
     private static DbContextOptions<ApplicationDbContext> CreateSqlServerOptions()
     {
-        // Create a unique database for each test class instance
-        var databaseName = $"RobRefDDD_Test_{Guid.NewGuid():N}";
-        var connectionString = $"Server=localhost,1433;Database={databaseName};User Id=SA;Password=DevPassword123!;TrustServerCertificate=true;";
+        var config = SqlServerFixture.GetConfiguration();
+        var databaseName = $"{config.TestDatabasePrefix}{Guid.NewGuid():N}";
+        var connectionString = $"{config.ConnectionString};Database={databaseName}";
         
         return new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseSqlServer(connectionString)
@@ -57,11 +58,22 @@ public class SqlServerCollection : ICollectionFixture<SqlServerFixture>
 }
 
 /// <summary>
+/// Configuration model for SQL Server test settings.
+/// </summary>
+public class SqlServerTestConfig
+{
+    public string ConnectionString { get; set; } = string.Empty;
+    public string TestDatabasePrefix { get; set; } = string.Empty;
+}
+
+/// <summary>
 /// Fixture that ensures SQL Server is available before running tests.
 /// Skips all SQL Server tests if Docker SQL Server container is not running.
 /// </summary>
 public class SqlServerFixture : IDisposable
 {
+    private static readonly Lazy<SqlServerTestConfig> _config = new(LoadConfiguration);
+    
     public static bool IsSqlServerAvailable { get; private set; }
     public static string SkipReason { get; private set; } = string.Empty;
 
@@ -69,7 +81,8 @@ public class SqlServerFixture : IDisposable
     {
         try
         {
-            using var connection = new SqlConnection("Server=localhost,1433;User Id=SA;Password=DevPassword123!;TrustServerCertificate=true;Connection Timeout=5;");
+            var config = GetConfiguration();
+            using var connection = new SqlConnection(config.ConnectionString);
             connection.Open();
             
             // Test that we can execute a simple query
@@ -85,6 +98,51 @@ public class SqlServerFixture : IDisposable
             
             // Log for debugging
             Console.WriteLine($"SQL Server not available: {ex.Message}");
+        }
+    }
+
+    public static SqlServerTestConfig GetConfiguration() => _config.Value;
+
+    private static SqlServerTestConfig LoadConfiguration()
+    {
+        try
+        {
+            var testDirectory = Path.GetDirectoryName(typeof(SqlServerFixture).Assembly.Location)!;
+            var configPath = Path.Combine(testDirectory, "testsettings.local.json");
+            
+            if (File.Exists(configPath))
+            {
+                var json = File.ReadAllText(configPath);
+                var fullConfig = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
+
+                if (fullConfig?.TryGetValue("SqlServer", out var sqlServerSection) == true)
+                {
+                    var sqlServerJson = JsonSerializer.Serialize(sqlServerSection);
+
+                    var ret = JsonSerializer.Deserialize<SqlServerTestConfig>(sqlServerJson);
+                    
+                    if (ret is null) 
+                        throw new InvalidOperationException("Failed to deserialize SqlServer configuration section.");
+
+                    return ret;
+                }
+            }
+            
+            // Fallback to defaults
+            return new SqlServerTestConfig
+            {
+                ConnectionString = "Server=localhost,1433;User Id=SA;Password=DevPassword123!;TrustServerCertificate=true;Connection Timeout=5;",
+                TestDatabasePrefix = "RobRefDDD_Test_"
+            };
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading configuration: {ex.Message}");
+            return new SqlServerTestConfig
+            {
+                ConnectionString = "Server=localhost,1433;User Id=SA;Password=DevPassword123!;TrustServerCertificate=true;Connection Timeout=5;",
+                TestDatabasePrefix = "RobRefDDD_Test_"
+            };
         }
     }
 
