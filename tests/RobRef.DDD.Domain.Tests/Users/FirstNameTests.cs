@@ -105,4 +105,70 @@ public class FirstNameTests
         // Assert
         Assert.Equal("John", result);
     }
+
+    [Fact]
+    public void CompareTo_SameFirstNameValues_ReturnsZero()
+    {
+        // Arrange
+        var name1 = new FirstName("John");
+        var name2 = new FirstName("John");
+        
+        // Act & Assert
+        Assert.Equal(0, name1.CompareTo(name2));
+        Assert.Equal(0, name2.CompareTo(name1));
+    }
+
+    [Fact]
+    public void CompareTo_DifferentFirstNameValues_ReturnsCorrectOrder()
+    {
+        // Arrange
+        var nameA = new FirstName("Alice");
+        var nameB = new FirstName("Bob");
+        
+        // Act & Assert
+        Assert.True(nameA.CompareTo(nameB) < 0); // Alice comes before Bob
+        Assert.True(nameB.CompareTo(nameA) > 0); // Bob comes after Alice
+    }
+
+    [Fact]
+    public void CompareTo_CaseInsensitive_ReturnsZero()
+    {
+        // Arrange
+        var name1 = new FirstName("JOHN");
+        var name2 = new FirstName("john");
+        
+        // Act & Assert
+        Assert.Equal(0, name1.CompareTo(name2));
+        Assert.Equal(0, name2.CompareTo(name1));
+    }
+
+    [Fact]
+    public void CompareTo_NullFirstName_ReturnsOne()
+    {
+        // Arrange
+        var name = new FirstName("John");
+        
+        // Act & Assert
+        Assert.Equal(1, name.CompareTo(null));
+    }
+
+    [Fact]
+    public void CompareTo_SupportsListSorting()
+    {
+        // Arrange
+        var names = new List<FirstName>
+        {
+            new("Zoe"),
+            new("Alice"),
+            new("Bob")
+        };
+        
+        // Act
+        names.Sort();
+        
+        // Assert
+        Assert.Equal("Alice", names[0].Value);
+        Assert.Equal("Bob", names[1].Value);
+        Assert.Equal("Zoe", names[2].Value);
+    }
 }

@@ -98,4 +98,70 @@ public class EmailTests
         // Assert
         Assert.Equal("test@example.com", result);
     }
+
+    [Fact]
+    public void CompareTo_SameEmailValues_ReturnsZero()
+    {
+        // Arrange
+        var email1 = new Email("test@example.com");
+        var email2 = new Email("test@example.com");
+        
+        // Act & Assert
+        Assert.Equal(0, email1.CompareTo(email2));
+        Assert.Equal(0, email2.CompareTo(email1));
+    }
+
+    [Fact]
+    public void CompareTo_DifferentEmailValues_ReturnsCorrectOrder()
+    {
+        // Arrange
+        var emailA = new Email("a@example.com");
+        var emailB = new Email("b@example.com");
+        
+        // Act & Assert
+        Assert.True(emailA.CompareTo(emailB) < 0); // a comes before b
+        Assert.True(emailB.CompareTo(emailA) > 0); // b comes after a
+    }
+
+    [Fact]
+    public void CompareTo_CaseInsensitive_ReturnsZero()
+    {
+        // Arrange
+        var email1 = new Email("Test@Example.com");
+        var email2 = new Email("test@example.com");
+        
+        // Act & Assert
+        Assert.Equal(0, email1.CompareTo(email2));
+        Assert.Equal(0, email2.CompareTo(email1));
+    }
+
+    [Fact]
+    public void CompareTo_NullEmail_ReturnsOne()
+    {
+        // Arrange
+        var email = new Email("test@example.com");
+        
+        // Act & Assert
+        Assert.Equal(1, email.CompareTo(null));
+    }
+
+    [Fact]
+    public void CompareTo_SupportsListSorting()
+    {
+        // Arrange
+        var emails = new List<Email>
+        {
+            new("zebra@example.com"),
+            new("alpha@example.com"),
+            new("beta@example.com")
+        };
+        
+        // Act
+        emails.Sort();
+        
+        // Assert
+        Assert.Equal("alpha@example.com", emails[0].Value);
+        Assert.Equal("beta@example.com", emails[1].Value);
+        Assert.Equal("zebra@example.com", emails[2].Value);
+    }
 }

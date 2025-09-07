@@ -105,4 +105,70 @@ public class LastNameTests
         // Assert
         Assert.Equal("Smith", result);
     }
+
+    [Fact]
+    public void CompareTo_SameLastNameValues_ReturnsZero()
+    {
+        // Arrange
+        var name1 = new LastName("Smith");
+        var name2 = new LastName("Smith");
+        
+        // Act & Assert
+        Assert.Equal(0, name1.CompareTo(name2));
+        Assert.Equal(0, name2.CompareTo(name1));
+    }
+
+    [Fact]
+    public void CompareTo_DifferentLastNameValues_ReturnsCorrectOrder()
+    {
+        // Arrange
+        var nameA = new LastName("Adams");
+        var nameB = new LastName("Brown");
+        
+        // Act & Assert
+        Assert.True(nameA.CompareTo(nameB) < 0); // Adams comes before Brown
+        Assert.True(nameB.CompareTo(nameA) > 0); // Brown comes after Adams
+    }
+
+    [Fact]
+    public void CompareTo_CaseInsensitive_ReturnsZero()
+    {
+        // Arrange
+        var name1 = new LastName("SMITH");
+        var name2 = new LastName("smith");
+        
+        // Act & Assert
+        Assert.Equal(0, name1.CompareTo(name2));
+        Assert.Equal(0, name2.CompareTo(name1));
+    }
+
+    [Fact]
+    public void CompareTo_NullLastName_ReturnsOne()
+    {
+        // Arrange
+        var name = new LastName("Smith");
+        
+        // Act & Assert
+        Assert.Equal(1, name.CompareTo(null));
+    }
+
+    [Fact]
+    public void CompareTo_SupportsListSorting()
+    {
+        // Arrange
+        var names = new List<LastName>
+        {
+            new("Wilson"),
+            new("Adams"),
+            new("Brown")
+        };
+        
+        // Act
+        names.Sort();
+        
+        // Assert
+        Assert.Equal("Adams", names[0].Value);
+        Assert.Equal("Brown", names[1].Value);
+        Assert.Equal("Wilson", names[2].Value);
+    }
 }
