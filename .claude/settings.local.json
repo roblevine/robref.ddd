@@ -12,7 +12,11 @@
       "Bash(docker network inspect:*)",
       "Bash(nc:*)",
       "Bash(ping:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(dotnet new:*)",
+      "Bash(dotnet sln add:*)",
+      "Bash(dotnet build)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }

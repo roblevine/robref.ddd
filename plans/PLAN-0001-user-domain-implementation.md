@@ -96,22 +96,22 @@ src/
    - [x] Domain-focused methods (FindByEmail, Save, etc.)
    - [x] No infrastructure concerns in domain
 
-### Phase 3: Application Layer (Use Cases)
+### Phase 3: Application Layer (Use Cases) ✅
 6. **Application Project Setup**
-   - [ ] Add Application class library project
-   - [ ] Reference Domain project only
-   - [ ] Setup application test project
+   - [x] Add Application class library project
+   - [x] Reference Domain project only
+   - [x] Setup application test project
 
 7. **CQRS Foundation**
-   - [ ] Command/Query interfaces
-   - [ ] Base command handler pattern
-   - [ ] Application service base classes
+   - [x] Command/Query interfaces
+   - [x] Base command handler pattern
+   - [x] Application service base classes
 
 8. **User Registration Use Case**
-   - [ ] RegisterUser command
-   - [ ] RegisterUserHandler with validation
-   - [ ] Application service coordination
-   - [ ] Application layer tests
+   - [x] RegisterUser command
+   - [x] RegisterUserHandler with validation
+   - [x] Application service coordination
+   - [x] Application layer tests
 
 ### Phase 4: Infrastructure Layer (External Concerns)
 9. **Infrastructure Project Setup**
@@ -130,22 +130,30 @@ src/
     - [ ] Lifetime management
     - [ ] Configuration abstractions
 
-### Phase 5: Presentation Layer (Separate Deliverable)
-*Note: This phase can be implemented separately as a different project/solution*
+### Phase 5: Real Persistence (Complete Domain Service)
+12. **EF Core Implementation**
+    - [ ] Entity Framework Core setup
+    - [ ] User entity configuration and mapping
+    - [ ] Value object conversions (Email, Names, etc.)
+    - [ ] EfUserRepository implementation
+    - [ ] Database migrations
+    - [ ] Integration tests with real database
 
-12. **Console Application (Simple First)**
-    - [ ] Console app for testing the domain/application layers
-    - [ ] Manual registration workflow
-    - [ ] Dependency injection container setup
-    - [ ] End-to-end testing via console
+13. **Database Integration**
+    - [ ] Connection string configuration
+    - [ ] Database initialization and seeding
+    - [ ] Transaction handling
+    - [ ] Performance optimization
+    - [ ] Database integration tests
 
-### Future Phase: Web API (Separate Plan)
-*To be documented in PLAN-0002: Web API Implementation*
-- REST API endpoints
-- DTO mapping and validation
-- HTTP error handling
-- API integration testing
-- OpenAPI documentation
+### Phase 6: Presentation Layer (Complete User Service)
+14. **Web API Implementation**
+    - [ ] WebAPI project setup
+    - [ ] UsersController with POST /api/users/register
+    - [ ] DTO mapping and validation
+    - [ ] HTTP error handling and responses
+    - [ ] API integration tests
+    - [ ] OpenAPI documentation
 
 ## Technical Decisions
 
@@ -205,10 +213,11 @@ src/
 
 ## Next Steps After Completion
 
-1. **PLAN-0002**: Authentication & JWT implementation
-2. **PLAN-0003**: Product domain modeling  
-3. **PLAN-0004**: Shopping cart functionality
-4. **PLAN-0005**: Database persistence with EF Core
+This plan delivers a complete User domain service with real persistence and Web API. Future bounded contexts:
+
+1. **PLAN-0002**: Product Domain Implementation (separate bounded context)
+2. **PLAN-0003**: Shopping Cart Domain Implementation (separate bounded context) 
+3. **PLAN-0004**: Authentication Service Implementation (separate bounded context)
 
 ## Notes
 
