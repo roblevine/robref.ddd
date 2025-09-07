@@ -17,6 +17,7 @@ We follow a **Test-First Analyse → Plan → Execute → Review** methodology:
 
 ### Code Quality Standards
 - **Test-First Development**: Write tests before implementing functionality (non-negotiable)
+- **Warnings as Errors**: All projects must have `<TreatWarningsAsErrors>true</TreatWarningsAsErrors>` enabled
 - **SOLID Principles**: Clear responsibilities, dependency inversion, clean interfaces
 - **Meaningful Names**: Self-documenting code with clear variable and function names
 - **Documentation Currency**: Update docs with any architectural or API changes
