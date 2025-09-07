@@ -32,4 +32,9 @@ npm install -g @anthropic-ai/claude-code
 #echo "install Cursor CLI"
 #curl https://cursor.com/install -fsS | bash
 
+echo "to check that docker DooD is configured correctly, run
+
+. .devcontainer/docker-test.sh
+"
+
 echo "installation script complete"

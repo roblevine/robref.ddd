@@ -42,6 +42,42 @@ This is based on a simple online shopping domain, involving users, products, and
    dotnet test
    ```
 
+## Development Container Setup
+
+This project includes a VS Code development container with Docker-outside-of-Docker (DooD) support for seamless container development.
+
+### Dev Container Features
+- ✅ **.NET 8 SDK** - Pre-installed and configured
+- ✅ **Node.js LTS** - For any frontend tooling
+- ✅ **Docker-outside-of-Docker** - Access host Docker daemon from container
+- ✅ **SQL Server Extension** - Database management and querying
+- ✅ **SSH Key Support** - Automated SSH key setup for secure access
+
+### Using Docker from Dev Container
+
+The dev container is configured to use Docker-outside-of-Docker, allowing you to:
+- Build and run Docker images using the host Docker daemon
+- Use `docker-compose` commands directly
+- Access the same Docker network as your host machine
+
+**Test Docker functionality:**
+```bash
+# Verify Docker is working correctly
+. .devcontainer/docker-test.sh
+```
+
+**Start SQL Server database:**
+```bash
+# From within the dev container
+docker-compose up -d sqlserver
+```
+
+### SSH Access Setup
+
+To enable SSH access to the dev container:
+1. Copy your public SSH key to `.devcontainer/.ssh-public-key`
+2. The setup script will automatically configure SSH access during container creation
+
 ### Current Implementation Status
 - ✅ **Domain Layer**: User aggregate with value objects (Email, Names, etc.)
 - ✅ **Application Layer**: CQRS command/query handlers

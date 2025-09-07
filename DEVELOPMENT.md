@@ -22,6 +22,27 @@ We follow a **Test-First Analyse → Plan → Execute → Review** methodology:
 - **Meaningful Names**: Self-documenting code with clear variable and function names
 - **Documentation Currency**: Update docs with any architectural or API changes
 
+## Development Environment
+
+### Dev Container Setup
+The project uses VS Code Dev Containers with Docker-outside-of-Docker (DooD) for consistent development environments:
+
+- **Base Image**: `mcr.microsoft.com/devcontainers/dotnet:8.0`
+- **Docker Access**: Full Docker and Docker Compose functionality via host daemon
+- **Auto-setup**: SSH keys, tools, and extensions configured automatically
+- **Database**: SQL Server accessible via Docker Compose
+
+### Docker Integration
+- **Docker-outside-of-Docker**: Access host Docker daemon from within dev container
+- **Database Services**: Run SQL Server via `docker-compose up -d sqlserver`
+- **Container Testing**: Use `.devcontainer/docker-test.sh` to verify Docker functionality
+- **Network Access**: Seamless connectivity between dev container and Docker services
+
+### Tools and Extensions
+- **C# DevKit**: Full .NET development support
+- **SQL Server Extension**: Database management and query execution
+- **Container Tools**: Docker and container management within VS Code
+
 ## Development Patterns
 
 ### EF Core Development Practices
