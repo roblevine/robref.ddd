@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using RobRef.DDD.Domain.Users;
 
 #nullable disable
 
@@ -14,11 +15,11 @@ namespace RobRef.DDD.Infrastructure.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    Id = table.Column<string>(type: $"nvarchar({UserId.Length})", maxLength: UserId.Length, nullable: false),
+                    Email = table.Column<string>(type: $"nvarchar({Email.MaxLength})", maxLength: Email.MaxLength, nullable: false),
+                    Title = table.Column<string>(type: $"nvarchar({Title.MaxLength})", maxLength: Title.MaxLength, nullable: true),
+                    FirstName = table.Column<string>(type: $"nvarchar({FirstName.MaxLength})", maxLength: FirstName.MaxLength, nullable: false),
+                    LastName = table.Column<string>(type: $"nvarchar({LastName.MaxLength})", maxLength: LastName.MaxLength, nullable: false)
                 },
                 constraints: table =>
                 {

@@ -17,7 +17,8 @@
       "Bash(dotnet sln add:*)",
       "Bash(dotnet build)",
       "Bash(git commit:*)",
-      "Bash(dotnet ef migrations add:*)"
+      "Bash(dotnet ef migrations add:*)",
+      "WebSearch"
     ],
     "deny": []
   }
