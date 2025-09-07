@@ -6,6 +6,17 @@
 # dotenv files
 .env
 
+# SSH keys and certificates
+*.key
+*.pem
+*.pub
+id_rsa*
+id_ed25519*
+id_ecdsa*
+.ssh/
+*ssh-key*
+*ssh_key*
+
 # User-specific files
 *.rsuser
 *.suo
