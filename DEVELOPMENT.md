@@ -26,12 +26,14 @@ We follow a **Test-First Analyse → Plan → Execute → Review** methodology:
 
 ### EF Core Development Practices
 - **Value Object Constants**: Always define length/max length constants in value objects for EF configuration
+- **Value Object Comparability**: Implement `IComparable<T>` on all value objects for LINQ sorting support
 - **Entity Configuration**: Use separate `IEntityTypeConfiguration<T>` classes for each aggregate root
 - **Repository Testing**: Use EF Core InMemory provider for isolated integration tests
 - **Change Tracking**: Clear EF change tracker when testing object identity vs value equality
 - **Migration Naming**: Use descriptive migration names reflecting the schema changes
 - **Constraint Enforcement**: Manual validation in repositories when InMemory provider doesn't enforce constraints
 - **DI Separation**: Provide separate DI methods for different persistence strategies (in-memory, SQL Server)
+- **Domain Abstraction**: Repository methods work with domain objects, never leak EF Core concerns
 
 ### Database Development Workflow
 1. **Add/Modify Value Objects**: Include length constants for database constraints

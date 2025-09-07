@@ -67,6 +67,7 @@ The application follows **Onion Architecture** with clear dependency rules: inne
 - **Immutability**: All value objects immutable - changes create new instances
 - **Validation**: Constructor validation with domain-specific rules
 - **Equality**: Structural equality based on all properties (automatic with records)
+- **Comparability**: All value objects implement `IComparable<T>` delegating to underlying values for EF Core sorting support
 - **Identity**: UserId uses ULID for sortable, time-based unique identifiers (Cysharp library)
 - **Length Constants**: All value objects define MaxLength/Length constants for database constraints
 
@@ -80,6 +81,7 @@ The application follows **Onion Architecture** with clear dependency rules: inne
 - **DbContext**: Single context per bounded context (e.g., `ApplicationDbContext`)
 - **Entity Configuration**: Separate configuration classes implementing `IEntityTypeConfiguration<T>`
 - **Value Object Conversion**: Explicit converters for all value objects using domain constants
+- **Value Object Sorting**: All value objects implement `IComparable<T>` to support LINQ OrderBy operations
 - **Repository Implementation**: EF Core repositories implementing domain interfaces
 - **Dependency Injection**: Separate DI methods for different environments (in-memory vs SQL Server)
 - **Database Constraints**: Unique indexes and proper column constraints defined in entity configuration

@@ -135,6 +135,7 @@ src/
     - [x] Entity Framework Core setup
     - [x] User entity configuration and mapping
     - [x] Value object conversions (Email, Names, etc.)
+    - [x] Value objects implement IComparable<T> for EF Core sorting support
     - [x] EfUserRepository implementation
     - [x] Database migrations
     - [x] Integration tests with real database
@@ -145,6 +146,7 @@ src/
     - [x] Transaction handling
     - [x] Performance optimization
     - [x] Database integration tests
+    - [x] Fixed EF Core LINQ translation issues while maintaining domain abstraction
 
 ### Phase 6: Presentation Layer (Complete User Service)
 14. **Web API Implementation**

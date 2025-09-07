@@ -76,4 +76,34 @@ Log of session notes capturing decisions, rationale, and heuristics to maintain 
 - Clear EF Core change tracker when testing object identity vs value equality
 
 ### Bootstrap Snippet
-Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, Application, Infrastructure with EF Core persistence). Full User domain with SQL Server persistence, migrations, and comprehensive test coverage (137 total tests passing). Ready for Phase 6 Web API implementation.
+Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, Application, Infrastructure with EF Core persistence). Full User domain with SQL Server persistence, migrations, and comprehensive test coverage (169 total tests passing). Ready for Phase 6 Web API implementation.
+
+## 2025-09-07 - Value Object IComparable Implementation
+
+### Decisions
+- Fixed EF Core test failures by implementing `IComparable<T>` on all value objects (Email, FirstName, LastName)
+- All value objects now delegate comparison to underlying string values using `StringComparison.OrdinalIgnoreCase`
+- Repository methods work with domain objects directly, maintaining proper abstraction
+- Avoided EF.Property<string>() approach that would leak infrastructure concerns into domain layer
+
+### Rationale
+- EF Core requires value objects to be comparable for LINQ OrderBy operations to work with both SQL Server and InMemory providers
+- `IComparable<T>` implementation maintains domain integrity while supporting infrastructure needs
+- Case-insensitive string comparison appropriate for names and email addresses in business context
+- Proper abstraction preserved - repository interface works with domain objects, not implementation details
+
+### Rejected Alternatives
+- Using `EF.Property<string>()` in repository - breaks abstraction, couples domain to EF Core
+- Different sorting strategy - OrderBy is common requirement for user listings
+- Base class approach - concrete implementation simpler and more explicit
+
+### Test Results
+- All 169 tests passing: 99 Domain + 14 Application + 56 Infrastructure
+- Both SQL Server and InMemory EF Core providers working correctly
+- Repository abstraction maintained across different persistence strategies
+
+### Heuristics
+- When EF Core fails to translate LINQ expressions, check if value objects implement required interfaces
+- Always maintain domain abstraction in repository implementations
+- Test failures can reveal missing infrastructure compatibility without breaking domain design
+- Discuss architectural decisions before implementing to avoid wrong abstractions

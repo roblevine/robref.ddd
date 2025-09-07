@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace RobRef.DDD.Domain.Users;
 
-public record Email
+public record Email : IComparable<Email>
 {
     private static readonly Regex EmailRegex = new(
         @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
@@ -27,6 +27,12 @@ public record Email
     public const int MaxLength = 254; // RFC 5321 maximum length for an email address
     
     public override string ToString() => Value;
+
+    public int CompareTo(Email? other)
+    {
+        if (other is null) return 1;
+        return string.Compare(Value, other.Value, StringComparison.OrdinalIgnoreCase);
+    }
 
     public static implicit operator string(Email email) => email.Value;
     public static implicit operator Email(string value) => new(value);

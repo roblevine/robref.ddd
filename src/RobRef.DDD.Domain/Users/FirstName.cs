@@ -1,6 +1,6 @@
 namespace RobRef.DDD.Domain.Users;
 
-public record FirstName
+public record FirstName : IComparable<FirstName>
 {
     public string Value { get; }
 
@@ -20,6 +20,12 @@ public record FirstName
     }
 
     public override string ToString() => Value;
+
+    public int CompareTo(FirstName? other)
+    {
+        if (other is null) return 1;
+        return string.Compare(Value, other.Value, StringComparison.OrdinalIgnoreCase);
+    }
 
     public static implicit operator string(FirstName firstName) => firstName.Value;
     public static implicit operator FirstName(string value) => new(value);

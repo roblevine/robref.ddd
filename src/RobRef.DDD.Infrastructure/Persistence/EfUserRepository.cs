@@ -90,8 +90,8 @@ public class EfUserRepository : IUserRepository
     public async Task<IReadOnlyList<User>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var users = await _context.Users
-            .OrderBy(u => u.LastName.Value)
-            .ThenBy(u => u.FirstName.Value)
+            .OrderBy(u => u.LastName)
+            .ThenBy(u => u.FirstName)
             .ToListAsync(cancellationToken);
 
         return users.AsReadOnly();
@@ -101,7 +101,7 @@ public class EfUserRepository : IUserRepository
     {
         var users = await _context.Users
             .Where(u => u.FirstName == firstName && u.LastName == lastName)
-            .OrderBy(u => u.Email.Value)
+            .OrderBy(u => u.Email)
             .ToListAsync(cancellationToken);
 
         return users.AsReadOnly();
