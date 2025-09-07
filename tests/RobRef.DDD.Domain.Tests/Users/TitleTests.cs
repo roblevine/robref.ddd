@@ -42,7 +42,7 @@ public class TitleTests
     }
 
     [Theory]
-    [InlineData("A")]
+    [InlineData("")]
     [InlineData("This title is way too long to be reasonable")]
     public void Constructor_TooShortOrTooLong_ThrowsArgumentException(string invalidTitle)
     {

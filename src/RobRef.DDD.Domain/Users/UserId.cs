@@ -19,10 +19,12 @@ public readonly record struct UserId(Ulid Value)
             userId = default;
             return false;
         }
-
+        
         userId = new UserId(ulid);
         return true;
     }
+
+    public const int Length = 26; // ULID string length
 
     public override string ToString() => Value.ToString();
 

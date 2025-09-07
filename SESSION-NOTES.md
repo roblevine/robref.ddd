@@ -41,5 +41,39 @@ Log of session notes capturing decisions, rationale, and heuristics to maintain 
 - Verify build success after each phase
 - Maintain session notes after each significant milestone
 
+## 2025-09-07 - Phase 5 EF Core Implementation Complete
+
+### Decisions
+- Implemented EF Core SQL Server persistence layer with ApplicationDbContext and UserEntityConfiguration
+- Created value object converters for Email, FirstName, LastName, Title (nullable), UserId (ULID -> string(26))
+- EfUserRepository implementation with proper entity tracking and change management
+- Added both in-memory (AddInfrastructure) and EF Core (AddInfrastructureWithEfCore) DI configurations
+- Created initial database migration with proper schema (Users table, unique email index)
+- Comprehensive EF Core integration tests (38 passing) using InMemory provider for test isolation
+- Fixed entity ordering by using .Value properties instead of value objects for LINQ queries
+- Implemented proper duplicate email validation in repository layer
+
+### Rationale
+- EF Core SQL Server chosen as requested for production persistence  
+- Value object conversions ensure proper domain model encapsulation while supporting database mapping
+- Separate DI methods allow flexibility for testing (in-memory) vs production (SQL Server)
+- InMemory provider for tests provides fast, isolated testing without database dependencies
+- Manual email uniqueness validation needed as InMemory provider doesn't enforce unique constraints
+
+### Rejected Alternatives
+- Using EF Core's built-in unique constraint validation - not reliable with InMemory provider
+- Sorting by value objects directly - caused IComparable exceptions in LINQ queries
+- Single DI configuration method - flexibility needed for different environments
+
+### Pending Intents
+- Phase 6: Web API implementation (POST /api/users/register endpoint)
+- Remove temporary Program.cs from Infrastructure when Web API project is created
+- Consider adding database seeding and health checks for production deployment
+
+### Heuristics
+- Always test EF Core repositories with both in-memory and real database scenarios
+- Use separate DbContext instances per test to avoid entity tracking conflicts
+- Clear EF Core change tracker when testing object identity vs value equality
+
 ### Bootstrap Snippet
-Working on PLAN-0001 User Domain Implementation. Completed Phase 1-2 (Domain layer complete). Skipped base classes for concrete-first approach. Domain model: Email, UserId, FirstName, LastName, Title, User (factory pattern), IUserRepository interface. 99 meaningful domain behavior tests passing. Next: Phase 3 Application layer setup.
+Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, Application, Infrastructure with EF Core persistence). Full User domain with SQL Server persistence, migrations, and comprehensive test coverage (137 total tests passing). Ready for Phase 6 Web API implementation.

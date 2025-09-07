@@ -12,11 +12,11 @@ public record Title
                 throw new ArgumentException("Title cannot be empty or whitespace. Use null for no title.", nameof(value));
 
             var trimmed = value.Trim();
-            if (trimmed.Length < 2)
-                throw new ArgumentException("Title must be at least 2 characters long.", nameof(value));
+            if (trimmed.Length < MinLength)
+                throw new ArgumentException($"Title must be at least {MinLength} characters long.", nameof(value));
 
-            if (trimmed.Length > 20)
-                throw new ArgumentException("Title cannot exceed 20 characters.", nameof(value));
+            if (trimmed.Length > MaxLength)
+                throw new ArgumentException($"Title cannot exceed {MaxLength} characters.", nameof(value));
 
             Value = trimmed;
         }
@@ -30,4 +30,7 @@ public record Title
 
     public static implicit operator string?(Title title) => title.Value;
     public static implicit operator Title(string? value) => new(value);
+
+    public const int MinLength = 1;
+    public const int MaxLength = 20;
 }

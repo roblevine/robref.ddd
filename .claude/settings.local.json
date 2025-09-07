@@ -16,7 +16,8 @@
       "Bash(dotnet new:*)",
       "Bash(dotnet sln add:*)",
       "Bash(dotnet build)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(dotnet ef migrations add:*)"
     ],
     "deny": []
   }

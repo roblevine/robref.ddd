@@ -15,12 +15,17 @@ public record Email
         if (string.IsNullOrWhiteSpace(value))
             throw new ArgumentException("Email cannot be null or empty.", nameof(value));
 
+        if (value.Length > MaxLength)
+            throw new ArgumentException($"Email cannot exceed {MaxLength} characters.", nameof(value));
+
         if (!EmailRegex.IsMatch(value))
             throw new ArgumentException($"Invalid email format: {value}", nameof(value));
 
         Value = value;
     }
 
+    public const int MaxLength = 254; // RFC 5321 maximum length for an email address
+    
     public override string ToString() => Value;
 
     public static implicit operator string(Email email) => email.Value;

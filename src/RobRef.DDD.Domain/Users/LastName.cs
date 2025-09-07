@@ -10,11 +10,11 @@ public record LastName
             throw new ArgumentException("Last name cannot be null or empty.", nameof(value));
 
         var trimmed = value.Trim();
-        if (trimmed.Length < 1)
-            throw new ArgumentException("Last name must be at least 1 character long.", nameof(value));
+        if (trimmed.Length < MinLength)
+            throw new ArgumentException($"Last name must be at least {MinLength} character long.", nameof(value));
 
-        if (trimmed.Length > 50)
-            throw new ArgumentException("Last name cannot exceed 50 characters.", nameof(value));
+        if (trimmed.Length > MaxLength)
+            throw new ArgumentException($"Last name cannot exceed {MaxLength} characters.", nameof(value));
 
         Value = trimmed;
     }
@@ -23,4 +23,7 @@ public record LastName
 
     public static implicit operator string(LastName lastName) => lastName.Value;
     public static implicit operator LastName(string value) => new(value);
+
+    public const int MinLength = 1;
+    public const int MaxLength = 50;
 }
