@@ -38,9 +38,9 @@ The application follows **Onion Architecture** with clear dependency rules: inne
 
 #### 3. **Infrastructure Layer**
 - **Purpose**: External concerns (database, files, APIs, frameworks)
-- **Contains**: Repository implementations, Data contexts, External service clients
+- **Contains**: Repository implementations, Data contexts, External service clients, EF Core configurations
 - **Dependencies**: Application + Domain layers
-- **Example**: `InMemoryUserRepository`, `EfUserRepository`
+- **Example**: `InMemoryUserRepository`, `EfUserRepository`, `ApplicationDbContext`, `UserEntityConfiguration`
 
 #### 4. **Presentation Layer** 
 - **Purpose**: User interface, API endpoints, serialization
@@ -68,6 +68,7 @@ The application follows **Onion Architecture** with clear dependency rules: inne
 - **Validation**: Constructor validation with domain-specific rules
 - **Equality**: Structural equality based on all properties (automatic with records)
 - **Identity**: UserId uses ULID for sortable, time-based unique identifiers (Cysharp library)
+- **Length Constants**: All value objects define MaxLength/Length constants for database constraints
 
 ### Dependency Rules
 1. **Domain** depends on nothing
@@ -75,10 +76,19 @@ The application follows **Onion Architecture** with clear dependency rules: inne
 3. **Infrastructure** depends on Application + Domain
 4. **Presentation** depends on Application + Domain (not Infrastructure)
 
+### EF Core Persistence Patterns
+- **DbContext**: Single context per bounded context (e.g., `ApplicationDbContext`)
+- **Entity Configuration**: Separate configuration classes implementing `IEntityTypeConfiguration<T>`
+- **Value Object Conversion**: Explicit converters for all value objects using domain constants
+- **Repository Implementation**: EF Core repositories implementing domain interfaces
+- **Dependency Injection**: Separate DI methods for different environments (in-memory vs SQL Server)
+- **Database Constraints**: Unique indexes and proper column constraints defined in entity configuration
+- **Migration Management**: Code-first migrations with descriptive names and proper rollback support
+
 ### Testing Strategy
 - **Domain Layer**: Unit tests for business logic, value object behavior, aggregate invariants
 - **Application Layer**: Unit tests for use case handlers, integration tests for complete flows
-- **Infrastructure Layer**: Integration tests for database operations, external service calls
+- **Infrastructure Layer**: Integration tests for database operations using InMemory provider for isolation
 - **Presentation Layer**: API integration tests, end-to-end scenarios
 
 ## Libraries and frameworks

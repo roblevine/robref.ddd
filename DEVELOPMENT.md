@@ -21,3 +21,22 @@ We follow a **Test-First Analyse → Plan → Execute → Review** methodology:
 - **SOLID Principles**: Clear responsibilities, dependency inversion, clean interfaces
 - **Meaningful Names**: Self-documenting code with clear variable and function names
 - **Documentation Currency**: Update docs with any architectural or API changes
+
+## Development Patterns
+
+### EF Core Development Practices
+- **Value Object Constants**: Always define length/max length constants in value objects for EF configuration
+- **Entity Configuration**: Use separate `IEntityTypeConfiguration<T>` classes for each aggregate root
+- **Repository Testing**: Use EF Core InMemory provider for isolated integration tests
+- **Change Tracking**: Clear EF change tracker when testing object identity vs value equality
+- **Migration Naming**: Use descriptive migration names reflecting the schema changes
+- **Constraint Enforcement**: Manual validation in repositories when InMemory provider doesn't enforce constraints
+- **DI Separation**: Provide separate DI methods for different persistence strategies (in-memory, SQL Server)
+
+### Database Development Workflow
+1. **Add/Modify Value Objects**: Include length constants for database constraints
+2. **Update Entity Configuration**: Apply constraints using value object constants
+3. **Write Repository Tests**: Create comprehensive integration tests with InMemory provider
+4. **Generate Migration**: Use `dotnet ef migrations add` with descriptive names
+5. **Verify Migration**: Review generated SQL for correct schema and constraints
+6. **Test Migration**: Ensure tests pass with both InMemory and real database scenarios
