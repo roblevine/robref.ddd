@@ -16,6 +16,8 @@ id_ecdsa*
 .ssh/
 *ssh-key*
 *ssh_key*
+.ssh-public-key
+.ssh-private-key
 
 # User-specific files
 *.rsuser
