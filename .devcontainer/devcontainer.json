@@ -31,7 +31,7 @@
 	// }
 
 	"postCreateCommand": "sh .devcontainer/installation.sh",
-	"runArgs": ["--name", "dc_robref.ddd.claude"],
+	"runArgs": ["--name", "dc_robref.ddd"],
 	"remoteUser": "vscode",
 	"customizations": {
 		"vscode": {
@@ -39,7 +39,8 @@
 				"ms-dotnettools.csdevkit",
 				"ms-vscode-remote.remote-containers",
 				"ms-azuretools.vscode-containers",
-				"ms-mssql.mssql"
+				"ms-mssql.mssql",
+				"Anthropic.claude-code"
 			]
 		}
 	}

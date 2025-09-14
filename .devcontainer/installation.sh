@@ -28,9 +28,15 @@ fi
 
 echo "install Claude Code"
 npm install -g @anthropic-ai/claude-code
+echo "Claude Code CLI installed. To start using Claude Code CLI:
+   claude"
 
-#echo "install Cursor CLI"
-#curl https://cursor.com/install -fsS | bash
+echo "install Cursor CLI"
+curl https://cursor.com/install -fsS | bash
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+. ~/.bashrc
+echo "Cursor CLI installed. To start using Cursor Agent:
+   cursor-agent"
 
 echo "to check that docker DooD is configured correctly, run
 
