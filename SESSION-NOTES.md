@@ -76,7 +76,44 @@ Log of session notes capturing decisions, rationale, and heuristics to maintain 
 - Clear EF Core change tracker when testing object identity vs value equality
 
 ### Bootstrap Snippet
-Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, Application, Infrastructure with EF Core persistence). Full User domain with SQL Server persistence, migrations, and comprehensive test coverage (169 total tests passing). Ready for Phase 6 Web API implementation.
+Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, Application, Infrastructure with EF Core persistence). Full User domain with SQL Server persistence, migrations, and comprehensive test coverage (169 total tests passing). Phase 6 Web API approach decisions finalized - ready for implementation.
+
+## 2025-09-15 - Phase 6 Web API Approach Decisions
+
+### Decisions
+- Web API project structure: RobRef.DDD.WebApi references Application layer only (proper dependency flow)
+- Controller design: UsersController with RegisterUserRequest DTO, leverages existing RegisterUserHandler
+- Error handling: Problem Details RFC 7807 for structured error responses with proper HTTP status mapping
+- DI configuration: EF Core as default, in-memory as test option, both available via separate methods
+- Testing strategy: WebApplicationFactory integration tests with both mock and real database scenarios
+- API documentation: Swagger/OpenAPI with validation rules, request/response examples, and error documentation
+- Future slice: Real database integration tests with SQL Server (separate implementation after Web API complete)
+
+### Rationale
+- WebApi → Application → Domain ← Infrastructure maintains proper onion architecture dependency flow
+- RegisterUserRequest DTO prevents domain object exposure at API boundary while reusing application logic
+- Problem Details standard provides consistent, structured error responses for API consumers
+- Dual DI configuration enables flexible testing strategies without compromising production setup
+- WebApplicationFactory provides full integration testing including middleware, routing, and serialization
+- Swagger documentation essential for API discoverability and developer experience
+
+### Rejected Alternatives
+- Direct domain object exposure in API - breaks encapsulation and coupling rules
+- Custom error response format - Problem Details is industry standard
+- Single DI configuration - flexibility needed for different test scenarios
+- Unit tests only for API - integration tests catch serialization, routing, middleware issues
+
+### Pending Intents
+- Implement RobRef.DDD.WebApi project with ASP.NET Core minimal API approach
+- Create comprehensive integration test suite covering success, validation errors, and domain errors
+- Document all API endpoints, request/response schemas, and error conditions
+- Plan next slice: real database integration tests after Web API completion
+
+### Heuristics
+- Always maintain proper dependency flow in onion architecture
+- Use standard protocols (Problem Details) over custom implementations
+- Integration tests for API layer catch issues unit tests miss
+- Document API decisions in PLAN before implementation for resumability
 
 ## 2025-09-07 - Value Object IComparable Implementation
 

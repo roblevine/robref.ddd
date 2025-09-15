@@ -150,12 +150,14 @@ src/
 
 ### Phase 6: Presentation Layer (Complete User Service)
 14. **Web API Implementation**
-    - [ ] WebAPI project setup
-    - [ ] UsersController with POST /api/users/register
-    - [ ] DTO mapping and validation
-    - [ ] HTTP error handling and responses
-    - [ ] API integration tests
-    - [ ] OpenAPI documentation
+    - [ ] WebAPI project setup (RobRef.DDD.WebApi, references Application layer only)
+    - [ ] RegisterUserRequest DTO with validation attributes
+    - [ ] UsersController with POST /api/users/register endpoint
+    - [ ] Problem Details RFC 7807 error handling for structured responses
+    - [ ] DI configuration with EF Core default, in-memory test option
+    - [ ] Swagger/OpenAPI documentation with validation rules and examples
+    - [ ] WebApplicationFactory integration tests (both mock and real scenarios)
+    - [ ] **Future slice**: Real database integration tests with SQL Server
 
 ## Technical Decisions
 
@@ -173,9 +175,16 @@ src/
 
 ### Infrastructure Choices
 - **Repository**: Abstract data access behind domain interfaces
-- **Persistence**: In-memory for initial implementation
+- **Persistence**: EF Core SQL Server for production, in-memory for testing
 - **DI Container**: Built-in .NET DI container
-- **API**: ASP.NET Core Web API with minimal configuration
+- **API**: ASP.NET Core Web API with Problem Details error handling
+
+### Web API Design
+- **Architecture**: WebApi → Application → Domain ← Infrastructure (proper dependency flow)
+- **DTOs**: RegisterUserRequest with validation attributes, no domain object exposure
+- **Error Handling**: Problem Details RFC 7807 for structured error responses
+- **Documentation**: Swagger/OpenAPI with request/response examples and validation rules
+- **Testing**: WebApplicationFactory integration tests with both mock and real database scenarios
 
 ## Success Criteria
 
