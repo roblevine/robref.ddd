@@ -144,3 +144,32 @@ Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, A
 - Always maintain domain abstraction in repository implementations
 - Test failures can reveal missing infrastructure compatibility without breaking domain design
 - Discuss architectural decisions before implementing to avoid wrong abstractions
+## 2025-09-16 - Phase 6 Web API Implementation Plan
+
+### Decisions
+- Minimal API `Program` will host RobRef.DDD.WebApi with EF Core default + in-memory test switch
+- `POST /api/users/register` returns 201 with Location + ULID body; DTO enforces domain constraints
+- Standardize on RFC 7807 responses for validation (400), duplicates (409), unexpected errors (500)
+- Expose lightweight `/health` endpoint for liveness
+- Enable Swagger via Swashbuckle in Development only and capture snapshot test for contract guard
+
+### Rationale
+- Keeps onion layering intact while giving tests a seam to swap infrastructure
+- Problem Details provides predictable API for consumers and maps domain exceptions cleanly
+- `/health` naming matches team convention and supports future probes
+- Swagger + snapshot helps document the contract and detect accidental changes
+
+### Rejected Alternatives
+- Retaining temporary Infrastructure `Program` once WebApi hosts migrations
+- Controller-based API startup; minimal API aligns with agreed approach
+- Kubernetes-style `/healthz` naming as team prefers simpler `/health`
+
+### Pending Intents
+- Implement WebApi project, endpoint, error handling, Swagger, and integration tests per plan
+- Remove Infrastructure design-time host once WebApi migrations path confirmed
+- Document new API usage and update plan/test artifacts after implementation
+
+### Heuristics
+- Prefer exception-to-Problem mapper over per-endpoint try/catch blocks
+- Guard API behaviors with integration tests before wiring infrastructure specifics
+- Keep DTO validation in sync with domain constants to avoid double standards
