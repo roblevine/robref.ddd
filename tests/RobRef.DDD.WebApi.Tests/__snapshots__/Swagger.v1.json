@@ -1,0 +1,97 @@
+{
+  "info": {
+    "title": "RobRef.DDD User API",
+    "version": "v1",
+    "description": "API endpoints for user registration."
+  },
+  "paths": {
+    "/api/users/register": {
+      "post": {
+        "summary": "Register a new user",
+        "description": "Creates a new user using the domain-driven registration flow.",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "201": {
+            "description": "User registered successfully.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "01HXZ7J6FNT3E8PJ4A8J7Z5WKR"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed.",
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "type": "https://robref.ddd/problems/validation-error",
+                  "title": "Validation Failed",
+                  "status": 400
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User already exists.",
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "type": "https://robref.ddd/problems/user-already-exists",
+                  "title": "User Already Exists",
+                  "status": 409
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegisterUserRequest": {
+        "required": [
+          "email",
+          "firstName",
+          "lastName"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "format": "email"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 20
+          },
+          "firstName": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1
+          },
+          "lastName": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1
+          }
+        }
+      },
+      "RegisterUserResponse": {
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

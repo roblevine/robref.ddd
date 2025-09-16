@@ -20,7 +20,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
 </Project>

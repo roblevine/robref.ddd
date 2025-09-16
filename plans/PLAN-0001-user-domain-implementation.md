@@ -150,22 +150,22 @@ src/
 
 ### Phase 6: Presentation Layer (Complete User Service)
 14. **Web API Implementation**
-    - [ ] WebApi project setup (RobRef.DDD.WebApi, net8.0, references Application only)
-    - [ ] Minimal `Program.cs` hosting, DI using `AddInfrastructureWithEfCore` + in-memory test switch
-    - [ ] RegisterUserRequest DTO mirroring domain constraints via data annotations
-    - [ ] `POST /api/users/register` endpoint returning 201 + Location + ULID payload
-    - [ ] RFC 7807 Problem Details mapping (400 validation, 409 duplicate, 500 fallback)
-    - [ ] Health endpoint mapped at `/health`
-    - [ ] Swagger/OpenAPI via Swashbuckle (dev only) documenting success/error examples
-    - [ ] WebApplicationFactory-based integration tests covering success, validation, duplicate cases
-    - [ ] Snapshot test for generated Swagger document (stability guard)
+    - [x] WebApi project setup (RobRef.DDD.WebApi, net8.0, references Application & Infrastructure)
+    - [x] Minimal `Program.cs` hosting, DI using `AddInfrastructureWithEfCore` + in-memory test switch
+    - [x] RegisterUserRequest DTO mirroring domain constraints via data annotations
+    - [x] `POST /api/users/register` endpoint returning 201 + Location + ULID payload
+    - [x] RFC 7807 Problem Details mapping (400 validation, 409 duplicate, 500 fallback)
+    - [x] Health endpoint mapped at `/health`
+    - [x] Swagger/OpenAPI via Swashbuckle (dev only) documenting success/error examples
+    - [x] WebApplicationFactory-based integration tests covering success, validation, duplicate cases
+    - [x] Snapshot test for generated Swagger document (stability guard)
     - [ ] **Future slice**: Real database integration tests with SQL Server
 
-#### Slice 6.1 – Web API foundation (in progress)
-- [ ] Scaffolding: create WebApi project file, minimal `Program`, and WebApi test project with `CustomWebApplicationFactory`
-- [ ] Tests first: author failing integration tests for register success/validation/duplicate, `/health`, and Swagger snapshot
-- [ ] Implement surface: flesh out `Program`, `RegisterUserRequest` DTO, minimal endpoints, ProblemDetails mapping, remove temp Infrastructure `Program`
-- [ ] Developer experience: enable dev-only Swagger with examples, update docs/notes once tests pass
+#### Slice 6.1 – Web API foundation (complete)
+- [x] Scaffolding: create WebApi project file, minimal `Program`, and WebApi test project with `CustomWebApplicationFactory`
+- [x] Tests first: author failing integration tests for register success/validation/duplicate, `/health`, and Swagger snapshot
+- [x] Implement surface: flesh out `Program`, `RegisterUserRequest` DTO, minimal endpoints, ProblemDetails mapping, remove temp Infrastructure `Program`
+- [x] Developer experience: enable dev-only Swagger with examples, update docs/notes once tests pass
 
 ## Technical Decisions
 

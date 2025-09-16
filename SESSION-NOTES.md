@@ -193,3 +193,25 @@ Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, A
 ### Heuristics
 - Maintain parity between DTO data annotations and domain value object constraints
 - Keep exception-to-Problem mapping centralized for reuse across future endpoints
+
+## 2025-09-17 - Phase 6.1 Web API Implementation
+
+### Decisions
+- Created RobRef.DDD.WebApi project (net8.0, references Application + Domain + Infrastructure) with Swashbuckle for dev-only docs
+- Minimal Program wires ProblemDetails, health endpoint, register endpoint, infrastructure switch (SQL vs in-memory)
+- Added Request/Response DTOs with data annotations mirroring domain constants and manual validation for consistent RFC7807 output
+- Integration test suite via CustomWebApplicationFactory forcing in-memory repository; Swagger snapshot guard in place (content pending real run)
+- Replaced Infrastructure temporary Program with design-time ApplicationDbContextFactory for EF migrations
+
+### Rationale
+- Presentation layer now hosts domain use case end-to-end while preserving onion dependency flow at runtime
+- Centralized ProblemDetails mapping keeps validation/duplicate handling consistent across future endpoints
+- Design-time factory maintains tooling support without extra hosting projects
+
+### Pending Intents
+- Capture real Swagger snapshot once environment allows running dotnet tests/build (blocked by sandbox socket restrictions)
+- Re-run full test suite locally to verify behavior when sandbox limitations lifted
+
+### Heuristics
+- Prefer augmenting existing OpenAPI responses instead of replacing them to retain schema metadata
+- Keep WebApplicationFactory overrides minimal—remove only what tests need to replace to avoid brittle DI setups

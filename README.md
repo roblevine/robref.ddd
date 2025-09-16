@@ -42,6 +42,13 @@ This is based on a simple online shopping domain, involving users, products, and
    dotnet test
    ```
 
+5. **Run the Web API (development)**
+   ```bash
+   dotnet run --project src/RobRef.DDD.WebApi
+   ```
+   - Defaults to the in-memory infrastructure unless `ConnectionStrings__SqlServer` is provided
+   - Swagger UI available at `https://localhost:5001/swagger` when `ASPNETCORE_ENVIRONMENT=Development`
+
 ## Development Container Setup
 
 This project includes a VS Code development container with Docker-outside-of-Docker (DooD) support for seamless container development.
