@@ -38,6 +38,11 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 echo "Cursor CLI installed. To start using Cursor Agent:
    cursor-agent"
 
+echo "install OpenAI Codex"
+npm i -g @openai/codex
+echo "OpenAI Codex CLI installed. To start using OpenAI Codex CLI:
+   codex"
+
 echo "to check that docker DooD is configured correctly, run
 
 . .devcontainer/docker-test.sh

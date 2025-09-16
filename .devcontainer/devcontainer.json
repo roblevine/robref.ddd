@@ -40,7 +40,8 @@
 				"ms-vscode-remote.remote-containers",
 				"ms-azuretools.vscode-containers",
 				"ms-mssql.mssql",
-				"Anthropic.claude-code"
+				"Anthropic.claude-code",
+				"openai.chatgpt"
 			]
 		}
 	}

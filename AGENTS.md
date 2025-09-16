@@ -1,6 +1,6 @@
-# AI Agent Guidelines
+# Agent Guidelines
 
-This file provides comprehensive guidance for AI Agents (Claude, GitHub Copilot, Cursor, Windsurf, etc.) working with the Acme Store platform.
+This file provides comprehensive guidance for AI Agents (Claude, GitHub Copilot, Cursor, Windsurf, OpenAI Codex, etc.) working with the Acme Store platform.
 
 ## Documentation Navigation
 
