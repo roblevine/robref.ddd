@@ -44,9 +44,9 @@ The application follows **Onion Architecture** with clear dependency rules: inne
 
 #### 4. **Presentation Layer** 
 - **Purpose**: User interface, API endpoints, serialization
-- **Contains**: Controllers, View Models, API DTOs, Validation
-- **Dependencies**: Application + Domain layers (not Infrastructure directly)
-- **Example**: `UsersController`, `RegisterUserRequest`
+- **Contains**: Minimal API endpoints, request DTOs, validation filters, exception mapping
+- **Dependencies**: Application + Domain layers (Infrastructure is wired via DI only)
+- **Example**: `Program` minimal API host, `RegisterUserRequest`, `ExceptionHandlingMiddleware`
 
 ### Service Development Principles
 - **Domain-Driven Design**: Focus on core domain logic. Implement strictly by modelling entities, value types, and aggregate roots, etc. Prefer strongly-typed value objects with internal validation over native types.
@@ -76,6 +76,14 @@ The application follows **Onion Architecture** with clear dependency rules: inne
 2. **Application** depends only on Domain
 3. **Infrastructure** depends on Application + Domain
 4. **Presentation** depends on Application + Domain (not Infrastructure)
+
+
+### Presentation Layer Implementation
+- **Hosting**: Minimal API hosted by `Program` with environment-based DI (Testing -> in-memory, others -> SQL Server)
+- **Validation**: Request DTOs use data annotations enforced via `ValidationEndpointFilter` for consistent RFC 7807 responses
+- **Error Handling**: `ExceptionHandlingMiddleware` maps domain/application exceptions to Problem Details with correlation ids
+- **Documentation**: Swagger/OpenAPI provided via Swashbuckle with curated examples and schema filter to surface required members
+- **Endpoints**: `/api/users/register` for user creation and `/health` for liveness
 
 ### EF Core Persistence Patterns
 - **DbContext**: Single context per bounded context (e.g., `ApplicationDbContext`)

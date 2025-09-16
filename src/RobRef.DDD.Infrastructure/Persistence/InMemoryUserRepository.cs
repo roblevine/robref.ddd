@@ -1,5 +1,7 @@
+using System;
 using RobRef.DDD.Domain.Users;
 using System.Collections.Concurrent;
+using System.Linq;
 
 namespace RobRef.DDD.Infrastructure.Persistence;
 
@@ -15,7 +17,7 @@ public sealed class InMemoryUserRepository : IUserRepository
 
     public Task<User?> FindByEmailAsync(Email email, CancellationToken cancellationToken = default)
     {
-        var user = _users.Values.FirstOrDefault(u => u.Email.Equals(email));
+        var user = _users.Values.FirstOrDefault(u => string.Equals(u.Email.Value, email.Value, StringComparison.OrdinalIgnoreCase));
         return Task.FromResult(user);
     }
 
@@ -26,14 +28,30 @@ public sealed class InMemoryUserRepository : IUserRepository
 
     public Task<bool> ExistsByEmailAsync(Email email, CancellationToken cancellationToken = default)
     {
-        var exists = _users.Values.Any(u => u.Email.Equals(email));
+        var exists = _users.Values.Any(u => string.Equals(u.Email.Value, email.Value, StringComparison.OrdinalIgnoreCase));
         return Task.FromResult(exists);
     }
 
     public Task SaveAsync(User user, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(user);
-        _users.AddOrUpdate(user.Id, user, (key, existingValue) => user);
+
+        var emailTaken = _users.Values.Any(existing => existing.Id != user.Id && string.Equals(existing.Email.Value, user.Email.Value, StringComparison.OrdinalIgnoreCase));
+        if (emailTaken)
+        {
+            throw new InvalidOperationException($"A user with email '{user.Email.Value}' already exists.");
+        }
+
+        _users.AddOrUpdate(
+            user.Id,
+            user,
+            (_, existing) =>
+            {
+                existing.ChangeEmail(user.Email);
+                existing.ChangeName(user.Title, user.FirstName, user.LastName);
+                return existing;
+            });
+
         return Task.CompletedTask;
     }
 

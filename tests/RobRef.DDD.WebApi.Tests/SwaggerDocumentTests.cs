@@ -16,12 +16,7 @@ public sealed class SwaggerDocumentTests : IClassFixture<CustomWebApplicationFac
     [Fact]
     public async Task SwaggerDocument_MatchesSnapshot()
     {
-        using var devFactory = _factory.WithWebHostBuilder(builder =>
-        {
-            builder.UseEnvironment("Development");
-        });
-
-        using var client = devFactory.CreateClient();
+        using var client = _factory.CreateClient();
 
         var response = await client.GetAsync("/swagger/v1/swagger.json");
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

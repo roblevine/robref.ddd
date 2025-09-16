@@ -215,3 +215,25 @@ Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, A
 ### Heuristics
 - Prefer augmenting existing OpenAPI responses instead of replacing them to retain schema metadata
 - Keep WebApplicationFactory overrides minimal—remove only what tests need to replace to avoid brittle DI setups
+
+## 2025-09-16 - Phase 6 Web API Implementation (Build)
+
+### Decisions
+- Implemented minimal Web API host with `/health` liveness endpoint and register route
+- Added validation endpoint filter + exception middleware translating to RFC 7807 with correlation id
+- Provided Swagger examples + schema filter so required members surface in OpenAPI snapshot
+- Reused infrastructure DI with Testing environment using in-memory repo, ensured duplicate checks there
+
+### Rationale
+- Keeps API surface small while exercising full onion stack and integration tests
+- Middleware centralizes error translation instead of per-endpoint branching
+- OpenAPI parity avoids snapshot churn and documents contract accurately
+- Aligning in-memory repo behavior with EF prevents test env from masking conflicts
+
+### Pending Intents
+- Future slice: wire real SQL Server integration tests for Web API smoke coverage
+
+### Heuristics
+- Keep snapshot tests stable by mirroring expected metadata exactly
+- Extend schema filters when nullable reference metadata is insufficient
+- Ensure test seam (testing environment) always swaps persistence cleanly

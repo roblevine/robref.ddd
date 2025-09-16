@@ -44,10 +44,11 @@ This is based on a simple online shopping domain, involving users, products, and
 
 5. **Run the Web API (development)**
    ```bash
-   dotnet run --project src/RobRef.DDD.WebApi
+   dotnet run --project src/RobRef.DDD.WebApi --no-launch-profile
    ```
-   - Defaults to the in-memory infrastructure unless `ConnectionStrings__SqlServer` is provided
-   - Swagger UI available at `https://localhost:5001/swagger` when `ASPNETCORE_ENVIRONMENT=Development`
+   - In `Development` the API uses the in-memory infrastructure by default; set `ConnectionStrings__SqlServer` to switch to SQL Server
+   - Swagger UI available at `http://localhost:5000/swagger` (HTTP) or `https://localhost:5001/swagger` (HTTPS)
+   - Try a registration request: `POST /api/users/register` with `{ "email": "jane@example.com", "firstName": "Jane", "lastName": "Doe" }`
 
 ## Development Container Setup
 
@@ -89,6 +90,6 @@ To enable SSH access to the dev container:
 - ✅ **Domain Layer**: User aggregate with value objects (Email, Names, etc.)
 - ✅ **Application Layer**: CQRS command/query handlers
 - ✅ **Infrastructure Layer**: EF Core with SQL Server persistence
-- 🔄 **Presentation Layer**: Web API (planned - see PLAN-0001)
+- ✅ **Presentation Layer**: Minimal Web API for user registration (see PLAN-0001)
 
 **Ready to contribute?** Start with the [Development Guide](DEVELOPMENT.md) and check the [TODO](TODO.md) for current tasks and plans.

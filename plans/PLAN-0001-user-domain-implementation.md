@@ -1,6 +1,6 @@
 # PLAN-0001: User Domain Implementation
 
-**Status:** PLANNING  
+**Status:** COMPLETE (Phase 6 delivered)  
 **Started:** August 30, 2025  
 **Approach:** Test-First Development, Domain-Driven Design, Onion Architecture
 
@@ -150,7 +150,7 @@ src/
 
 ### Phase 6: Presentation Layer (Complete User Service)
 14. **Web API Implementation**
-    - [x] WebApi project setup (RobRef.DDD.WebApi, net8.0, references Application & Infrastructure)
+    - [x] WebApi project setup (RobRef.DDD.WebApi, net8.0, references Application/Domain/Infrastructure)
     - [x] Minimal `Program.cs` hosting, DI using `AddInfrastructureWithEfCore` + in-memory test switch
     - [x] RegisterUserRequest DTO mirroring domain constraints via data annotations
     - [x] `POST /api/users/register` endpoint returning 201 + Location + ULID payload
