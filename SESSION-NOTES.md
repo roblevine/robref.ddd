@@ -173,3 +173,23 @@ Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, A
 - Prefer exception-to-Problem mapper over per-endpoint try/catch blocks
 - Guard API behaviors with integration tests before wiring infrastructure specifics
 - Keep DTO validation in sync with domain constants to avoid double standards
+
+## 2025-09-17 - Phase 6.1 Web API Slice Planning
+
+### Decisions
+- Treat Phase 6 as slices, starting with Slice 6.1 covering WebApi scaffolding, tests, and first endpoint surface
+- Custom `WebApplicationFactory` will switch infrastructure to in-memory and suppress Swagger during tests
+- Integration tests will drive API shape: register success, validation, duplicate email, `/health`, Swagger snapshot guard
+
+### Rationale
+- Slicing keeps scope manageable while preserving test-first workflow
+- Factory override avoids coupling tests to production EF Core configuration and keeps ProblemDetails deterministic
+- Swagger snapshot protects contract drift once the API document is produced
+
+### Pending Intents
+- Execute Slice 6.1 tasks: scaffolding projects, writing failing tests, implementing endpoints/ProblemDetails, updating docs
+- Remove Infrastructure temporary `Program` after WebApi host takes over migrations support
+
+### Heuristics
+- Maintain parity between DTO data annotations and domain value object constraints
+- Keep exception-to-Problem mapping centralized for reuse across future endpoints

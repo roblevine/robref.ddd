@@ -161,6 +161,12 @@ src/
     - [ ] Snapshot test for generated Swagger document (stability guard)
     - [ ] **Future slice**: Real database integration tests with SQL Server
 
+#### Slice 6.1 – Web API foundation (in progress)
+- [ ] Scaffolding: create WebApi project file, minimal `Program`, and WebApi test project with `CustomWebApplicationFactory`
+- [ ] Tests first: author failing integration tests for register success/validation/duplicate, `/health`, and Swagger snapshot
+- [ ] Implement surface: flesh out `Program`, `RegisterUserRequest` DTO, minimal endpoints, ProblemDetails mapping, remove temp Infrastructure `Program`
+- [ ] Developer experience: enable dev-only Swagger with examples, update docs/notes once tests pass
+
 ## Technical Decisions
 
 ### Domain Modeling
