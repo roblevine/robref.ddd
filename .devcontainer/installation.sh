@@ -43,6 +43,10 @@ npm i -g @openai/codex
 echo "OpenAI Codex CLI installed. To start using OpenAI Codex CLI:
    codex"
 
+echo "install Entity Framework CLI tool"
+dotnet tool install --global dotnet-ef
+echo "Entity Framework CLI tool installed. Use 'dotnet ef' for database migrations."
+
 echo "to check that docker DooD is configured correctly, run
 
 . .devcontainer/docker-test.sh

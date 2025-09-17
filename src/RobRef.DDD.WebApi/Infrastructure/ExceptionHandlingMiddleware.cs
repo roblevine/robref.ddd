@@ -98,7 +98,8 @@ public sealed class ExceptionHandlingMiddleware
                 "https://robref.ddd/problems/validation-error",
                 BuildErrors(argumentException),
                 LogLevel.Warning),
-            InvalidOperationException invalidOperationException => (
+            InvalidOperationException invalidOperationException when
+                invalidOperationException.Message.Contains("already exists", StringComparison.OrdinalIgnoreCase) => (
                 StatusCodes.Status409Conflict,
                 "User Already Exists",
                 invalidOperationException.Message,

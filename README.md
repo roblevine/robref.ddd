@@ -37,18 +37,45 @@ This is based on a simple online shopping domain, involving users, products, and
    docker-compose up -d
    ```
 
-4. **Run the tests**
+4. **Apply database migrations** (required for SQL Server setup)
+   ```bash
+   # Install Entity Framework CLI tool (if not already installed)
+   dotnet tool install --global dotnet-ef
+
+   # Apply migrations to create database schema
+   cd src/RobRef.DDD.WebApi
+   dotnet ef database update
+   cd ../..
+   ```
+
+5. **Run the tests**
    ```bash
    dotnet test
    ```
 
-5. **Run the Web API (development)**
+6. **Run the Web API**
+
+   **Option A: In-Memory Storage (quickest for testing)**
    ```bash
-   dotnet run --project src/RobRef.DDD.WebApi --no-launch-profile
+   ASPNETCORE_ENVIRONMENT=Testing dotnet run --project src/RobRef.DDD.WebApi
    ```
-   - In `Development` the API uses the in-memory infrastructure by default; set `ConnectionStrings__SqlServer` to switch to SQL Server
-   - Swagger UI available at `http://localhost:5000/swagger` (HTTP) or `https://localhost:5001/swagger` (HTTPS)
-   - Try a registration request: `POST /api/users/register` with `{ "email": "jane@example.com", "firstName": "Jane", "lastName": "Doe" }`
+
+   **Option B: With SQL Server (requires database setup)**
+   ```bash
+   # First start the database and apply migrations (if not done already)
+   docker-compose up -d sqlserver
+   cd src/RobRef.DDD.WebApi
+   dotnet ef database update
+   cd ../..
+
+   # Then run the API
+   ASPNETCORE_ENVIRONMENT=Development dotnet run --project src/RobRef.DDD.WebApi
+   ```
+
+   **Access the API:**
+   - Swagger UI: `http://localhost:8080/swagger` (Testing) or `http://localhost:5000/swagger` (Development)
+   - Health check: `GET /health`
+   - Try a registration: `POST /api/users/register` with `{ "email": "jane@example.com", "firstName": "Jane", "lastName": "Doe" }`
 
 ## Development Container Setup
 

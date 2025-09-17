@@ -6,6 +6,10 @@
 # dotenv files
 .env
 
+# Local configuration files
+appsettings.Development.json
+appsettings.Local.json
+
 # SSH keys and certificates
 *.key
 *.pem
