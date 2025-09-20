@@ -11,6 +11,8 @@ namespace RobRef.DDD.WebApi.Tests;
 
 public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
+    private readonly InMemoryUserRepository _sharedRepository = new();
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Testing");
@@ -31,7 +33,17 @@ public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 services.Remove(repositoryDescriptor);
             }
 
-            services.AddSingleton<IUserRepository, InMemoryUserRepository>();
+            services.AddSingleton<IUserRepository>(_sharedRepository);
         });
+    }
+
+    public void ClearRepository()
+    {
+        // Clear the repository state between tests
+        var field = typeof(InMemoryUserRepository).GetField("_users", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (field?.GetValue(_sharedRepository) is System.Collections.Concurrent.ConcurrentDictionary<UserId, User> users)
+        {
+            users.Clear();
+        }
     }
 }

@@ -202,6 +202,8 @@ src/
 - ✅ Name validation (required first/last name, optional title)
 - ✅ Appropriate error messages for validation failures
 - ✅ Registration returns success confirmation
+- ✅ **[Extension]** Users can be retrieved via GET /api/users (all users)
+- ✅ **[Extension]** Users can be retrieved via GET /api/users/by-email (single user lookup)
 
 ### Technical Requirements
 - ✅ All domain logic covered by unit tests
@@ -210,6 +212,8 @@ src/
 - ✅ Proper separation of concerns across layers
 - ✅ No infrastructure concerns leak into domain
 - ✅ API follows REST conventions
+- ✅ **[Extension]** CQRS query handlers implemented with comprehensive testing
+- ✅ **[Extension]** Consistent request/response DTO pattern across all API endpoints
 
 ### Quality Gates
 - ✅ All tests pass (unit + integration)

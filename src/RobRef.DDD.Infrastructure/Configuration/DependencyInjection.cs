@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RobRef.DDD.Application.Users.Commands;
+using RobRef.DDD.Application.Users.Queries;
 using RobRef.DDD.Application.Users.Services;
 using RobRef.DDD.Domain.Users;
 using RobRef.DDD.Infrastructure.Persistence;
@@ -19,6 +20,8 @@ public static class DependencyInjection
 
         // Application services
         services.AddScoped<RegisterUserHandler>();
+        services.AddScoped<GetAllUsersHandler>();
+        services.AddScoped<GetUserByEmailHandler>();
         services.AddScoped<UserApplicationService>();
 
         return services;
@@ -38,6 +41,8 @@ public static class DependencyInjection
 
         // Application services
         services.AddScoped<RegisterUserHandler>();
+        services.AddScoped<GetAllUsersHandler>();
+        services.AddScoped<GetUserByEmailHandler>();
         services.AddScoped<UserApplicationService>();
 
         return services;

@@ -107,6 +107,51 @@ app.MapPost("/api/users/register", async (
         return operation;
     });
 
+app.MapGet("/api/users", async (
+        UserApplicationService userService,
+        CancellationToken cancellationToken) =>
+    {
+        var users = await userService.GetAllUsersAsync(cancellationToken);
+        var userResponses = users.Select(UserResponse.FromDomain).ToList();
+        var response = new GetAllUsersResponse(userResponses);
+        return Results.Ok(response);
+    })
+    .WithName("GetAllUsers")
+    .WithTags("Users")
+    .Produces<GetAllUsersResponse>(StatusCodes.Status200OK)
+    .ProducesProblem(StatusCodes.Status500InternalServerError)
+    .WithOpenApi(operation =>
+    {
+        operation.Summary = "Get all users";
+        operation.Description = "Retrieves a list of all registered users.";
+        return operation;
+    });
+
+app.MapGet("/api/users/by-email", async (
+        [AsParameters] GetUserByEmailRequest request,
+        UserApplicationService userService,
+        CancellationToken cancellationToken) =>
+    {
+        var user = await userService.GetUserByEmailAsync(request.Email, cancellationToken);
+        var userResponse = user != null ? UserResponse.FromDomain(user) : null;
+        var response = new GetUserByEmailResponse(userResponse);
+
+        return user != null ? Results.Ok(response) : Results.NotFound(response);
+    })
+    .AddEndpointFilter(new ValidationEndpointFilter<GetUserByEmailRequest>())
+    .WithName("GetUserByEmail")
+    .WithTags("Users")
+    .Produces<GetUserByEmailResponse>(StatusCodes.Status200OK)
+    .Produces<GetUserByEmailResponse>(StatusCodes.Status404NotFound)
+    .ProducesProblem(StatusCodes.Status400BadRequest)
+    .ProducesProblem(StatusCodes.Status500InternalServerError)
+    .WithOpenApi(operation =>
+    {
+        operation.Summary = "Get user by email";
+        operation.Description = "Retrieves a user by their email address.";
+        return operation;
+    });
+
 app.Run();
 
 static void SetResponseExample(OpenApiOperation operation, int statusCode, IOpenApiAny example, string description, string contentType)

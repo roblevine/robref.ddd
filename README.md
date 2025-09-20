@@ -75,7 +75,9 @@ This is based on a simple online shopping domain, involving users, products, and
    **Access the API:**
    - Swagger UI: `http://localhost:8080/swagger` (Testing) or `http://localhost:5000/swagger` (Development)
    - Health check: `GET /health`
-   - Try a registration: `POST /api/users/register` with `{ "email": "jane@example.com", "firstName": "Jane", "lastName": "Doe" }`
+   - User registration: `POST /api/users/register` with `{ "email": "jane@example.com", "firstName": "Jane", "lastName": "Doe" }`
+   - Get all users: `GET /api/users`
+   - Get user by email: `GET /api/users/by-email?email=jane@example.com`
 
 ## Development Container Setup
 
@@ -115,8 +117,8 @@ To enable SSH access to the dev container:
 
 ### Current Implementation Status
 - ✅ **Domain Layer**: User aggregate with value objects (Email, Names, etc.)
-- ✅ **Application Layer**: CQRS command/query handlers
-- ✅ **Infrastructure Layer**: EF Core with SQL Server persistence
-- ✅ **Presentation Layer**: Minimal Web API for user registration (see PLAN-0001)
+- ✅ **Application Layer**: CQRS command/query handlers with full queryside functionality
+- ✅ **Infrastructure Layer**: EF Core with SQL Server persistence and in-memory testing
+- ✅ **Presentation Layer**: Complete Web API with user registration and query endpoints (see PLAN-0001)
 
 **Ready to contribute?** Start with the [Development Guide](DEVELOPMENT.md) and check the [TODO](TODO.md) for current tasks and plans.

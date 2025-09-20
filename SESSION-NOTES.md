@@ -237,3 +237,33 @@ Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, A
 - Keep snapshot tests stable by mirroring expected metadata exactly
 - Extend schema filters when nullable reference metadata is insufficient
 - Ensure test seam (testing environment) always swaps persistence cleanly
+
+## 2025-09-20 - Queryside Functions Implementation
+
+### Decisions
+- Implemented full queryside functionality with GetAllUsers and GetUserByEmail queries following CQRS pattern
+- Leveraged existing IQuery<T> and IQueryHandler<T,R> infrastructure from Common namespace
+- Used existing IUserRepository methods (GetAllAsync, FindByEmailAsync) to avoid duplicate implementation
+- Placed queries in Users/Queries/ following existing Commands structure pattern
+- Created consistent request/response DTOs for all API endpoints to fix design inconsistency
+- Used [AsParameters] for GET endpoint parameter binding to maintain DTO pattern consistency
+
+### Rationale
+- Repository already provided needed methods, queries provide clean application layer interface
+- CQRS separation maintains read/write distinction at application boundary
+- Consistent DTO pattern across all endpoints improves API design and future extensibility
+- Query parameter binding with validation ensures proper input validation for all endpoints
+- Wrapped responses allow for future metadata and pagination additions
+
+### Implementation Complete
+- GetAllUsers query/handler with comprehensive tests (5 tests)
+- GetUserByEmail query/handler with comprehensive tests (7 tests)
+- Full Web API integration: GET /api/users and GET /api/users/by-email endpoints
+- Consistent request/response DTOs: GetAllUsersResponse, GetUserByEmailRequest/Response
+- All 215 tests passing (114 Domain + 29 Application + 56 Infrastructure + 16 WebApi)
+
+### Heuristics
+- Always maintain consistent patterns across API endpoints - avoid mixing primitive parameters with DTO objects
+- Use explicit request/response objects even for simple queries to enable future extensibility
+- Follow existing command handler patterns for consistency across CQRS boundaries
+- Ensure proper test isolation when using shared repository instances in integration tests
