@@ -267,3 +267,17 @@ Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, A
 - Use explicit request/response objects even for simple queries to enable future extensibility
 - Follow existing command handler patterns for consistency across CQRS boundaries
 - Ensure proper test isolation when using shared repository instances in integration tests
+
+## 2025-09-22 - Tooling Scripts Setup
+
+### Decisions
+- Added reusable bash scripts under scripts/ for build, test, API run (dev/test), and SQL Server startup
+
+### Rationale
+- Provide consistent entrypoints for common workflows and encode env defaults
+
+### Pending Intents
+- Capture any future migrations helper once the workflow stabilises
+
+### Heuristics
+- Prefer script flags (`--help`, `--watch`, `--logs`) to keep CLI usage discoverable

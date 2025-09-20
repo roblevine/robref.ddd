@@ -34,7 +34,7 @@ This is based on a simple online shopping domain, involving users, products, and
 
 3. **Start the database**
    ```bash
-   docker-compose up -d
+   ./scripts/start-sqlserver.sh
    ```
 
 4. **Apply database migrations** (required for SQL Server setup)
@@ -50,26 +50,26 @@ This is based on a simple online shopping domain, involving users, products, and
 
 5. **Run the tests**
    ```bash
-   dotnet test
+   ./scripts/test.sh
    ```
 
 6. **Run the Web API**
 
    **Option A: In-Memory Storage (quickest for testing)**
    ```bash
-   ASPNETCORE_ENVIRONMENT=Testing dotnet run --project src/RobRef.DDD.WebApi
+   ./scripts/run-api-test.sh
    ```
 
    **Option B: With SQL Server (requires database setup)**
    ```bash
    # First start the database and apply migrations (if not done already)
-   docker-compose up -d sqlserver
+   ./scripts/start-sqlserver.sh
    cd src/RobRef.DDD.WebApi
    dotnet ef database update
    cd ../..
 
    # Then run the API
-   ASPNETCORE_ENVIRONMENT=Development dotnet run --project src/RobRef.DDD.WebApi
+   ./scripts/run-api-dev.sh
    ```
 
    **Access the API:**
@@ -106,8 +106,21 @@ The dev container is configured to use Docker-outside-of-Docker, allowing you to
 **Start SQL Server database:**
 ```bash
 # From within the dev container
-docker-compose up -d sqlserver
+./scripts/start-sqlserver.sh
 ```
+
+### Helper Scripts
+
+The `scripts/` directory contains convenience wrappers around common workflows:
+- `./scripts/build.sh` — runs `dotnet build` for the full solution
+- `./scripts/test.sh` — executes the full test suite
+- `./scripts/run-api-dev.sh` — runs the Web API in Development (SQL Server)
+- `./scripts/run-api-test.sh` — runs the Web API in Testing (in-memory)
+- `./scripts/start-sqlserver.sh` — starts the SQL Server Docker container (optional `--logs` to tail output)
+
+All scripts automatically load variables from `.env` when present. Use the `--help` flag on any script to see available options.
+
+> **Heads-up:** When you add new projects (especially test assemblies) or change default tooling conventions, update these helper scripts so they stay in sync with the repository structure.
 
 ### SSH Access Setup
 
