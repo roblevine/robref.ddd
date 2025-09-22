@@ -2,9 +2,8 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
 	"name": "C# (.NET)",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
-"features": {
+	"features": {
 		"ghcr.io/devcontainers/features/node:1": {
 			"nodeGypDependencies": true,
 			"installYarnUsingApt": true,
@@ -22,17 +21,12 @@
 		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
 	],
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [5000, 5001],
-	// "portsAttributes": {
-	//		"5001": {
-	//			"protocol": "https"
-	//		}
-	// }
-
 	"postCreateCommand": "sh .devcontainer/installation.sh",
-	"runArgs": ["--name", "dc_robref.ddd.claude"],
-	"remoteUser": "vscode",
+	"runArgs": ["--name", "robref.ddd.claude",  "--userns=keep-id:uid=1000,gid=1000"],
+ 	"containerUser": "vscode",
+ 	"remoteUser": "vscode",
+	"updateRemoteUserUID": true,
+
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -43,7 +37,4 @@
 			]
 		}
 	}
-
-	// Configure tool-specific properties.
-	// "customizations": {},
 }
