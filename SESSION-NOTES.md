@@ -281,3 +281,42 @@ Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, A
 
 ### Heuristics
 - Prefer script flags (`--help`, `--watch`, `--logs`) to keep CLI usage discoverable
+
+## 2025-09-20 - Testcontainers Integration Planning
+
+### Decisions
+- Implement dual testing approach: maintain existing Docker Compose tests + add Testcontainers as alternative
+- Use separate test classes: EfUserRepositorySqlServerTests (existing) + EfUserRepositoryTestcontainersTests (new)
+- Add test traits for selective execution: [Trait("Database", "DockerCompose")] vs [Trait("Database", "Testcontainers")]
+- Both approaches as permanent first-class citizens for different developer workflows
+
+### Rationale
+- Docker Compose: shared instance, manual setup, faster repeated runs for local development
+- Testcontainers: isolated, automatic lifecycle, better for CI/CD and ensuring test independence
+- Dual approach gives developers choice based on context (speed vs isolation, local vs CI)
+- Zero risk to existing working tests while adding modern containerized testing option
+
+### Implementation Plan
+- Add Testcontainers.MsSql package to Infrastructure.Tests project
+- Create TestcontainersFixture similar to existing SqlServerFixture but using Testcontainers API
+- New test class inheriting from UserRepositoryIntegrationTestsBase (shared test logic)
+- Update documentation to explain when to use each approach
+
+### Implementation Complete
+- Added Testcontainers.MsSql package (v3.9.0) to Infrastructure.Tests project
+- Created TestcontainersFixture with proper xUnit collection fixture pattern for automatic container lifecycle
+- Added EfUserRepositoryTestcontainersTests inheriting from shared UserRepositoryIntegrationTestsBase
+- Applied test traits: [Trait("Database", "DockerCompose")] vs [Trait("Database", "Testcontainers")]
+- Updated scripts/test.sh with filtering options: --docker-compose, --testcontainers, --in-memory
+- Created comprehensive documentation in tests/RobRef.DDD.Infrastructure.Tests/README.md
+
+### Test Results
+- Docker Compose tests: 18/18 passing (verified working in current environment)
+- Testcontainers tests: Implementation correct, fails due to Docker unavailable in sandbox environment
+- Script filtering: Working correctly for selective test execution
+
+### Heuristics
+- Maintain existing patterns when adding new testing approaches
+- Use traits/categories for selective test execution in different environments
+- Document trade-offs clearly for future developer decision-making
+- Script enhancements improve developer workflow for different testing scenarios

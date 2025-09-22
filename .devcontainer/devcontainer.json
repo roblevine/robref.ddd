@@ -14,9 +14,9 @@
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
 		}
 	},
-
+	
 	"postCreateCommand": "sh .devcontainer/installation.sh",
-//  the userns stuff below is to fix the permission issues with filesystem mapping	
+//  the userns stuff below is to fix the permission issues with filesystem mappingon podman
 //	"runArgs": ["--name", "robref.ddd.claude",  "--userns=keep-id:uid=1000,gid=1000"],
 	"runArgs": ["--name", "robref.ddd.claude"],
  	"containerUser": "vscode",

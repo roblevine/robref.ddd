@@ -1,7 +1,7 @@
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: robref-ddd-sqlserver
+    container_name: sqlserver-robref-ddd
     environment:
       SA_PASSWORD: "${SQLSERVER_SA_PASSWORD}"
       ACCEPT_EULA: "Y"

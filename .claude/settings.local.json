@@ -21,7 +21,17 @@
       "WebSearch",
       "Bash(source .env)",
       "Bash(echo:*)",
-      "Bash(dotnet run:*)"
+      "Bash(dotnet run:*)",
+      "Bash(./scripts/test.sh:*)",
+      "Read(//run/**)",
+      "Bash(dotnet script:*)",
+      "Read(//tmp/TestcontainersDebug/**)",
+      "Bash(timeout:*)",
+      "Read(//tmp/MSBuildTempvscode/**)",
+      "Bash(dotnet build:*)",
+      "Bash(docker stop:*)",
+      "Bash(docker ps:*)",
+      "Bash(docker-compose up:*)"
     ],
     "deny": []
   }

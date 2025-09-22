@@ -2,6 +2,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using RobRef.DDD.Infrastructure.Persistence;
 using System.Text.Json;
+using Testcontainers.MsSql;
 
 namespace RobRef.DDD.Infrastructure.Tests.Persistence;
 
@@ -11,6 +12,7 @@ namespace RobRef.DDD.Infrastructure.Tests.Persistence;
 /// Tests are conditionally skipped if SQL Server is not available.
 /// </summary>
 [Collection("SqlServer")]
+[Trait("Database", "DockerCompose")]
 public class EfUserRepositorySqlServerTests : UserRepositoryIntegrationTestsBase
 {
     public EfUserRepositorySqlServerTests() : base(
