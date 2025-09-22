@@ -12,17 +12,13 @@
 			"nvmVersion": "latest"
 		},
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
-			"version": "latest",
-			"enableNonRootDocker": "true",
-			"moby": "true"
 		}
 	},
-	"mounts": [
-		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
-	],
 
 	"postCreateCommand": "sh .devcontainer/installation.sh",
-	"runArgs": ["--name", "robref.ddd.claude",  "--userns=keep-id:uid=1000,gid=1000"],
+//  the userns stuff below is to fix the permission issues with filesystem mapping	
+//	"runArgs": ["--name", "robref.ddd.claude",  "--userns=keep-id:uid=1000,gid=1000"],
+	"runArgs": ["--name", "robref.ddd.claude"],
  	"containerUser": "vscode",
  	"remoteUser": "vscode",
 	"updateRemoteUserUID": true,

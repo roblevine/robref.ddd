@@ -31,17 +31,17 @@ npm install -g @anthropic-ai/claude-code
 echo "Claude Code CLI installed. To start using Claude Code CLI:
    claude"
 
-echo "install Cursor CLI"
-curl https://cursor.com/install -fsS | bash
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-. ~/.bashrc
-echo "Cursor CLI installed. To start using Cursor Agent:
-   cursor-agent"
+#echo "install Cursor CLI"
+#curl https://cursor.com/install -fsS | bash
+#echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+#. ~/.bashrc
+#echo "Cursor CLI installed. To start using Cursor Agent:
+#   cursor-agent"
 
-echo "install OpenAI Codex"
-npm i -g @openai/codex
-echo "OpenAI Codex CLI installed. To start using OpenAI Codex CLI:
-   codex"
+#echo "install OpenAI Codex"
+#npm i -g @openai/codex
+#echo "OpenAI Codex CLI installed. To start using OpenAI Codex CLI:
+#   codex"
 
 echo "install Entity Framework CLI tool"
 dotnet tool install --global dotnet-ef
