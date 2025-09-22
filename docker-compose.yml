@@ -1,6 +1,6 @@
 services:
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: robref-ddd-sqlserver
     environment:
       SA_PASSWORD: "${SQLSERVER_SA_PASSWORD}"
