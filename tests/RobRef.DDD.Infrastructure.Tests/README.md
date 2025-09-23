@@ -85,6 +85,8 @@ Testcontainers automatically manages SQL Server containers with:
 - Password: `TestPassword123!`
 - Automatic port assignment
 - Cleanup after tests complete
+- Automatically disables Ryuk in containerised environments and prunes any labelled containers to avoid leftovers
+- Set DOTNET_RUNNING_IN_CONTAINER=true if using a custom runner that hides container detection
 
 ## CI/CD Recommendations
 

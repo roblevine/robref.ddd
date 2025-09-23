@@ -12,3 +12,7 @@ Items to be implemented will be listed at the high level only here. More detaile
 **Plan Document**: [PLAN-0001-user-domain-implementation](plans/PLAN-0001-user-domain-implementation.md)  
 **Started**: August 30, 2025  
 **Description**: Implement core User domain with DDD principles, including user registration, value objects (Email, Username, Password), and REST API endpoint. Follows test-first development and onion architecture. 
+
+## Maintenance Tasks
+
+- Revisit Testcontainers cleanup fallback to see if it can be simplified once Ryuk supports devcontainer DooD reliably

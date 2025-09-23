@@ -320,3 +320,25 @@ Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, A
 - Use traits/categories for selective test execution in different environments
 - Document trade-offs clearly for future developer decision-making
 - Script enhancements improve developer workflow for different testing scenarios
+
+## 2025-09-23 - Testcontainers Cleanup Hardening
+
+### Decisions
+- Disable Ryuk automatically when tests detect containerised execution
+- Label SQL Server testcontainers and prune them via docker CLI after runs
+- Logged detection branch to aid future debugging of cleanup mode
+
+### Rationale
+- Ryuk cannot stop containers reliably in devcontainer DooD and left residue
+- Manual pruning ensures disposable containers never accumulate between runs
+
+### Rejected Alternatives
+- Keep Ryuk disabled permanently without fallback (hurts host workflows)
+- Tolerate leftover containers and rely on periodic docker system prune
+
+### Pending Intents
+- Revisit cleanup once Testcontainers reaper supports devcontainer DooD
+
+### Heuristics
+- Tag temporary infrastructure resources so cleanup scripts can target them
+- Emit explicit logs when switching between cleanup strategies
