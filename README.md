@@ -52,6 +52,11 @@ This is based on a simple online shopping domain, involving users, products, and
    ```bash
    ./scripts/test.sh
    ```
+   
+   **Testing Options:**
+   - In-memory tests (fastest): `dotnet test --filter "FullyQualifiedName~InMemory"`
+   - Docker Compose tests: `docker-compose up -d sqlserver && dotnet test --filter "Database=DockerCompose"`
+   - TestContainers tests (automatic): `dotnet test --filter "Database=Testcontainers"`
 
 6. **Run the Web API**
 
@@ -96,6 +101,7 @@ The dev container is configured to use Docker-outside-of-Docker, allowing you to
 - Build and run Docker images using the host Docker daemon
 - Use `docker-compose` commands directly
 - Access the same Docker network as your host machine
+- Run TestContainers for automated integration testing
 
 **Test Docker functionality:**
 ```bash
@@ -107,6 +113,33 @@ The dev container is configured to use Docker-outside-of-Docker, allowing you to
 ```bash
 # From within the dev container
 ./scripts/start-sqlserver.sh
+```
+
+### Testing with TestContainers
+
+The project includes TestContainers support for automatic integration testing with real databases:
+
+**Key Features:**
+- ✅ **Automatic Cleanup** - Containers are automatically started and stopped
+- ✅ **DevContainer Ready** - Automatically configures for Docker-outside-of-Docker scenarios
+- ✅ **CI/CD Friendly** - Works in containerized CI environments
+- ✅ **Standard Patterns** - Uses official TestContainers best practices
+
+**Environment Configuration:**
+For devcontainer/DooD environments, use the provided script:
+```bash
+# Run TestContainers tests with proper DooD configuration
+./scripts/test-testcontainers.sh
+```
+
+Or set environment variables manually:
+```bash
+# Required for Docker Desktop and devcontainer environments
+export TESTCONTAINERS_HOST_OVERRIDE=host.docker.internal
+export TESTCONTAINERS_RYUK_DISABLED=true
+
+# Then run the tests
+dotnet test --filter "Database=Testcontainers"
 ```
 
 ### Helper Scripts

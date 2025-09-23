@@ -63,3 +63,60 @@ The project uses VS Code Dev Containers with Docker-outside-of-Docker (DooD) for
 4. **Generate Migration**: Use `dotnet ef migrations add` with descriptive names
 5. **Verify Migration**: Review generated SQL for correct schema and constraints
 6. **Test Migration**: Ensure tests pass with both InMemory and real database scenarios
+
+### Testing Strategies
+
+#### Database Testing Approaches
+We support multiple testing strategies for different scenarios:
+
+**1. In-Memory Testing (Unit/Integration)**
+- Fast execution for TDD workflows
+- Good for testing business logic and basic repository operations
+- Does not enforce all database constraints
+
+**2. Docker Compose Testing (Local Development)**
+- Shared SQL Server container for repeated test runs
+- Manual setup required: `docker-compose up -d sqlserver`
+- Good for local development with fast repeated execution
+
+**3. TestContainers Testing (CI/Isolation)**
+- Automatic container lifecycle management
+- Complete test isolation with dedicated containers
+- Ideal for CI/CD pipelines and ensuring test independence
+
+#### TestContainers Configuration
+
+**DevContainer/DooD Setup:**
+TestContainers automatically detects containerized environments and configures itself appropriately. For manual control:
+
+```bash
+# Disable Ryuk resource reaper (useful in CI or devcontainers)
+export TESTCONTAINERS_RYUK_DISABLED=true
+
+# Override Docker host (useful for Docker Desktop)
+export TESTCONTAINERS_HOST_OVERRIDE=host.docker.internal
+```
+
+**Environment Detection:**
+- Automatic detection of Docker-outside-of-Docker scenarios
+- Ryuk disabled automatically in containerized environments
+- Standard TestContainers environment variables supported
+
+**Running Different Test Types:**
+```bash
+# Run all tests
+dotnet test
+
+# Run only in-memory tests (fastest)
+dotnet test --filter "FullyQualifiedName~InMemory"
+
+# Run Docker Compose tests (manual setup)
+docker-compose up -d sqlserver
+dotnet test --filter "Database=DockerCompose"
+
+# Run TestContainers tests (DevContainer script)
+./scripts/test-testcontainers.sh
+
+# Run TestContainers tests (manual environment setup)
+TESTCONTAINERS_HOST_OVERRIDE=host.docker.internal TESTCONTAINERS_RYUK_DISABLED=true dotnet test --filter "Database=Testcontainers"
+```
