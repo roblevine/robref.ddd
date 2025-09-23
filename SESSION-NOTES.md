@@ -342,3 +342,37 @@ Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, A
 ### Heuristics
 - Tag temporary infrastructure resources so cleanup scripts can target them
 - Emit explicit logs when switching between cleanup strategies
+
+## 2025-09-23 - TestContainer Manual Cleanup Resolution
+
+### Decisions
+- Implemented manual container removal using System.Diagnostics.Process to execute "docker rm -f {containerId}"
+- Enhanced DisposeAsync() in TestcontainersFixture to perform standard disposal + manual removal
+- Added comprehensive error handling that logs cleanup issues but doesn't fail tests
+- Cleaned up debug console output while maintaining essential cleanup functionality
+
+### Rationale  
+- TestContainers stops containers but doesn't remove them when TESTCONTAINERS_RYUK_DISABLED=true
+- Manual removal ensures no container accumulation in dev container environments
+- Process-based Docker CLI execution provides reliable fallback cleanup mechanism
+
+### Implementation Details
+- Standard TestContainers lifecycle: StopAsync() → DisposeAsync()
+- Manual cleanup: System.Diagnostics.Process executing "docker rm -f {containerId}"
+- Error isolation: cleanup failures logged but don't affect test results
+- Environment detection: automatic configuration for DooD scenarios
+
+### Test Results
+- All 18 TestContainer tests pass in 30.6 seconds
+- Container properly removed after test completion (verified with docker ps -a)
+- Random port allocation working correctly
+- No stopped containers accumulating
+
+### Heuristics
+- When Ryuk disabled, always implement manual cleanup as fallback
+- Use Process.Start for reliable Docker CLI execution from .NET
+- Isolate cleanup errors to prevent test instability
+- Document container lifecycle management decisions for future reference
+
+### Bootstrap Snippet
+TestContainer tests work correctly in dev container environment with automatic cleanup. Use scripts/test-testcontainers.sh for reliable execution.

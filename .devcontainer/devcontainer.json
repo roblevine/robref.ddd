@@ -33,5 +33,9 @@
 				"openai.chatgpt"
 			]
 		}
+	},
+	"containerEnv": {
+		"TESTCONTAINERS_HOST_OVERRIDE": "host.docker.internal",
+		"TESTCONTAINERS_RYUK_DISABLED": "true"
 	}
 }

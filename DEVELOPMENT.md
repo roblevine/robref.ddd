@@ -102,6 +102,12 @@ export TESTCONTAINERS_HOST_OVERRIDE=host.docker.internal
 - Ryuk disabled automatically in containerized environments
 - Standard TestContainers environment variables supported
 
+**Container Cleanup:**
+In dev container environments where Ryuk is disabled, the TestContainers implementation includes manual cleanup to prevent container accumulation:
+- Containers are stopped and disposed using standard TestContainers lifecycle
+- Manual `docker rm -f {containerId}` executed as fallback for complete removal
+- Cleanup errors are logged but don't fail tests to ensure test stability
+
 **Running Different Test Types:**
 ```bash
 # Run all tests

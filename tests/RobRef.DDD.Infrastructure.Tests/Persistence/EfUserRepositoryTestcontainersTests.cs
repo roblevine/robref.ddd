@@ -5,6 +5,8 @@ using Testcontainers.MsSql;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using System.Threading.Tasks;
+using Xunit.Abstractions;
+using System.Diagnostics;
 
 namespace RobRef.DDD.Infrastructure.Tests.Persistence;
 
@@ -19,10 +21,8 @@ public class EfUserRepositoryTestcontainersTests : UserRepositoryIntegrationTest
 {
     private readonly TestcontainersFixture _fixture;
 
-    public EfUserRepositoryTestcontainersTests(TestcontainersFixture fixture) : base(
-        CreateTestcontainersOptions(fixture),
-        false,
-        string.Empty)
+    public EfUserRepositoryTestcontainersTests(TestcontainersFixture fixture, ITestOutputHelper outputHelper)
+        : base(CreateTestcontainersOptions(fixture))
     {
         _fixture = fixture;
     }
@@ -32,10 +32,16 @@ public class EfUserRepositoryTestcontainersTests : UserRepositoryIntegrationTest
         var databaseName = $"RobRefDDD_Test_{Guid.NewGuid():N}";
         var baseConnectionString = fixture.GetConnectionString();
 
-        // Ensure proper connection string format
+        // Ensure proper connection string format and add required SQL Server 2022 connection parameters
         var connectionString = baseConnectionString.Contains("Database=")
             ? baseConnectionString.Replace("Database=master", $"Database={databaseName}")
             : $"{baseConnectionString};Database={databaseName}";
+            
+        // Add Encrypt=false for SQL Server 2022 compatibility in containerized environments
+        if (!connectionString.Contains("Encrypt="))
+        {
+            connectionString += ";Encrypt=false";
+        }
 
         return new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseSqlServer(connectionString)
@@ -85,10 +91,10 @@ public class TestcontainersFixture : IAsyncLifetime
         _container = new MsSqlBuilder()
             .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
             .WithPassword("TestPassword123!")
-            .WithPortBinding(0, 1433) // Use random available port
+            // No port binding - let TestContainers choose a random available port
             .WithCleanUp(true) // Enable automatic cleanup
             .WithWaitStrategy(Wait.ForUnixContainer()
-                .UntilPortIsAvailable(1433)
+                .UntilPortIsAvailable(1433) // This refers to the internal container port
                 .UntilMessageIsLogged("SQL Server is now ready for client connections"))
             .Build();
     }
@@ -111,7 +117,6 @@ public class TestcontainersFixture : IAsyncLifetime
             var ryukDisabled = Environment.GetEnvironmentVariable("TESTCONTAINERS_RYUK_DISABLED");
             if (string.Equals(ryukDisabled, "true", StringComparison.OrdinalIgnoreCase))
             {
-                Console.WriteLine("TestContainers: Ryuk disabled via TESTCONTAINERS_RYUK_DISABLED environment variable");
                 TestcontainersSettings.ResourceReaperEnabled = false;
             }
 
@@ -119,7 +124,6 @@ public class TestcontainersFixture : IAsyncLifetime
             var hostOverride = Environment.GetEnvironmentVariable("TESTCONTAINERS_HOST_OVERRIDE");
             if (!string.IsNullOrEmpty(hostOverride))
             {
-                Console.WriteLine($"TestContainers: Using host override: {hostOverride}");
                 TestcontainersSettings.DockerHostOverride = hostOverride;
             }
 
@@ -131,7 +135,6 @@ public class TestcontainersFixture : IAsyncLifetime
 
             if (runningInContainer && ryukDisabled != "true")
             {
-                Console.WriteLine("TestContainers: Detected containerized environment, disabling Ryuk");
                 TestcontainersSettings.ResourceReaperEnabled = false;
             }
 
@@ -141,23 +144,43 @@ public class TestcontainersFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Console.WriteLine("Starting TestContainers SQL Server...");
         await _container.StartAsync();
         
         // Brief delay to ensure SQL Server is fully ready
         await Task.Delay(2000);
-        
-        var connectionString = _container.GetConnectionString();
-        Console.WriteLine($"TestContainers SQL Server started: {connectionString}");
     }
 
     public async Task DisposeAsync()
     {
-        Console.WriteLine("Disposing TestContainers SQL Server...");
-        await _container.DisposeAsync();
-        Console.WriteLine("TestContainers SQL Server disposed");
-    }
-
-    public string GetConnectionString() => _container.GetConnectionString();
+        try
+        {
+            await _container.StopAsync();
+            await _container.DisposeAsync();
+            
+            // Manual cleanup for dev container environment where Ryuk is disabled
+            var containerId = _container.Id;
+            
+            using var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "docker",
+                    Arguments = $"rm -f {containerId}",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                }
+            };
+            
+            process.Start();
+            await process.WaitForExitAsync();
+        }
+        catch (Exception ex)
+        {
+            // Log cleanup errors but don't fail tests
+            Console.WriteLine($"TestContainer cleanup error: {ex.Message}");
+        }
+    }    public string GetConnectionString() => _container.GetConnectionString();
 }
 
