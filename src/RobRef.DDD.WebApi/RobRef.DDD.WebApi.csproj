@@ -15,6 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\RobRef.DDD.Application\RobRef.DDD.Application.csproj" />
     <ProjectReference Include="..\RobRef.DDD.Domain\RobRef.DDD.Domain.csproj" />
-    <ProjectReference Include="..\RobRef.DDD.CompositionRoot\RobRef.DDD.CompositionRoot.csproj" />
+    <ProjectReference Include="..\RobRef.DDD.Infrastructure\RobRef.DDD.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

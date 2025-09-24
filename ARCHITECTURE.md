@@ -35,24 +35,20 @@ The application follows **Onion Architecture** with clear dependency rules: inne
 - **Contains**: Commands, Queries, Handlers, Application Services, DTOs
 - **Dependencies**: Domain layer only
 - **Example**: `RegisterUserHandler`, `RegisterUserCommand`
+- **DI Extensions**: `AddUserApplication` registers core handlers/services
 
 #### 3. **Infrastructure Layer**
 - **Purpose**: External concerns (database, files, APIs, frameworks)
 - **Contains**: Repository implementations, Data contexts, External service clients, EF Core configurations
 - **Dependencies**: Application + Domain layers
 - **Example**: `InMemoryUserRepository`, `EfUserRepository`, `ApplicationDbContext`, `UserEntityConfiguration`
+- **DI Extensions**: Hosts compose via `AddInfrastructureSqlServer` / `AddInfrastructureInMemory`
 
 #### 4. **Presentation Layer** 
 - **Purpose**: User interface, API endpoints, serialization
 - **Contains**: Minimal API endpoints, request DTOs, validation filters, exception mapping
-- **Dependencies**: Application + Domain layers (Infrastructure wiring handled via composition root)
+- **Dependencies**: Application + Domain layers, plus DI extensions from Infrastructure for runtime wiring
 - **Example**: `Program` minimal API host, `RegisterUserRequest`, `ExceptionHandlingMiddleware`
-
-#### **Composition Root** (Outer Shell)
-- **Purpose**: Centralised dependency injection wiring bridging presentation to infrastructure
-- **Contains**: DI extension methods (`AddInfrastructure`, `AddInfrastructureWithEfCore`)
-- **Dependencies**: Infrastructure + Application + Domain layers
-- **Consumption**: Referenced by hosts (e.g., WebApi) so they never reference Infrastructure directly
 
 ### Service Development Principles
 - **Domain-Driven Design**: Focus on core domain logic. Implement strictly by modelling entities, value types, and aggregate roots, etc. Prefer strongly-typed value objects with internal validation over native types.
@@ -81,7 +77,7 @@ The application follows **Onion Architecture** with clear dependency rules: inne
 1. **Domain** depends on nothing
 2. **Application** depends only on Domain
 3. **Infrastructure** depends on Application + Domain
-4. **Presentation** depends on Application + Domain + Composition Root (Composition Root depends on Infrastructure)
+4. **Presentation** composes Application + Domain services and consumes Infrastructure DI extensions for runtime wiring
 
 
 ### Presentation Layer Implementation

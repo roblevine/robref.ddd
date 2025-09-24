@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using Microsoft.OpenApi.Any;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using RobRef.DDD.Application;
 using RobRef.DDD.Application.Users.Services;
-using RobRef.DDD.CompositionRoot;
+using RobRef.DDD.Infrastructure;
 using RobRef.DDD.WebApi.Infrastructure;
 using RobRef.DDD.WebApi.Users;
 
@@ -25,9 +26,11 @@ builder.Services.AddSwaggerGen(options =>
     options.SchemaFilter<RequiredMembersSchemaFilter>();
 });
 
+builder.Services.AddUserApplication();
+
 if (builder.Environment.IsEnvironment("Testing"))
 {
-    builder.Services.AddInfrastructure();
+    builder.Services.AddInfrastructureInMemory();
 }
 else
 {
@@ -37,7 +40,7 @@ else
         throw new InvalidOperationException("Connection string 'SqlServer' is not configured.");
     }
 
-    builder.Services.AddInfrastructureWithEfCore(connectionString);
+    builder.Services.AddInfrastructureSqlServer(connectionString);
 }
 
 var app = builder.Build();

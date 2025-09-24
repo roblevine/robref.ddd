@@ -2,23 +2,24 @@
 
 Log of session notes capturing decisions, rationale, and heuristics to maintain context across stateless interactions.
 
-## 2025-09-25 - Composition Root Alignment
+## 2025-09-25 - Composable DI Extensions
 
 ### Decisions
-- Added RobRef.DDD.CompositionRoot project and removed WebApi → Infrastructure reference
+- Replaced composition root with per-layer DI extensions (AddUserApplication, AddInfrastructureSqlServer/InMemory)
+- WebApi now composes application + infrastructure registrations directly
 - Introduced UserAlreadyExistsException for duplicate registration guardrails
 - Implemented IComparable on Title value object to match ordering strategy
 - Removed unused DotNetEnv package from WebApi project
 
 ### Rationale
-- Keep presentation layer aligned with documented dependency rules via dedicated composition root
+- Keep container wiring close to each bounded context and let hosts compose
 - Provide stable exception type for middleware mapping and integration tests
 
 ### Pending Intents
 - SQL Server integration tests require external sqlserver container to pass
 
 ### Heuristics
-- Prefer composition root projects when hosts need infrastructure wiring without new dependencies
+- Prefer slice-owned DI extension methods so hosts compose capabilities explicitly
 
 ## 2025-09-24 - WarningsAsErrors Implementation
 
@@ -96,7 +97,7 @@ dotnet build && dotnet test
 - Implemented EF Core SQL Server persistence layer with ApplicationDbContext and UserEntityConfiguration
 - Created value object converters for Email, FirstName, LastName, Title (nullable), UserId (ULID -> string(26))
 - EfUserRepository implementation with proper entity tracking and change management
-- Added both in-memory (AddInfrastructure) and EF Core (AddInfrastructureWithEfCore) DI configurations
+- Added both in-memory (AddInfrastructureInMemory) and EF Core (AddInfrastructureSqlServer) DI configurations
 - Created initial database migration with proper schema (Users table, unique email index)
 - Comprehensive EF Core integration tests (38 passing) using InMemory provider for test isolation
 - Fixed entity ordering by using .Value properties instead of value objects for LINQ queries
