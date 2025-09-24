@@ -15,7 +15,7 @@ Items to be implemented will be listed at the high level only here. More detaile
 
 ### Products Bounded Context — Domain Implementation
 **Status**: PLANNING
-**Plan Document**: PLAN-0002-product-domain-implementation (to be added)  
+**Plan Document**: [PLAN-0002-product-domain-implementation](plans/PLAN-0002-product-domain-implementation.md)  
 **Description**: Establish the Product domain as an independently deployable bounded context. Scope to cover core product catalogue modelling and supporting APIs.
 
 ## Maintenance Tasks
