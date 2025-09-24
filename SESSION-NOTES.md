@@ -2,6 +2,24 @@
 
 Log of session notes capturing decisions, rationale, and heuristics to maintain context across stateless interactions.
 
+## 2025-09-25 - Composition Root Alignment
+
+### Decisions
+- Added RobRef.DDD.CompositionRoot project and removed WebApi → Infrastructure reference
+- Introduced UserAlreadyExistsException for duplicate registration guardrails
+- Implemented IComparable on Title value object to match ordering strategy
+- Removed unused DotNetEnv package from WebApi project
+
+### Rationale
+- Keep presentation layer aligned with documented dependency rules via dedicated composition root
+- Provide stable exception type for middleware mapping and integration tests
+
+### Pending Intents
+- SQL Server integration tests require external sqlserver container to pass
+
+### Heuristics
+- Prefer composition root projects when hosts need infrastructure wiring without new dependencies
+
 ## 2025-09-24 - WarningsAsErrors Implementation
 
 ### Decisions

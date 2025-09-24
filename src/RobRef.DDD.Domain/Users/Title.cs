@@ -1,6 +1,6 @@
 namespace RobRef.DDD.Domain.Users;
 
-public record Title
+public record Title : IComparable<Title>
 {
     public string? Value { get; }
 
@@ -33,4 +33,16 @@ public record Title
 
     public const int MinLength = 1;
     public const int MaxLength = 20;
+
+    public int CompareTo(Title? other)
+    {
+        if (other is null)
+        {
+            return 1;
+        }
+
+        var left = Value ?? string.Empty;
+        var right = other.Value ?? string.Empty;
+        return string.Compare(left, right, StringComparison.OrdinalIgnoreCase);
+    }
 }

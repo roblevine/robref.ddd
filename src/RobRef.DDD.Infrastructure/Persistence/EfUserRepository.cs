@@ -49,7 +49,7 @@ public class EfUserRepository : IUserRepository
             var emailExists = await ExistsByEmailAsync(user.Email, cancellationToken);
             if (emailExists)
             {
-                throw new InvalidOperationException($"A user with email '{user.Email.Value}' already exists.");
+                throw new UserAlreadyExistsException(user.Email);
             }
             
             // Add new user
@@ -62,7 +62,7 @@ public class EfUserRepository : IUserRepository
                 .AnyAsync(u => u.Email == user.Email && u.Id != user.Id, cancellationToken);
             if (emailTaken)
             {
-                throw new InvalidOperationException($"A user with email '{user.Email.Value}' already exists.");
+                throw new UserAlreadyExistsException(user.Email);
             }
 
             // Update existing user properties

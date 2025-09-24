@@ -1,3 +1,4 @@
+using System.Linq;
 using RobRef.DDD.Application.Users.Commands;
 using RobRef.DDD.Domain.Users;
 using Xunit;
@@ -102,7 +103,7 @@ public sealed class RegisterUserHandlerTests
     }
 
     [Fact]
-    public async Task HandleAsync_WithDuplicateEmail_ThrowsInvalidOperationException()
+    public async Task HandleAsync_WithDuplicateEmail_ThrowsUserAlreadyExistsException()
     {
         // Arrange
         var email = "duplicate@example.com";
@@ -122,11 +123,10 @@ public sealed class RegisterUserHandlerTests
         );
 
         // Act & Assert
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+        var exception = await Assert.ThrowsAsync<UserAlreadyExistsException>(
             () => _handler.HandleAsync(command)
         );
-        Assert.Contains(email, exception.Message);
-        Assert.Contains("already exists", exception.Message);
+        Assert.Equal(email, exception.Email.Value);
     }
 
     [Theory]
@@ -226,6 +226,12 @@ public sealed class InMemoryUserRepository : IUserRepository
 
     public Task SaveAsync(User user, CancellationToken cancellationToken = default)
     {
+        var emailTaken = _users.Values.Any(existing => existing.Email.Equals(user.Email) && existing.Id != user.Id);
+        if (emailTaken)
+        {
+            throw new UserAlreadyExistsException(user.Email);
+        }
+
         _users[user.Id] = user;
         return Task.CompletedTask;
     }

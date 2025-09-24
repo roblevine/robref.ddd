@@ -39,7 +39,7 @@ public sealed class InMemoryUserRepository : IUserRepository
         var emailTaken = _users.Values.Any(existing => existing.Id != user.Id && string.Equals(existing.Email.Value, user.Email.Value, StringComparison.OrdinalIgnoreCase));
         if (emailTaken)
         {
-            throw new InvalidOperationException($"A user with email '{user.Email.Value}' already exists.");
+            throw new UserAlreadyExistsException(user.Email);
         }
 
         _users.AddOrUpdate(

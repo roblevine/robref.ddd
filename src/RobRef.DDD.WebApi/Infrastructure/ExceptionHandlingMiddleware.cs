@@ -5,6 +5,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using RobRef.DDD.Domain.Users;
 
 namespace RobRef.DDD.WebApi.Infrastructure;
 
@@ -98,11 +99,10 @@ public sealed class ExceptionHandlingMiddleware
                 "https://robref.ddd/problems/validation-error",
                 BuildErrors(argumentException),
                 LogLevel.Warning),
-            InvalidOperationException invalidOperationException when
-                invalidOperationException.Message.Contains("already exists", StringComparison.OrdinalIgnoreCase) => (
+            UserAlreadyExistsException userAlreadyExistsException => (
                 StatusCodes.Status409Conflict,
                 "User Already Exists",
-                invalidOperationException.Message,
+                userAlreadyExistsException.Message,
                 "https://robref.ddd/problems/user-already-exists",
                 null,
                 LogLevel.Warning),

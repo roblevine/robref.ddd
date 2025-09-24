@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Any;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using RobRef.DDD.Application.Users.Services;
-using RobRef.DDD.Infrastructure.Configuration;
+using RobRef.DDD.CompositionRoot;
 using RobRef.DDD.WebApi.Infrastructure;
 using RobRef.DDD.WebApi.Users;
 

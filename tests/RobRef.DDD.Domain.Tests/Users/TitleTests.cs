@@ -168,4 +168,37 @@ public class TitleTests
         // Assert
         Assert.Null(result);
     }
+
+    [Fact]
+    public void CompareTo_WithNullOther_ReturnsPositive()
+    {
+        // Arrange
+        var title = new Title("Dr");
+
+        // Act
+        var result = title.CompareTo(null);
+
+        // Assert
+        Assert.True(result > 0);
+    }
+
+    [Fact]
+    public void CompareTo_UsesOrdinalIgnoreCaseOrdering()
+    {
+        // Arrange
+        var titles = new[]
+        {
+            new Title("prof"),
+            new Title("Dr"),
+            new Title(null),
+            new Title("mr")
+        };
+
+        // Act
+        Array.Sort(titles);
+
+        // Assert
+        var orderedValues = titles.Select(t => t.Value).ToArray();
+        Assert.Equal(new string?[] { null, "Dr", "mr", "prof" }, orderedValues);
+    }
 }

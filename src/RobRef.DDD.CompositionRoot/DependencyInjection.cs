@@ -6,19 +6,17 @@ using RobRef.DDD.Application.Users.Services;
 using RobRef.DDD.Domain.Users;
 using RobRef.DDD.Infrastructure.Persistence;
 
-namespace RobRef.DDD.Infrastructure.Configuration;
+namespace RobRef.DDD.CompositionRoot;
 
 public static class DependencyInjection
 {
     /// <summary>
-    /// Adds Infrastructure services with in-memory repository (for testing/development)
+    /// Registers in-memory infrastructure components primarily used for testing environments.
     /// </summary>
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        // Repository implementations (in-memory)
         services.AddSingleton<IUserRepository, InMemoryUserRepository>();
 
-        // Application services
         services.AddScoped<RegisterUserHandler>();
         services.AddScoped<GetAllUsersHandler>();
         services.AddScoped<GetUserByEmailHandler>();
@@ -28,18 +26,15 @@ public static class DependencyInjection
     }
 
     /// <summary>
-    /// Adds Infrastructure services with EF Core SQL Server (for production)
+    /// Registers SQL Server backed infrastructure components intended for production scenarios.
     /// </summary>
     public static IServiceCollection AddInfrastructureWithEfCore(this IServiceCollection services, string connectionString)
     {
-        // EF Core DbContext
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
 
-        // Repository implementations (EF Core)
         services.AddScoped<IUserRepository, EfUserRepository>();
 
-        // Application services
         services.AddScoped<RegisterUserHandler>();
         services.AddScoped<GetAllUsersHandler>();
         services.AddScoped<GetUserByEmailHandler>();

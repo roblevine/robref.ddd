@@ -375,7 +375,7 @@ public abstract class UserRepositoryIntegrationTestsBase : IDisposable
         await Repository.SaveAsync(user1);
 
         // Act & Assert
-        await Assert.ThrowsAsync<InvalidOperationException>(
+        await Assert.ThrowsAsync<UserAlreadyExistsException>(
             () => Repository.SaveAsync(user2));
     }
 

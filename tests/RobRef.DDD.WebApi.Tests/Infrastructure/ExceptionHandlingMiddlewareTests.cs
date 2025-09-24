@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Logging;
+using RobRef.DDD.Domain.Users;
 using RobRef.DDD.WebApi.Infrastructure;
 
 namespace RobRef.DDD.WebApi.Tests.Infrastructure;
@@ -45,8 +46,10 @@ public sealed class ExceptionHandlingMiddlewareTests
     {
         // Arrange
         var context = CreateHttpContext();
+        var duplicateException = new UserAlreadyExistsException(new Email("test@example.com"));
+
         var middleware = new ExceptionHandlingMiddleware(
-            _ => throw new InvalidOperationException("User with email 'test@example.com' already exists."),
+            _ => throw duplicateException,
             _logger,
             _problemDetailsService);
 
@@ -59,7 +62,7 @@ public sealed class ExceptionHandlingMiddlewareTests
 
         var problemDetails = GetProblemDetailsFromResponse(context);
         Assert.Equal("User Already Exists", problemDetails.Title);
-        Assert.Equal("User with email 'test@example.com' already exists.", problemDetails.Detail);
+        Assert.Equal(duplicateException.Message, problemDetails.Detail);
     }
 
     [Fact]

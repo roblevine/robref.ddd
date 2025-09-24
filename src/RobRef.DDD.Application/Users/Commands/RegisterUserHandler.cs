@@ -16,7 +16,7 @@ public sealed class RegisterUserHandler(IUserRepository userRepository) : IComma
         var existingUser = await _userRepository.FindByEmailAsync(email, cancellationToken);
         if (existingUser is not null)
         {
-            throw new InvalidOperationException($"User with email '{email.Value}' already exists.");
+            throw new UserAlreadyExistsException(email);
         }
 
         // Create name value objects
