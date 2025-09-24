@@ -2,6 +2,37 @@
 
 Log of session notes capturing decisions, rationale, and heuristics to maintain context across stateless interactions.
 
+## 2025-09-24 - WarningsAsErrors Implementation
+
+### Decisions
+- Added Directory.Build.props with TreatWarningsAsErrors=true for all projects
+- Centralized EntityFramework Core version management using MSBuild properties
+- Standardized on EF Core 9.0.9 to resolve version conflicts  
+- Removed duplicate TreatWarningsAsErrors from individual project files
+
+### Rationale
+- Directory.Build.props provides consistent settings across all projects automatically
+- Version centralization prevents dependency conflicts and simplifies maintenance
+- WarningsAsErrors ensures code quality by catching issues early in development
+
+### Rejected Alternatives
+- Individual project file modifications (more maintenance overhead)
+- Allowing version mismatches (causes runtime conflicts)
+
+### Pending Intents
+- Monitor for any new warnings introduced in future development
+
+### Heuristics
+- Use Directory.Build.props for solution-wide settings
+- Centralize package versions to prevent conflicts
+- Always verify SQL Server container is running for integration tests
+
+### Bootstrap Snippet
+```
+dotnet build && dotnet test
+# Should show: 0 Warning(s), 0 Error(s), all tests passing
+```
+
 ## 2025-09-01 - Phase 1.1 Domain Foundation Setup
 
 ### Decisions

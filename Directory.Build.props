@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+    <!-- Treat warnings as errors for all projects -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    
+    <!-- Optional: Set warning level to maximum -->
+    <WarningLevel>5</WarningLevel>
+    
+    <!-- Nullable reference types -->
+    <Nullable>enable</Nullable>
+    
+    <!-- Enable latest language features -->
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <!-- Package Version Management -->
+  <PropertyGroup>
+    <EntityFrameworkCoreVersion>9.0.9</EntityFrameworkCoreVersion>
+    <MicrosoftExtensionsVersion>9.0.9</MicrosoftExtensionsVersion>
+  </PropertyGroup>
+</Project>
