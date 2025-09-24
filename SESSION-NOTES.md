@@ -432,6 +432,7 @@ TestContainer tests work correctly in dev container environment with automatic c
 ### Decisions
 - Adopt `bounded-contexts/<context>` folder layout for independent build/deploy units
 - Namespace pattern becomes `RobRef.DDD.<Context>.*` starting with Users bounded context
+- Renamed DI helpers to context-specific variants (`AddUsersApplication`, `AddUsersInfrastructure*`)
 
 ### Rationale
 - Keeps bounded contexts isolated while retaining shared tooling at repo root

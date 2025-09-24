@@ -43,9 +43,9 @@ This is based on a simple online shopping domain, involving users, products, and
    dotnet tool install --global dotnet-ef
 
    # Apply migrations to create database schema
-   cd src/RobRef.DDD.WebApi
+   cd bounded-contexts/users/src/RobRef.DDD.Users.WebApi
    dotnet ef database update
-   cd ../..
+   cd ../../../../
    ```
 
 5. **Run the tests**
@@ -69,9 +69,9 @@ This is based on a simple online shopping domain, involving users, products, and
    ```bash
    # First start the database and apply migrations (if not done already)
    ./scripts/start-sqlserver.sh
-   cd src/RobRef.DDD.WebApi
+   cd bounded-contexts/users/src/RobRef.DDD.Users.WebApi
    dotnet ef database update
-   cd ../..
+   cd ../../../../
 
    # Then run the API
    ./scripts/run-api-dev.sh
@@ -167,11 +167,12 @@ bounded-contexts/
 │   │   ├── RobRef.DDD.Users.Application/
 │   │   ├── RobRef.DDD.Users.Infrastructure/
 │   │   └── RobRef.DDD.Users.WebApi/
-│   └── tests/
+│   ├── tests/
 │       ├── RobRef.DDD.Users.Domain.Tests/
 │       ├── RobRef.DDD.Users.Application.Tests/
 │       ├── RobRef.DDD.Users.Infrastructure.Tests/
 │       └── RobRef.DDD.Users.WebApi.Tests/
+│   └── RobRef.DDD.Users.sln          # Context-specific solution
 ├── products/ (planned)
 │   └── …
 └── shared/ (reserved for future cross-context libraries, if required)

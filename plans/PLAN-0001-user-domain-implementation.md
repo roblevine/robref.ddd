@@ -30,40 +30,46 @@ Implement the User domain for the online shopping platform, starting with core d
 ## Architecture Overview
 
 ```
-src/
-├── RobRef.DDD.Domain/              # Core domain layer
-│   ├── Users/
-│   │   ├── User.cs                 # Aggregate root
-│   │   ├── UserId.cs              # Strongly-typed ID
-│   │   ├── Email.cs               # Value object
-│   │   ├── Title.cs               # Value object (optional)
-│   │   ├── FirstName.cs           # Value object
-│   │   ├── LastName.cs            # Value object
-│   │   └── IUserRepository.cs     # Repository interface
-│   └── Common/                     # (Skipped - concrete-first approach)
-│       ├── Entity.cs              # Base entity (not implemented)
-│       ├── ValueObject.cs         # Base value object (not implemented)
-│       └── DomainException.cs     # Domain exceptions (not implemented)
-├── RobRef.DDD.Application/         # Application layer
-│   ├── Users/
-│   │   ├── Commands/
-│   │   │   ├── RegisterUser.cs    # Command
-│   │   │   └── RegisterUserHandler.cs # Command handler
-│   │   └── Services/
-│   │       └── UserApplicationService.cs
-│   └── Common/
-│       └── ICommand.cs            # CQRS interfaces
-├── RobRef.DDD.Infrastructure/      # Infrastructure layer
-│   ├── Persistence/
-│   │   └── InMemoryUserRepository.cs
-│   └── Configuration/
-│       └── DependencyInjection.cs
-└── RobRef.DDD.WebApi/             # Presentation layer
-    ├── Controllers/
-    │   └── UsersController.cs
-    ├── DTOs/
-    │   └── RegisterUserRequest.cs
-    └── Program.cs
+bounded-contexts/users/
+├── src/
+│   ├── RobRef.DDD.Users.Domain/              # Core domain layer
+│   │   ├── Users/
+│   │   │   ├── User.cs                       # Aggregate root
+│   │   │   ├── UserId.cs                     # Strongly-typed ID
+│   │   │   ├── Email.cs                      # Value object
+│   │   │   ├── Title.cs                      # Value object (optional)
+│   │   │   ├── FirstName.cs                  # Value object
+│   │   │   ├── LastName.cs                   # Value object
+│   │   │   └── IUserRepository.cs            # Repository interface
+│   │   └── Common/                           # (Skipped - concrete-first approach)
+│   │       ├── Entity.cs                     # Base entity (not implemented)
+│   │       ├── ValueObject.cs                # Base value object (not implemented)
+│   │       └── DomainException.cs            # Domain exceptions (not implemented)
+│   ├── RobRef.DDD.Users.Application/         # Application layer
+│   │   ├── Users/
+│   │   │   ├── Commands/
+│   │   │   │   ├── RegisterUser.cs           # Command
+│   │   │   │   └── RegisterUserHandler.cs    # Command handler
+│   │   │   └── Services/
+│   │   │       └── UserApplicationService.cs
+│   │   └── Common/
+│   │       └── ICommand.cs                   # CQRS interfaces
+│   ├── RobRef.DDD.Users.Infrastructure/      # Infrastructure layer
+│   │   ├── Persistence/
+│   │   │   └── InMemoryUserRepository.cs
+│   │   └── Configuration/
+│   │       └── DependencyInjection.cs
+│   └── RobRef.DDD.Users.WebApi/              # Presentation layer
+│       ├── Controllers/
+│       │   └── UsersController.cs
+│       ├── DTOs/
+│       │   └── RegisterUserRequest.cs
+│       └── Program.cs
+└── tests/
+    ├── RobRef.DDD.Users.Domain.Tests/
+    ├── RobRef.DDD.Users.Application.Tests/
+    ├── RobRef.DDD.Users.Infrastructure.Tests/
+    └── RobRef.DDD.Users.WebApi.Tests/
 ```
 
 ## Implementation Steps
@@ -150,7 +156,7 @@ src/
 
 ### Phase 6: Presentation Layer (Complete User Service)
 14. **Web API Implementation**
-    - [x] WebApi project setup (RobRef.DDD.WebApi, net8.0, references Application/Domain/Infrastructure)
+    - [x] WebApi project setup (RobRef.DDD.Users.WebApi, net8.0, references Application/Domain/Infrastructure)
     - [x] Minimal `Program.cs` hosting, DI using `AddInfrastructureWithEfCore` + in-memory test switch
     - [x] RegisterUserRequest DTO mirroring domain constraints via data annotations
     - [x] `POST /api/users/register` endpoint returning 201 + Location + ULID payload

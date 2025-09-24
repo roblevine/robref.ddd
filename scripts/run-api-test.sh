@@ -44,7 +44,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 ensure_dotnet
-PROJECT="$REPO_ROOT/src/RobRef.DDD.WebApi/RobRef.DDD.WebApi.csproj"
+PROJECT="$REPO_ROOT/bounded-contexts/users/src/RobRef.DDD.Users.WebApi/RobRef.DDD.Users.WebApi.csproj"
 
 if [[ $WATCH -eq 1 ]]; then
   if [[ ${#PASSTHROUGH[@]} -gt 0 ]]; then
