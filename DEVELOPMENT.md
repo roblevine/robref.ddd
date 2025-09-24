@@ -1,6 +1,6 @@
 # Development Guide
 
-This document provides comprehensive development guidance for the RobRef.DDD application monorepo, including setup, workflow, and service development patterns.
+This document provides comprehensive development guidance for the RobRef.DDD monorepo, including setup, workflow, and service development patterns across independently deployable bounded contexts.
 
 ## Development Workflow
 
@@ -11,6 +11,8 @@ We follow a **Test-First Analyse → Plan → Execute → Review** methodology:
 2. **Plan**: Document approach in PLAN-*.md files for major features
 3. **Execute**: Implement in small, testable increments
 4. **Review**: Verify functionality and update documentation
+
+Bounded contexts live under `bounded-contexts/<context-name>/` with their own `src/` and `tests/` directories. Keep plan files scoped per context (e.g. PLAN-0001 for Users, PLAN-0002 for Products) to retain autonomous delivery cadence.
 
 ### Ways of working
 - **Conventional Commits**: Use conventional commit messages for all changes (e.g. feat, fix, docs, chore)

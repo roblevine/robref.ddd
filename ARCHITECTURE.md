@@ -1,6 +1,6 @@
 # Architecture
 
-This document outlines the architecture of the RobRef.DDD application, implementing Domain-Driven Design with Onion Architecture.
+This document outlines the architecture of the RobRef.DDD monorepo, implementing Domain-Driven Design with Onion Architecture across multiple bounded contexts. Each bounded context (Users today, Products forthcoming) carries an identical inner architecture so it can evolve, build, and deploy independently.
 
 ## High-Level Architecture
 
@@ -28,32 +28,53 @@ The application follows **Onion Architecture** with clear dependency rules: inne
 - **Purpose**: Pure business logic, no external dependencies
 - **Contains**: Entities, Value Objects, Aggregates, Domain Services, Repository Interfaces
 - **Dependencies**: None (self-contained)
-- **Example**: `User`, `Email`, `IUserRepository`
+- **Example**: `Users` context → `User`, `Email`, `IUserRepository`
 
 #### 2. **Application Layer** 
 - **Purpose**: Orchestrate domain operations, implement use cases
 - **Contains**: Commands, Queries, Handlers, Application Services, DTOs
 - **Dependencies**: Domain layer only
-- **Example**: `RegisterUserHandler`, `RegisterUserCommand`
-- **DI Extensions**: `AddUserApplication` registers core handlers/services
+- **Example**: `Users` context → `RegisterUserHandler`, `RegisterUserCommand`
+- **DI Extensions**: Context-scoped DI registrations (e.g. `AddUsersApplication`)
 
 #### 3. **Infrastructure Layer**
 - **Purpose**: External concerns (database, files, APIs, frameworks)
 - **Contains**: Repository implementations, Data contexts, External service clients, EF Core configurations
 - **Dependencies**: Application + Domain layers
-- **Example**: `InMemoryUserRepository`, `EfUserRepository`, `ApplicationDbContext`, `UserEntityConfiguration`
-- **DI Extensions**: Hosts compose via `AddInfrastructureSqlServer` / `AddInfrastructureInMemory`
+- **Example**: `Users` context → `UsersInMemoryRepository`, `UsersEfRepository`, `UsersApplicationDbContext`
+- **DI Extensions**: Hosts compose via context-specific helpers (e.g. `AddUsersInfrastructureSqlServer`, `AddUsersInfrastructureInMemory`)
 
 #### 4. **Presentation Layer** 
 - **Purpose**: User interface, API endpoints, serialization
 - **Contains**: Minimal API endpoints, request DTOs, validation filters, exception mapping
 - **Dependencies**: Application + Domain layers, plus DI extensions from Infrastructure for runtime wiring
-- **Example**: `Program` minimal API host, `RegisterUserRequest`, `ExceptionHandlingMiddleware`
+- **Example**: `Users` context → Minimal API host, `RegisterUserRequest`, exception middleware
 
 ### Service Development Principles
 - **Domain-Driven Design**: Focus on core domain logic. Implement strictly by modelling entities, value types, and aggregate roots, etc. Prefer strongly-typed value objects with internal validation over native types.
 - **Dependency Inversion**: Inner layers define interfaces, outer layers implement them
 - **Separation of Concerns**: Each layer has single, well-defined responsibilities
+
+## Bounded Context Layout
+
+Repository layout reinforces isolation at the filesystem level:
+
+```
+bounded-contexts/
+├── <context-name>/
+│   ├── src/
+│   │   ├── RobRef.DDD.<Context>.Domain/
+│   │   ├── RobRef.DDD.<Context>.Application/
+│   │   ├── RobRef.DDD.<Context>.Infrastructure/
+│   │   └── RobRef.DDD.<Context>.WebApi/
+│   └── tests/
+│       ├── RobRef.DDD.<Context>.Domain.Tests/
+│       ├── RobRef.DDD.<Context>.Application.Tests/
+│       ├── RobRef.DDD.<Context>.Infrastructure.Tests/
+│       └── RobRef.DDD.<Context>.WebApi.Tests/
+```
+
+The `Users` bounded context currently implements the full stack; `Products` will replicate the structure next. Shared tooling lives at repo root (`scripts/`, `plans/`, `Directory.Build.props`).
 
 ## Implementation Details
 
@@ -83,9 +104,9 @@ The application follows **Onion Architecture** with clear dependency rules: inne
 ### Presentation Layer Implementation
 - **Hosting**: Minimal API hosted by `Program` with environment-based DI (Testing -> in-memory, others -> SQL Server)
 - **Validation**: Request DTOs use data annotations enforced via `ValidationEndpointFilter` for consistent RFC 7807 responses
-- **Error Handling**: `ExceptionHandlingMiddleware` maps domain/application exceptions to Problem Details with correlation ids
+- **Error Handling**: Context-specific middleware maps domain/application exceptions to Problem Details with correlation ids
 - **Documentation**: Swagger/OpenAPI provided via Swashbuckle with curated examples and schema filter to surface required members
-- **Endpoints**: `/api/users/register` for user creation and `/health` for liveness
+- **Endpoints**: `Users` context exposes `/api/users/*`; future contexts follow similar patterns
 
 ### EF Core Persistence Patterns
 - **DbContext**: Single context per bounded context (e.g., `ApplicationDbContext`)

@@ -155,6 +155,33 @@ All scripts automatically load variables from `.env` when present. Use the `--he
 
 > **Heads-up:** When you add new projects (especially test assemblies) or change default tooling conventions, update these helper scripts so they stay in sync with the repository structure.
 
+## Repository Structure
+
+This monorepo hosts multiple bounded contexts. Each context carries its own Domain, Application, Infrastructure, Web API, and test projects so it can be built, tested, and deployed independently.
+
+```
+bounded-contexts/
+├── users/
+│   ├── src/
+│   │   ├── RobRef.DDD.Users.Domain/
+│   │   ├── RobRef.DDD.Users.Application/
+│   │   ├── RobRef.DDD.Users.Infrastructure/
+│   │   └── RobRef.DDD.Users.WebApi/
+│   └── tests/
+│       ├── RobRef.DDD.Users.Domain.Tests/
+│       ├── RobRef.DDD.Users.Application.Tests/
+│       ├── RobRef.DDD.Users.Infrastructure.Tests/
+│       └── RobRef.DDD.Users.WebApi.Tests/
+├── products/ (planned)
+│   └── …
+└── shared/ (reserved for future cross-context libraries, if required)
+
+scripts/
+plans/
+```
+
+Top-level tooling (e.g. `scripts/`, `plans/`, `Directory.Build.props`) continues to apply across every bounded context.
+
 ### SSH Access Setup
 
 To enable SSH access to the dev container:
@@ -162,9 +189,12 @@ To enable SSH access to the dev container:
 2. The setup script will automatically configure SSH access during container creation
 
 ### Current Implementation Status
-- ✅ **Domain Layer**: User aggregate with value objects (Email, Names, etc.)
-- ✅ **Application Layer**: CQRS command/query handlers with full queryside functionality
-- ✅ **Infrastructure Layer**: EF Core with SQL Server persistence and in-memory testing
-- ✅ **Presentation Layer**: Complete Web API with user registration and query endpoints (see PLAN-0001)
+- ✅ **Users bounded context** (`bounded-contexts/users`)
+  - Domain aggregate, value objects, and repository abstractions complete
+  - Application CQRS command/query handlers with full queryside functionality
+  - Infrastructure EF Core persistence plus in-memory option with comprehensive tests
+  - Web API with registration + query endpoints (see PLAN-0001)
+- 🚧 **Products bounded context** planned (PLAN-0002 pending)
+- 🔜 **Additional bounded contexts** (e.g. shopping cart, authentication) will follow the same structure
 
 **Ready to contribute?** Start with the [Development Guide](DEVELOPMENT.md) and check the [TODO](TODO.md) for current tasks and plans.

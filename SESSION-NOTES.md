@@ -426,3 +426,17 @@ Working on PLAN-0001 User Domain Implementation. Completed Phases 1-5 (Domain, A
 
 ### Bootstrap Snippet
 TestContainer tests work correctly in dev container environment with automatic cleanup. Use scripts/test-testcontainers.sh for reliable execution.
+
+## 2025-09-26 - Multi-Context Monorepo Restructure
+
+### Decisions
+- Adopt `bounded-contexts/<context>` folder layout for independent build/deploy units
+- Namespace pattern becomes `RobRef.DDD.<Context>.*` starting with Users bounded context
+
+### Rationale
+- Keeps bounded contexts isolated while retaining shared tooling at repo root
+- Provides consistent naming before adding the upcoming Products context
+
+### Pending Intents
+- Add PLAN-0002 for Products domain once initial analysis is ready
+- Update build/test scripts after users projects move into new layout
