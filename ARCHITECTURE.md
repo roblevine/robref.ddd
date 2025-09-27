@@ -76,6 +76,35 @@ bounded-contexts/
 
 The `Users` bounded context currently implements the full stack; `Products` will replicate the structure next. Shared tooling lives at repo root (`scripts/`, `plans/`, `Directory.Build.props`).
 
+## Shared Components
+
+While bounded contexts maintain autonomy, certain cross-cutting technical concerns are shared to avoid duplication and ensure consistency:
+
+### Application Layer Shared Contracts
+
+Located in `shared/RobRef.DDD.Application/Common/`:
+
+- **CQRS Interfaces**: `ICommand`, `ICommand<TResult>`, `ICommandHandler<TCommand>`, `ICommandHandler<TCommand, TResult>`
+- **Query Interfaces**: `IQuery<TResult>`, `IQueryHandler<TQuery, TResult>`
+- **Consistency**: All handlers follow `HandleAsync(T, CancellationToken)` signature pattern
+- **Documentation**: Comprehensive XML documentation for IntelliSense support
+
+### Shared Component Principles
+
+- **Technical-only**: Shared components contain no business logic, only technical contracts
+- **Evolutionary**: Patterns extracted after second implementation to avoid premature abstraction  
+- **Bounded**: Shared dependencies limited to well-defined technical concerns (CQRS, infrastructure patterns)
+- **Versioned together**: All shared components evolve with solution to maintain compatibility
+
+### Architectural Boundaries
+
+Bounded contexts may only reference:
+- Their own internal projects (within `bounded-contexts/<context>/`)
+- Shared technical libraries (within `shared/`)
+- External NuGet packages
+
+Cross-bounded-context references are **strictly forbidden** to maintain autonomy.
+
 ## Implementation Details
 
 ### Domain Layer Design Principles

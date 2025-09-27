@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RobRef.DDD.Users.Domain\RobRef.DDD.Users.Domain.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\RobRef.DDD.Application\RobRef.DDD.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

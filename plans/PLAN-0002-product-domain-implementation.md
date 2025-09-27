@@ -66,13 +66,15 @@ Each project mirrors the Users bounded context to preserve autonomy and consiste
 
 ### Phase 2: Application Layer
 1. **CQRS Contracts**
-   - [ ] Reuse/extract common command/query interfaces or replicate within Products
+   - [x] Extract shared CQRS interfaces to `shared/RobRef.DDD.Application/Common/`
+   - [x] Update Users bounded context to use shared contracts
+   - [ ] Reference shared CQRS contracts in Products application layer
 2. **Use Cases**
    - [ ] `CreateProduct` command + handler (duplicate guard, validation)
    - [ ] `GetProductById` query + handler
    - [ ] `ListProducts` query + handler (basic ordering)
 3. **Application Service**
-   - [ ] `ProductApplicationService` orchestrating repository access
+   - [ ] `ProductApplicationService` orchestrating repository access (or rely on handlers directly)
 4. **Tests**
    - [ ] Unit tests for handlers with in-memory/dummy repos
 

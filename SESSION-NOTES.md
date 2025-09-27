@@ -469,6 +469,51 @@ TestContainer tests work correctly in dev container environment with automatic c
 - Factory patterns on aggregates provide better encapsulation than public constructors
 - Repository interfaces in domain layer maintain proper dependency inversion for clean architecture
 
+## 2025-09-27 - Shared CQRS Contracts Implementation
+
+### Decisions
+- Extracted CQRS interfaces from Users bounded context to shared `shared/RobRef.DDD.Application/Common/`
+- Created `RobRef.DDD.Application` as shared library containing `ICommand`, `ICommandHandler`, `IQuery`, `IQueryHandler`
+- Updated all Users Application layer files to reference shared contracts (`RobRef.DDD.Application.Common`)
+- Removed duplicate CQRS interfaces from Users bounded context to eliminate code duplication
+- Added comprehensive XML documentation to all shared CQRS interfaces for better developer experience
+
+### Rationale  
+- Shared CQRS contracts provide consistency across bounded contexts while maintaining clean separation
+- Eliminates code duplication and reduces maintenance overhead of keeping interfaces in sync
+- Prepares foundation for Products bounded context and future contexts to use established patterns
+- Centralized location allows for evolution of CQRS patterns across entire solution
+- XML documentation improves IntelliSense and developer understanding of contract responsibilities
+
+### Implementation Details
+- `ICommand` and `ICommand<TResult>` marker interfaces for commands with/without return values
+- `ICommandHandler<TCommand>` and `ICommandHandler<TCommand, TResult>` for command processing
+- `IQuery<TResult>` marker interface for read operations returning results
+- `IQueryHandler<TQuery, TResult>` for query processing with consistent async patterns
+- All handlers follow consistent `HandleAsync(T, CancellationToken)` signature pattern
+
+### Test Results
+- All 313 tests passing: 116 Users Domain + 78 Products Domain + 29 Users Application + 74 Users Infrastructure + 16 Users WebApi
+- Zero build warnings or errors after CQRS extraction
+- Clean migration with no breaking changes to existing functionality
+- Ready for Products Application layer implementation using shared contracts
+
+### Rejected Alternatives
+- Keeping CQRS contracts duplicated in each bounded context - increases maintenance burden
+- Using NuGet package for contracts - overkill for monorepo scenario
+- Different namespace structure - `RobRef.DDD.Application.Common` provides clear intent
+
+### Pending Intents
+- Implement Products Application layer using shared CQRS contracts
+- Add architectural fitness functions to enforce proper dependency boundaries
+- Consider adding shared validation patterns and result types to application layer
+
+### Heuristics
+- Use shared libraries for cross-cutting concerns that don't create business logic coupling
+- Extract common patterns after second implementation to avoid premature abstraction
+- Maintain comprehensive documentation on shared contracts for team understanding
+- Always verify test suite passes after major refactoring operations
+
 ## 2025-09-26 - Multi-Context Monorepo Restructure
 
 ### Decisions
