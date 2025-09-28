@@ -4,6 +4,11 @@ This document provides comprehensive development guidance for the RobRef.DDD mon
 
 ## Development Workflow
 
+### Choosing a Solution
+- Use `RobRef.DDD.sln` when you need the whole monorepo or the architectural fitness tests across contexts.
+- Use `bounded-contexts/users/RobRef.DDD.Users.sln` for users-only work; it still loads shared abstractions and architecture tests.
+- Use `bounded-contexts/products/RobRef.DDD.Products.sln` for products-only work; run the root solution if you need cross-context tests.
+
 ### Methodology
 We follow a **Test-First Analyse → Plan → Execute → Review** methodology:
 

@@ -157,6 +157,13 @@ All scripts automatically load variables from `.env` when present. Use the `--he
 
 ## Repository Structure
 
+### Solution Entry Points
+
+Developers can choose the solution file that matches the slice of the system they want to work on:
+- `RobRef.DDD.sln` — full monorepo view with every bounded context plus shared tooling and architectural fitness tests
+- `bounded-contexts/users/RobRef.DDD.Users.sln` — users context, shared abstractions, and the architectural fitness suite for quick feedback without product projects
+- `bounded-contexts/products/RobRef.DDD.Products.sln` — products context with shared abstractions; use the root solution when you need the cross-context fitness tests
+
 This monorepo hosts multiple bounded contexts. Each context carries its own Domain, Application, Infrastructure, Web API, and test projects so it can be built, tested, and deployed independently.
 
 ```

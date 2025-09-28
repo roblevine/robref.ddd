@@ -2,6 +2,25 @@
 
 Log of session notes capturing decisions, rationale, and heuristics to maintain context across stateless interactions.
 
+## 2025-09-29 - Solution Entry Points Refresh
+
+### Decisions
+- Regenerated `RobRef.DDD.sln` with dotnet CLI to capture every project
+- Added shared library and architecture tests to Users solution
+- Added shared library to Products solution
+- Documented solution usage in README and DEVELOPMENT guides
+
+### Rationale
+- Provide clarity on which solution to open for each bounded-context workflow
+- Ensure context solutions load required dependencies without unrelated projects
+
+### Pending Intents
+- Extend architectural fitness coverage once Products gains additional layers
+
+### Heuristics
+- Use CLI commands to manage .sln files and avoid manual drift
+- Update docs whenever solution entry points change
+
 ## 2025-09-25 - Composable DI Extensions
 
 ### Decisions
