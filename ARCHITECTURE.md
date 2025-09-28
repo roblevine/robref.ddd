@@ -125,9 +125,19 @@ Cross-bounded-context references are **strictly forbidden** to maintain autonomy
 
 ### Dependency Rules
 1. **Domain** depends on nothing
-2. **Application** depends only on Domain
+2. **Application** depends only on its domain
 3. **Infrastructure** depends on Application + Domain
 4. **Presentation** composes Application + Domain services and consumes Infrastructure DI extensions for runtime wiring
+
+## Architectural Fitness Functions
+
+We encode the dependency rules above as automated fitness functions in `tests/RobRef.DDD.Architecture.Tests`. The suite uses `NetArchTest.Rules` to scan compiled assemblies and currently covers:
+
+- **Onion boundaries**: Domain projects expose no outbound references beyond shared technical libraries, and Application/Infrastructure/WebApi reference only the layer directly beneath them.
+- **Bounded-context isolation**: Projects inside a bounded context never take hard references on siblings; only shared contracts in `shared/` may cross the boundary.
+- **Shared CQRS contract usage**: Application layers rely on the shared `RobRef.DDD.Application` abstractions instead of re-defining handlers per context.
+
+The tests run with the rest of the solution via `dotnet test`, giving immediate feedback if a change violates architectural policy.
 
 
 ### Presentation Layer Implementation

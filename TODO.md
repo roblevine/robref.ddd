@@ -14,10 +14,18 @@ Items to be implemented will be listed at the high level only here. More detaile
 **Description**: Implement core User domain with DDD principles, including user registration, value objects (Email, Username, Password), and REST API endpoint. Follows test-first development and onion architecture. 
 
 ### Products Bounded Context — Domain Implementation
-**Status**: PLANNING
-**Plan Document**: [PLAN-0002-product-domain-implementation](plans/PLAN-0002-product-domain-implementation.md)  
-**Description**: Establish the Product domain as an independently deployable bounded context. Scope to cover core product catalogue modelling and supporting APIs.
+**Status**: PAUSED
+**Plan Document**: [PLAN-0002-product-domain-implementation](plans/PLAN-0002-product-domain-implementation.md)
+**Description**: Work paused while architectural fitness functions are introduced; revisit after PLAN-0003 completes.
+
+### Architectural Fitness Functions
+**Status**: IN PROGRESS
+**Plan Document**: [PLAN-0003-architectural-fitness-functions](plans/PLAN-0003-architectural-fitness-functions.md)
+**Started**: September 28, 2025
+**Description**: Implement automated architectural testing to enforce onion architecture dependency rules, bounded context isolation, and shared CQRS contract usage. Tests run with solution build to provide immediate feedback on architectural violations.
 
 ## Maintenance Tasks
 
 - Revisit Testcontainers cleanup fallback to see if it can be simplified once Ryuk supports devcontainer DooD reliably
+
+- Track architectural fitness function coverage under [PLAN-0003-architectural-fitness-functions](plans/PLAN-0003-architectural-fitness-functions.md)

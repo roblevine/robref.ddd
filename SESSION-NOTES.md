@@ -539,3 +539,50 @@ TestContainer tests work correctly in dev container environment with automatic c
 
 ### Pending Intents
 - Await approval before executing Phase 1 scaffolding tasks
+
+## 2025-09-28 - Architectural Fitness Functions Implementation Complete
+
+### Decisions
+- Implemented comprehensive architectural fitness test suite in `tests/RobRef.DDD.Architecture.Tests/`
+- Added NetArchTest.Rules package for automated dependency analysis and constraint enforcement
+- Created UsersLayeringRules tests enforcing onion architecture (Domain ← Application ← Infrastructure ← WebApi)
+- Implemented UsersIsolationRules tests preventing cross-bounded-context dependencies
+- Added AssemblyCatalog utility for centralized assembly reference management
+
+### Rationale
+- Automated enforcement prevents architectural drift and dependency violations during development
+- Fast-executing tests (5 tests in 48ms) provide immediate feedback on architectural compliance
+- Centralized rules reduce risk of accidental coupling between bounded contexts
+- Test-first approach ensures architectural constraints are validated before code changes
+
+### Implementation Details
+- UsersLayeringRules: Domain isolation, Application→Infrastructure separation, Infrastructure→WebApi separation
+- UsersIsolationRules: Cross-context dependency prevention, shared CQRS contract enforcement
+- AssemblyCatalog: Type-safe assembly references using representative types from each layer
+- TestResultExtensions: Enhanced error messages for failing architectural constraints
+
+### Test Results
+- All 5 architectural fitness tests passing consistently
+- Integrated into full solution test suite (74 total tests when DB available)
+- Zero performance impact on overall test execution time
+- Ready for extension to Products bounded context and future contexts
+
+### Rejected Alternatives
+- Manual code reviews for dependency enforcement - too error-prone and inconsistent
+- Runtime dependency injection validation - catches issues too late in development cycle
+- Custom reflection-based rules - NetArchTest provides mature, well-tested patterns
+
+### Pending Intents
+- PLAN-0003 complete - architectural safeguards successfully implemented
+- Ready to resume PLAN-0002 Products bounded context development with confidence
+- Consider extending fitness functions to include naming conventions and file organization rules
+
+### Heuristics
+- Implement architectural fitness functions early in multi-context development
+- Use representative types for assembly references to avoid brittle string-based assembly loading
+- Keep fitness function execution fast (sub-100ms) to enable frequent execution
+- Document architectural decisions in test names and failure messages for future developers
+- Add fitness functions before adding new bounded contexts to prevent architectural debt
+
+### Bootstrap Snippet
+Architectural fitness functions active. Use `dotnet test tests/RobRef.DDD.Architecture.Tests/` to verify onion architecture and bounded context isolation. Ready to resume Products domain implementation with automated safeguards.
